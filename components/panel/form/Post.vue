@@ -1,0 +1,250 @@
+<template>
+    <div class="row">
+
+        <div class="col-9">
+            <div class="mb-2">
+                <label for="" class="form-label">Başlık</label>
+                <input type="text" class="form-control" v-model="post.postTitle" />
+            </div>
+
+            <div class="mb-2">
+                <label for="" class="form-label">Açıklama</label>
+                <textarea rows="3" class="form-control" v-model="post.postDescription"></textarea>
+            </div>
+
+            <div class="mb-2">
+                <label for="" class="form-label">Anahtar Kelimeler</label>
+                <input type="text" class="form-control" v-model="post.postKeywords">
+            </div>
+
+            <div class="mb-2">
+                <label for="" class="form-label">İçerik</label>
+                <client-only>
+                    <Editor
+                        v-model="post.postContent"
+                        api-key="zg5qqvkbcoe4zoxffbj01vv7p0k9ngm1bhqros79xtpmt3vb"
+                        plugins="anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss"
+                        toolbar="undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat"
+                        :inline="false"
+                        output-format="html"
+                        :init="{height: '650px'}"
+                    />
+                </client-only>
+            </div>
+
+
+        </div> <!-- .col-9 -->
+
+        <div class="col-3">
+            <div class="mb-2">
+                <label for="" class="form-label">Kapak Fotoğrafı</label>
+                <div class="coverPlaceholderArea ratio ratio-4x3 border" @click="$refs.refInputCover.click()">
+                    <div v-if="!post.postCover"><strong>Tıkla & Seç</strong></div>
+                    <img :src="post.postCover" class="img-fluid" v-if="post.postCover" />
+                </div>
+                <input type="file" class="form-control d-none" ref="refInputCover" @change="changeCover($event)">
+            </div>
+
+            <div class="mb-2 border-top py-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" v-model="post.postAllowComment" id="allowComment">
+                    <label class="form-check-label" for="allowComment">Yorumlara izin ver</label>
+                </div>
+            </div>
+
+
+            <div class="mb-2 border-top">
+                <label for="" class="form-label">Gönderi Durumu</label>
+                <select class="form-select" v-model="post.postStatus">
+                    <option v-for="(v, i) in postStatuses" :key="i"  :value="v.value">{{ v.label }}</option>
+                </select>
+            </div>
+
+
+
+            <div class="accordion  accordion-flush border-top pt-2" id="postTermsAccordion" v-if="getTaxonomies">
+                <div class="accordion-item" v-for="(taxonomy, index) in getTaxonomies" :key="index">
+                    <h2 class="accordion-header" :id="'heading-'+index">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse-'+index" aria-expanded="true" :aria-controls="'#collapse-'+index">{{ taxonomy.taxTitle }}</button>
+                    </h2>
+                    <div :id="'collapse-'+index" class="accordion-collapse collapse" :class="{show: index==0}" :aria-labelledby="'heading-'+index" data-bs-parent="#postTermsAccordion">
+                        <div class="accordion-body p-0">
+                            <div class="checkboxList">
+                                <div class="form-check" v-for="(term, index) in taxonomy.terms" :key="index">
+                                    <label class="form-check-label" :for="'term-'+term.termId">
+                                        <input class="form-check-input" type="checkbox" v-model="post.checkedTerms" :value="term.termId" :id="'term-'+term.termId">
+                                        <span>{{ term.termTitle }}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- col-3 -->
+
+        <div class="col-12 text-end border-top py-3 mt-3">
+            <button v-if="!post.postId" class="btn btn-primary" @click="sendToCreate()">Oluştur</button>
+            <button v-if="post.postId" class="btn btn-success" @click="sendToUpdate()">Güncelle</button>
+        </div><!-- col-12 -->
+
+    </div> <!-- .row -->
+</template>
+
+<script setup>
+import Editor from "@tinymce/tinymce-vue"
+import {storeType} from "@/stores/type"
+import {watch, watchEffect, ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
+
+
+const emits = defineEmits(['created', 'updated'])
+const props = defineProps({
+    type: {type:String, default:null},
+    taxonomies: {type:Array, default:[]},
+    post: { type: Object,
+        default: ()=>({
+            postTitle: '',
+            postSlug: '',
+            postDescription: '',
+            postKeywords: '',
+            postContent: '',
+            postCover: null,
+            terms: [],
+            checkedTerms: [],
+            postStatus: 'publish',
+            postTypeId: null,
+            postParent: 0,
+            postAuthor : 1, // todo: Author ID Giriş yapmış kullanıcı id numarası
+            postAllowComment: true,
+            postViews: 0,
+            postPublishedAt: Date.now()
+        })
+    }, //post
+})
+
+
+const post = toRef(props, 'post')
+const type = toRef(props, 'type')
+const taxonomies = toRef(props, 'taxonomies')
+const postStatuses = [
+    {value:'publish', label:'Yayımda'},
+    {value:'draft', label:'Taslak'},
+    {value:'trash', label:'Çöp Kutusunda'},
+    {value:'waiting', label:'Bekliyor'},
+]
+
+
+// POST KAYIT İŞLEMİ
+const sendToCreate = ()=>{
+    const postData = {...post.value, terms: post.value.checkedTerms}
+    $fetch('/api/panel/post/create', {
+        method: 'POST',
+        body: {post: postData}
+    }).then( response => {
+        if(response.status && response.post){
+            emits('created', response.post)
+        }else{
+
+        }
+    } ).catch(err => {
+        console.log("err ", err)
+    })
+
+}
+
+
+const sendToUpdate = ()=>{
+    const postData = {...post.value, terms: post.value.checkedTerms}
+    $fetch('/api/panel/post/update', {
+        method: 'POST',
+        body: {post: postData}
+    }).then( response => {
+        if(response.status && response.post){
+            emits('updated', response.post)
+        }else{
+
+        }
+    } ).catch(err => {
+        console.log("err ", err)
+    })
+
+}
+
+// KAPAK FOTOĞRAFI DEĞİŞTİRMEK
+const changeCover = (event) => {
+    if(event.target.files.length){
+        let coverFile = event.target.files[0]
+        let reader = new FileReader();
+        reader.onloadend = (e) => {
+            post.value.postCover = reader.result
+        }
+        reader.readAsDataURL(coverFile)
+    }
+}
+
+// COMPUTETSLER
+const getTaxonomies = computed(() => {
+    return taxonomies.value
+})
+
+
+</script>
+
+
+<style scoped lang="scss">
+.coverPlaceholderArea{
+
+    overflow: hidden;
+    cursor: pointer;
+
+    & > div{
+        background-color: rgba(125,125,125,0.1);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        strong{
+            font-size: 20px;
+            text-shadow: 1px 1px 0px white;
+            color: rgba(0,0,0,0.3);
+        }
+
+        &:hover{
+            background-color: rgba(125,125,125,0.05);
+        }
+
+        &:hover strong{
+            color: rgba(0,0,0,0.6);
+        }
+    }
+}
+
+
+.checkboxList{
+    background-color: rgba(255,255,255,0.75);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    height: 450px;
+    padding: 2px 10px;
+    overflow-y: auto;
+
+    .form-check{
+        border-bottom: 1px solid #eee;
+
+        &:hover{
+            background-color: #F9F9F9;
+        }
+
+        & > label{
+            display: flex;
+            padding: 5px 0px;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+    }
+
+}
+</style>

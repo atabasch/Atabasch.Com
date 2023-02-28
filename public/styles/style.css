@@ -1,0 +1,28 @@
+*{
+    border-radius: 0 !important;
+}
+
+.coverPlaceholderArea{
+    overflow: hidden;
+    cursor: pointer;
+}
+.coverPlaceholderArea > div{
+      background-color: rgba(125,125,125,0.1);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+.coverPlaceholderArea > strong{
+    font-size: 20px;
+    text-shadow: 1px 1px 0px white;
+    color: rgba(0,0,0,0.3);
+}
+
+.coverPlaceholderArea > div:hover{
+     background-color: rgba(125,125,125,0.05);
+ }
+
+.coverPlaceholderArea > div:hover strong{
+     color: rgba(0,0,0,0.6);
+ }

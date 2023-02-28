@@ -1,0 +1,17 @@
+body *{
+  color: #7F92B0 !important
+}
+
+a{
+  color: #94A9C9 !important;
+}
+
+a:hover,
+a.active,
+a:active{
+  color: #1CC2E7 !important;
+}
+
+.color-title{
+  color: #b9e0f2 !important
+}
