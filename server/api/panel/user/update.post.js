@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         if(!user){
             return {status: false, message: 'Kullanıcı hesabı bulunamadı'}
         }else{
-
+            // todo: Kullanıcı yeni parola göndermiş ise hashle
             let updatedUser = await user.update(postData)
             if(postData.data){
                 let userData = await UserData.findByPk(postData.userId)

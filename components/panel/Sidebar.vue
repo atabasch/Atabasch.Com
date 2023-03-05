@@ -7,14 +7,12 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item"><NuxtLink to="/aswpanel" class="nav-link" active-class="active"> Başlangıç</NuxtLink></li>
 
-            <li><hr/></li>
-
+            <li v-if="storeType().getTypes.length"><hr/></li>
             <li class="nav-item" v-for="(type, ind) in storeType().getTypes">
                 <NuxtLink :to="$getUrl.panel('/posts/type/'+type.postTypeId)" class="nav-link" active-class="active"> {{ type.postTypeTitle }}</NuxtLink>
             </li>
 
-            <li><hr/></li>
-
+            <li v-if="storeTaxonomy().getTaxonomies.length"><hr/></li>
             <li class="nav-item" v-for="(tax, ind) in storeTaxonomy().getTaxonomies">
                 <NuxtLink :to="'/aswpanel/taxonomies/'+tax.taxSlug" class="nav-link" active-class="active"> {{ tax.taxTitle }}</NuxtLink>
             </li>

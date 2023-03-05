@@ -25,8 +25,8 @@ TermModel.belongsTo(TaxonomyModel, { as: "taxonomy" ,foreignKey:"taxId", targetK
 PostModel.belongsToMany(TermModel, { as: 'terms', uniqueKey:false, foreignKey: 'PostId', through: PostTermModel})
 TermModel.belongsToMany(PostModel, { as: 'posts', uniqueKey:false, foreignKey: 'TermId', through: PostTermModel})
 
-PostTypeModel.hasMany(CustomFieldModel, { as:'fields', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'CASCADE' })
-CustomFieldModel.belongsTo(PostTypeModel, { as:'postType', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION' })
+PostTypeModel.hasMany(CustomFieldModel, { as:'fields', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
+CustomFieldModel.belongsTo(PostTypeModel, { as:'postType', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
 
 
 
@@ -59,7 +59,7 @@ export const Sync =  async function(){
 
 
 export const Destroy =  async function(){
-    await connection.drop()
+    // await connection.drop()
     await User.drop()
     await UserData.drop()
     await Taxonomy.drop()

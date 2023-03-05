@@ -8,7 +8,7 @@ export const storeType = defineStore('type', {
     getters: {
 
         getTypes(state){
-            return toRaw(state.types)
+            return state.types
         },
 
         getType(state){

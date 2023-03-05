@@ -1,5 +1,5 @@
 <template>
-    <PanelTitleBox title="Özel Alan Oluştur"/>
+    <PanelTitleBox :title="!field.fieldId? 'Özel Alan Oluştur' : `Düzenle: ${field.fieldLabel}`"/>
     <form @submit.prevent="sendToSave()">
         <div class="mb-2">
             <label for="" class="form-label">Başlık</label>
@@ -44,7 +44,7 @@
                 <div class="mb-2">
                     <label for="" class="form-label">Ait olduğu içerik tipi</label>
                     <select class="form-control form-select" v-model="field.postTypeId">
-                        <option :value="i" v-for="(t,i) in  types" :key="t.postTypeId">{{ t.postTypeTitle }}</option>
+                        <option  v-for="(t,i) in  types" :key="t.postTypeId" :value="t.postTypeId">{{ t.postTypeTitle }}</option>
                     </select>
                 </div>
             </div>
@@ -52,8 +52,8 @@
                 <div class="mb-2">
                     <label for="" class="form-label">Zorunlu Alan</label>
                     <select class="form-control form-select" v-model="field.fieldRequired">
-                        <option value="1">Evet</option>
-                        <option value="0">Hayır</option>
+                        <option :value="true">Evet</option>
+                        <option :value="false">Hayır</option>
                     </select>
                 </div>
             </div>
@@ -71,28 +71,21 @@
         </div>
 
         <div class="text-end">
-            <button class="btn btn-primary" type="submit">Oluştur</button>
+            <button class="btn btn-primary ms-2" v-if="!field.fieldId" type="submit">Oluştur</button>
+            <button class="btn btn-success ms-2" v-if="field.fieldId" type="submit">Güncelle</button>
+            <button class="btn btn-danger ms-2" v-if="field.fieldId" type="button" @click="sendToCancel()">Vazgeç</button>
         </div>
     </form>
 </template>
 
 <script setup>
 
-import {toRef} from "vue";
+import {toRef, toRaw, defineEmits, defineProps} from "vue";
+
 const emits = defineEmits(['created', 'updated', 'cancelled'])
 const props = defineProps({
     types: { type: Array, default: [] },
-    field: { type:Object, default: () => ({
-            fieldLabel: '',
-            fieldName: '',
-            fieldOrder: 99,
-            fieldType: 'text',
-            fieldDefaultValue: '',
-            postTypeId: null,
-            fieldRequired: 0,
-            fieldDescription: '',
-            fieldOptions: '',
-        })},
+    field: { type:Object},
 })
 const types = toRef(props, 'types')
 const field = toRef(props, 'field')
@@ -114,7 +107,15 @@ function sendToCreate(){
 }
 
 function sendToUpdate(){
+    useCustomField().update(toRaw(field.value)).then(response => {
+        if(response.status && response.field){
+            emits('updated', {...response.field})
+        }
+    })
+}
 
+function sendToCancel(){
+    emits('cancelled')
 }
 </script>
 

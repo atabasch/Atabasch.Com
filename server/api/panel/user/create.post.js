@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
     const {user: postData} = await readBody(event)
 
     //todo: Burada resim upload işlemi yap
+    // TODO: Kullanıcı parolasını hashle
 
     try {
         const createdUser = await User.create({...postData},{

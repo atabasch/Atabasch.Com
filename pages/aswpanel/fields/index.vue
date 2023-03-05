@@ -6,6 +6,7 @@
             <table class="table table-striped table-bordered table-hovered bg-white">
                 <thead>
                 <tr>
+                    <th width="10"><i class="bi bi-exclamation"></i></th>
                     <th>Başlık</th>
                     <th>Name</th>
                     <th>İçerik Türü</th>
@@ -16,6 +17,7 @@
                 <tbody>
                 <template v-if="fields">
                     <tr v-for="(item, index) in fields" :key="index">
+                        <td><i class="bi bi-exclamation-circle text-primary" v-if="item.fieldRequired"></i></td>
                         <td class="fw-bold">{{ item.fieldLabel }}</td>
                         <td><code>{{ item.fieldName }}</code></td>
                         <td>{{ item.postType.postTypeTitle }}</td>
@@ -31,31 +33,42 @@
         </div><!-- col-12 col-md-7" -->
 
         <div class="col">
-            <PanelFormCustomField :types="postTypes" />
+            <PanelFormCustomField :types="postTypes" :field="field" @created="onCreate($event)" @updated="onUpdate($event)" @cancelled="onCancel()" />
         </div><!-- col -->
 
     </div><!-- row -->
 </template>
 
 <script setup>
+// IMPORTS
 import {ref} from "vue"
 import useCustomField from "../../../composables/useCustomField";
 import usePostType from "../../../composables/usePostType";
+const {$showToast, $showAlert} = useNuxtApp()
 
+// CONFIGS
 definePageMeta({ layout: 'admin' })
 useHead({ title: 'Özel Alanlar' })
 
-const {$showToast, $showAlert} = useNuxtApp()
+// INITIALIZE
+const initField = {
+    fieldLabel: '',
+    fieldName: '',
+    fieldOrder: 99,
+    fieldType: 'text',
+    fieldDefaultValue: '',
+    postTypeId: null,
+    fieldRequired: false,
+    fieldDescription: '',
+    fieldOptions: '',
+}
 const update = ref(false)
 const fields = ref([])
+const field = ref({...initField})
 const postTypes = ref([])
 
 // INITIALIZE
-useCustomField().getAll().then(result => {
-    if(result.status && result.fields){
-        fields.value = result.fields
-    }
-})
+fetchCustomFields()
 
 usePostType().getAll().then(result => {
     if(result.status && result.types){
@@ -64,8 +77,16 @@ usePostType().getAll().then(result => {
 })
 
 // METHODS
+function fetchCustomFields(){
+    useCustomField().getAll().then(result => {
+        if(result.status && result.fields){
+            fields.value = result.fields
+        }
+    })
+}
 function setTheField(item, index){
     update.value = true
+    field.value = {...item, index}
 }
 
 
@@ -84,7 +105,25 @@ function sendToDelete(item, index){
             }
         } ).catch(err => { $showToast('Beklenmedik bir hata oluştu', 'error') })
     })
-}
+}// send To Delete
+
+function onCreate(item){
+    fetchCustomFields()
+    $showToast('Özel Alan Oluşturuldu')
+    onCancel()
+} // onCreate
+
+function onUpdate(item){
+    fetchCustomFields()
+    $showToast('Özel Alan Güncellendi')
+    onCancel()
+} // onUpdate
+
+function onCancel(){
+    update.value = false
+    field.value = {...initField}
+} // onCancel
+
 
 </script>
 
