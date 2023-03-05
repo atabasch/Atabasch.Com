@@ -23,7 +23,7 @@
                     <Editor
                         v-model="post.postContent"
                         api-key="zg5qqvkbcoe4zoxffbj01vv7p0k9ngm1bhqros79xtpmt3vb"
-                        plugins="anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss"
+                        :plugins="getPlugins"
                         toolbar="undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat"
                         :inline="false"
                         output-format="html"
@@ -39,8 +39,8 @@
             <div class="mb-2">
                 <label for="" class="form-label">Kapak Fotoğrafı</label>
                 <div class="coverPlaceholderArea ratio ratio-4x3 border" @click="$refs.refInputCover.click()">
-                    <div v-if="!post.postCover"><strong>Tıkla & Seç</strong></div>
-                    <img :src="post.postCover" class="img-fluid" v-if="post.postCover" />
+                    <div v-if="!getCover"><strong>Tıkla & Seç</strong></div>
+                    <img :src="getCover" class="img-fluid" v-if="getCover" />
                 </div>
                 <input type="file" class="form-control d-none" ref="refInputCover" @change="changeCover($event)">
             </div>
@@ -72,7 +72,7 @@
                             <div class="checkboxList">
                                 <div class="form-check" v-for="(term, index) in taxonomy.terms" :key="index">
                                     <label class="form-check-label" :for="'term-'+term.termId">
-                                        <input class="form-check-input" type="checkbox" v-model="post.checkedTerms" :value="term.termId" :id="'term-'+term.termId">
+                                        <input class="form-check-input" type="checkbox" v-model="checkedTerms" :value="`${term.termId}`" :id="'term-'+term.termId">
                                         <span>{{ term.termTitle }}</span>
                                     </label>
                                 </div>
@@ -95,8 +95,7 @@
 
 <script setup>
 import Editor from "@tinymce/tinymce-vue"
-import {storeType} from "@/stores/type"
-import {watch, watchEffect, ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
+import { ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -112,7 +111,6 @@ const props = defineProps({
             postContent: '',
             postCover: null,
             terms: [],
-            checkedTerms: [],
             postStatus: 'publish',
             postTypeId: null,
             postParent: 0,
@@ -127,6 +125,8 @@ const props = defineProps({
 
 const post = toRef(props, 'post')
 const type = toRef(props, 'type')
+const checkedTerms = ref([])
+const changedCover = ref(false)
 const taxonomies = toRef(props, 'taxonomies')
 const postStatuses = [
     {value:'publish', label:'Yayımda'},
@@ -138,7 +138,12 @@ const postStatuses = [
 
 // POST KAYIT İŞLEMİ
 const sendToCreate = ()=>{
-    const postData = {...post.value, terms: post.value.checkedTerms}
+    const postData = {
+        ...post.value,
+        terms: checkedTerms.value,
+        postTypeId: type.value.postTypeId,
+        changedCover: changedCover.value
+    }
     $fetch('/api/panel/post/create', {
         method: 'POST',
         body: {post: postData}
@@ -156,7 +161,11 @@ const sendToCreate = ()=>{
 
 
 const sendToUpdate = ()=>{
-    const postData = {...post.value, terms: post.value.checkedTerms}
+    const postData = {
+        ...post.value,
+        terms: checkedTerms.value,
+        changedCover: changedCover.value
+    }
     $fetch('/api/panel/post/update', {
         method: 'POST',
         body: {post: postData}
@@ -179,6 +188,7 @@ const changeCover = (event) => {
         let reader = new FileReader();
         reader.onloadend = (e) => {
             post.value.postCover = reader.result
+            changedCover.value = true
         }
         reader.readAsDataURL(coverFile)
     }
@@ -189,6 +199,15 @@ const getTaxonomies = computed(() => {
     return taxonomies.value
 })
 
+const getCover = computed(() => post.value.postCover)
+
+const getPlugins = computed(() => {
+    return 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount '
+})
+
+onMounted(() => {
+    checkedTerms.value = post.value.terms.map(i => i.termId)
+})
 
 </script>
 

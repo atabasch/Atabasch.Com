@@ -1,7 +1,7 @@
 <template>
 
 <main class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <div id="sidebarcontent" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
         <Sidebar />
     </div>
     <div class="d-flex flex-column mt-2 mx-3 flex-grow-1">
@@ -49,6 +49,12 @@ main{
     height: 100vh;
     max-height: 100vh;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
+}
+
+#sidebarcontent{
+    position: sticky;
+    top:0;
+    bottom:0;
 }
 </style>

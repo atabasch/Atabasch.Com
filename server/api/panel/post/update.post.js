@@ -1,4 +1,5 @@
 import {Post} from "~/server/db/models";
+import {getBufferFromBase64, uploadToFirestore} from "~/server/lib/image";
 export default defineEventHandler(async (event) => {
     let  {post: postData} = await readBody(event)
 
@@ -6,10 +7,17 @@ export default defineEventHandler(async (event) => {
     if(!post){
         return {status: false, message: 'İçerik Bulunamadı'}
     }else{
-        let updatedData = {...postData}
-        delete updatedData.postId
 
-        let updatedPost = await post.update(updatedData)
+        if(postData.postCover && postData.changedCover){
+            await getBufferFromBase64(postData.postCover).then( async ({file, ext}) => {
+                await uploadToFirestore({file,ext}).then( result => {
+                    postData.postCover = result.mediaLink
+                } )
+            } )
+        }
+
+
+        let updatedPost = await post.update(postData)
         if(!updatedPost){
             return {status: false, message: 'İçerik Güncellenemedi'}
         }else{

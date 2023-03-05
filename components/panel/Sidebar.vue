@@ -23,6 +23,7 @@
 
             <li class="nav-item"><NuxtLink to="/aswpanel/settings" class="nav-link" active-class="active">Ayarlar</NuxtLink></li>
             <li class="nav-item"><NuxtLink to="/aswpanel/types" class="nav-link" active-class="active"> İçerik Tipleri</NuxtLink></li>
+            <li class="nav-item"><NuxtLink to="/aswpanel/fields" class="nav-link" active-class="active"> Özel Alanlar</NuxtLink></li>
             <li class="nav-item"><NuxtLink to="/aswpanel/taxonomies" class="nav-link" active-class="active"> Taksonomiler</NuxtLink></li>
 
             <li><hr/></li>

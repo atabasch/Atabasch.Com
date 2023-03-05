@@ -6,6 +6,9 @@ import PostTypeModel from "~/server/db/models/PostType";
 import PostModel from "~/server/db/models/Post";
 import TermModel from "~/server/db/models/Term";
 import PostTermModel from "~/server/db/models/PostTerm";
+import ConfigModel from "~/server/db/models/Config";
+import ContactModel from "~/server/db/models/Contact";
+import CustomFieldModel from "~/server/db/models/CustomField";
 
 UserModel.hasOne(UserDataModel, { as:'data', sourceKey:'userId', foreignKey: 'userId', onDelete: 'CASCADE' })
 UserDataModel.belongsTo(UserModel, { as:'user', foreignKey: 'userId', targetKey:'userId', onDelete: 'CASCADE' })
@@ -22,6 +25,9 @@ TermModel.belongsTo(TaxonomyModel, { as: "taxonomy" ,foreignKey:"taxId", targetK
 PostModel.belongsToMany(TermModel, { as: 'terms', uniqueKey:false, foreignKey: 'PostId', through: PostTermModel})
 TermModel.belongsToMany(PostModel, { as: 'posts', uniqueKey:false, foreignKey: 'TermId', through: PostTermModel})
 
+PostTypeModel.hasMany(CustomFieldModel, { as:'fields', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'CASCADE' })
+CustomFieldModel.belongsTo(PostTypeModel, { as:'postType', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION' })
+
 
 
 
@@ -32,6 +38,9 @@ export const PostType = PostTypeModel
 export const Post = PostModel
 export const Term = TermModel
 export const PostTerm = PostTermModel
+export const Config = ConfigModel
+export const Contact = ContactModel
+export const CustomField = CustomFieldModel
 
 
 
@@ -43,6 +52,9 @@ export const Sync =  async function(){
     await PostModel.sync({ force: false })
     await TermModel.sync({ force: false })
     await PostTermModel.sync({ force: false })
+    await ConfigModel.sync({ force: false })
+    await ContactModel.sync({ force: false })
+    await CustomFieldModel.sync({ force: false })
 }
 
 
@@ -55,5 +67,8 @@ export const Destroy =  async function(){
     await Post.drop()
     await Term.drop()
     await PostTerm.drop()
+    // await Config.drop()
+    await Contact.drop()
+    await CustomField.drop()
 }
 

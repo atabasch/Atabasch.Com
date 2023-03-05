@@ -1,7 +1,7 @@
 <template>
-    <nav class="navbar navbar-expand-lg ">
+    <nav class="navbar navbar-expand-lg fixed-top border-bottom border-dark bg-dark-blue">
         <div class="container py-2">
-            <a class="navbar-brand text-primary" href="#"><strong><i class="bi bi-laptop"></i> Atabasch</strong></a>
+            <a class="navbar-brand text-primary coloredTitle" href="#"><span class="bi bi-laptop"></span> Atabasch</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

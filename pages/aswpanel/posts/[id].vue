@@ -1,8 +1,8 @@
-<template v-if="post">
+<template v-if="getPost">
     <PanelTitleBox :title="getPageTitle">
-<!--        <NuxtLink :to="$getUrl.panel('/posts/create?type='+type.postTypeId)" class="btn btn-sm btn-primary">Yeni {{ type.postTypeTitleSingle }} Ekle</NuxtLink>-->
+        <NuxtLink :to="$getUrl.panel('/posts/create?type='+qType)" class="btn btn-sm btn-primary">Yeni {{ type.postTypeTitleSingle }} Ekle</NuxtLink>
     </PanelTitleBox>
-    <PostForm :post="{...post}" :type="type" @updated="onUpdate($event)" :taxonomies="taxonomies"/>
+    <PostForm :post="{...getPost}" :type="type" @updated="onUpdate($event)" :taxonomies="taxonomies"/>
 </template>
 
 <script setup>
@@ -22,26 +22,27 @@ const taxonomies = ref([])
 useHead({title: 'İçerik Düzenle'})
 
 
-useAsyncData(async () => {
-    await $fetch('/api/panel/post/'+id).then( async (response) => {
-        if(response.status && response.post){
-            post.value = toRaw(response.post)
-            type.value = await storeType().getType.withPk(response.post.postTypeId)
-            post.value.checkedTerms = post.value.terms.map(item => item.termId)
-        }
-    } ).catch(err => { console.log(err) })
-    if(type.value.postTypeTaxonomies){
-        let taxSlugs = JSON.parse(type.value.postTypeTaxonomies).join(',')
-        let response = await useTaxonomy().getMulti(taxSlugs)
-        if(response.status && response.taxonomies){
-            taxonomies.value = response.taxonomies
-        }
+await $fetch('/api/panel/post/'+id).then( async (response) => {
+    if(response.status && response.post){
+        post.value = toRaw(response.post)
+        type.value = await storeType().getType.withPk(response.post.postTypeId)
+        post.value.checkedTerms = post.value.terms.map(item => item.termId)
     }
-})
-
+} ).catch(err => { console.log(err) })
+if(type.value.postTypeTaxonomies){
+    let taxSlugs = JSON.parse(type.value.postTypeTaxonomies).join(',')
+    let response = await useTaxonomy().getMulti(taxSlugs)
+    if(response.status && response.taxonomies){
+        taxonomies.value = response.taxonomies
+    }
+}
 
 const getPageTitle = computed(() => {
     return !post.value? 'İçerik Düzenle: ...' : 'Düzenle: ['+post.value.postTitle+']'
+})
+
+const getPost = computed(() => {
+    return post.value
 })
 
 const onUpdate = (post) => {

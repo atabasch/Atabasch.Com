@@ -16,6 +16,29 @@ export default defineNuxtPlugin(() => {
                 'none': { value: 'none', label: 'Belirtilmedi' },
                 'female': { value: 'female', label: 'Kadın' },
                 'male': { value: 'male', label: 'Erkek' },
+            },
+
+            contactSubjects: {
+                'help'      : {value: '', label: 'Yardım - Soru', color: 'warning'},
+                'work'      : {value: '', label: 'İş - Teklif', color: 'success'},
+                'suggest'   : {value: '', label: 'Öneri - Şikayet', color: 'danger'},
+                'other'     : {value: '', label: 'Diğer', color: 'info'},
+            }, // contactSubjects
+
+            customTypes: {
+                'text': 'Metin',
+                'number': 'Sayı',
+                'email': 'E-Posta',
+                'tel': 'Telefon',
+                'url': 'Uzak Bağlantı (url)',
+                'password': 'Şifre',
+                'textarea': 'Açıklama ',
+                'date': 'Tarih',
+                'time': 'Saat',
+                'checkbox': 'Seçim Kutusu [checkbox]',
+                'radio': 'Radyo Button',
+                'select': 'Açılır Liste ',
+                'file': 'Dosya',
             }
 
 

@@ -20,17 +20,14 @@ const {type: qType} = route.query
 const postType = ref(null);
 const taxonomies = ref([]);
 
-useAsyncData(async () => {
-    postType.value = await storeType().getType.withPk(qType)
-    if(postType.value.postTypeTaxonomies){
-        let taxSlugs = JSON.parse(postType.value.postTypeTaxonomies).join(',')
-        let response = await useTaxonomy().getMulti(taxSlugs)
-        if(response.status && response.taxonomies){
-            taxonomies.value = response.taxonomies
-        }
+postType.value = await storeType().getType.withPk(qType)
+if(postType.value.postTypeTaxonomies){
+    let taxSlugs = JSON.parse(postType.value.postTypeTaxonomies).join(',')
+    let response = await useTaxonomy().getMulti(taxSlugs)
+    if(response.status && response.taxonomies){
+        taxonomies.value = response.taxonomies
     }
-})
-
+}
 
 const onCreate = (post) => {
     $showToast('İçerik ekleme başarılı oldu')

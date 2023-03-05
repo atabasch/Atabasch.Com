@@ -1,5 +1,6 @@
 body *{
-  color: #7F92B0 !important
+  color: #7F92B0 !important;
+
 }
 
 a{
@@ -14,4 +15,40 @@ a:active{
 
 .color-title{
   color: #b9e0f2 !important
+}
+
+.coloredTitle{ color: white !important }
+.coloredTitle span{ color: #0DCAF0 !important }
+
+.coloredTitleReverse{ color: #0DCAF0 !important }
+.coloredTitleReverse span{ color: white !important }
+
+.bg-dark-blue{ background-color: #131C31 !important; }
+.bg-light-blue{ background-color: #0DCAF0 !important; }
+.text-dark-blue{ color: #131C31 !important; }
+.text-light-blue{ color: #0DCAF0 !important; }
+
+
+.box-dark-blue{
+  background-color: #131C31 !important;
+  border: 1px solid #222F43
+}
+
+
+.img-filter-dark-blue{
+  position: relative;
+  margin: 0px;
+}
+.img-filter-dark-blue figcaption{
+  position: absolute;
+  width: 100%;
+  top:0; bottom:0;
+  transition: all 300ms;
+  background: rgb(0,45,96);
+  background: radial-gradient(circle, rgba(0,45,96,0.4066001400560224) 50%, rgba(0,0,0,0.76234243697479) 100%);
+
+}
+.img-filter-dark-blue:hover figcaption{
+  background: rgb(0,45,96);
+  background: radial-gradient(circle, rgba(0,45,96,0.21052170868347342) 50%, rgba(0,0,0,0.6587009803921569) 100%);
 }
