@@ -14,7 +14,13 @@ export default defineEventHandler( async (event) => {
                 }
             },
             include: [
-                {association: 'posts'}
+                {association: 'posts'},
+                {association: 'fields',
+                    order: [
+                        ['fieldOrder', 'desc']
+                    ]
+                },
+
             ]
         })
         if(!postType){

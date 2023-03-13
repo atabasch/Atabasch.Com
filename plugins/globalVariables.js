@@ -25,20 +25,28 @@ export default defineNuxtPlugin(() => {
                 'other'     : {value: '', label: 'Diğer', color: 'info'},
             }, // contactSubjects
 
+            postStatuses: [
+                {value:'publish', label:'Yayımda'},
+                {value:'draft', label:'Taslak'},
+                {value:'trash', label:'Çöp Kutusunda'},
+                {value:'waiting', label:'Bekliyor'},
+            ],
+
             customTypes: {
-                'text': 'Metin',
-                'number': 'Sayı',
-                'email': 'E-Posta',
-                'tel': 'Telefon',
-                'url': 'Uzak Bağlantı (url)',
-                'password': 'Şifre',
-                'textarea': 'Açıklama ',
-                'date': 'Tarih',
-                'time': 'Saat',
-                'checkbox': 'Seçim Kutusu [checkbox]',
-                'radio': 'Radyo Button',
-                'select': 'Açılır Liste ',
-                'file': 'Dosya',
+                'text': { label: 'Kısa Metin', componentName: 'input'},
+                'number': { label: 'Sayı', componentName: 'input'},
+                'email': { label: 'E-Posta', componentName: 'input'},
+                'tel': { label: 'Telefon Numarası', componentName: 'input'},
+                'url': { label: 'URL (Uzak Bağlantı Adresi)', componentName: 'input'},
+                'password': { label: 'Şifre', componentName: 'input'},
+                'textarea': { label: 'Çoklu Açıklama Metni ', componentName: 'textarea'},
+                'date': { label: 'Tarih', componentName: 'input'},
+                'time': { label: 'Saat', componentName: 'input'},
+                'checkbox': { label: 'Checkbox (Seçim Kutusu)', componentName: 'checkbox'},
+                'switch': { label: 'Switch (Aç/Kapat Seçim Butonu)', componentName: 'switch'},
+                'radio': { label: 'Radio (Tekli Seçim Kutusu)', componentName: 'radio'},
+                'select': { label: 'Select (Açılır Liste) ', componentName: 'select'},
+                'file': { label: 'Dosya', componentName: 'file'},
             }
 
 

@@ -1,37 +1,40 @@
 <template>
-<div v-if="postType">
+<PanelLoaderSpinners v-if="!loaded" center fullHeight />
+<div v-if="loaded">
     <PanelTitleBox :title="`Yeni ${postType.postTypeTitleSingle} Oluştur`"></PanelTitleBox>
-        <PostForm  @created="onCreate($event)" :type="postType" :taxonomies="taxonomies" />
+    <PostForm  @created="onCreate($event)" :type="postType" :taxonomies="taxonomies" />
 </div>
 </template>
 
 <script setup>
+// IMPORTS
 import PostForm from "~/components/panel/form/Post"
-import {storeType} from "@/stores/type"
 import {ref} from "vue";
+import usePostType from "../../../composables/usePostType";
+const {$showToast}  = useNuxtApp()
 
+// INITIALIZE
 definePageMeta({ layout: 'admin' })
 useHead({title: 'İçerik Ekle'})
-const router = useRouter()
-const route = useRoute()
-const {$showToast} = useNuxtApp()
 
-const {type: qType} = route.query
-const postType = ref(null);
-const taxonomies = ref([]);
+const {type: qType} = useRoute().query
+const postType      = ref(null);
+const taxonomies    = ref([]);
+const loaded       = ref(false);
 
-postType.value = await storeType().getType.withPk(qType)
-if(postType.value.postTypeTaxonomies){
-    let taxSlugs = JSON.parse(postType.value.postTypeTaxonomies).join(',')
-    let response = await useTaxonomy().getMulti(taxSlugs)
-    if(response.status && response.taxonomies){
-        taxonomies.value = response.taxonomies
+// FETCH
+usePostType().getOne(qType).then(async (resp) => {
+    if(resp.status && resp.type){
+        postType.value   = await resp.type
+        taxonomies.value = await useTaxonomy().getMultiFromJSON(resp.type.postTypeTaxonomies || '')
+        loaded.value = true
     }
-}
+})
 
+// METHODS
 const onCreate = (post) => {
     $showToast('İçerik ekleme başarılı oldu')
-    router.push({path: '/aswpanel/posts/'+post.postId})
+    useRouter().push({path: '/aswpanel/posts/'+post.postId})
 }
 </script>
 

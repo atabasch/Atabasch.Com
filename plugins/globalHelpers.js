@@ -64,6 +64,8 @@ export default defineNuxtPlugin(() => {
                 user: (slug)    => ( `/yazar/${slug}` ),
 
                 panel: (more)   => ( '/aswpanel'+more ),
+
+
             }, // getUrl
 
             getYoutubeId(urlOrId=''){

@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
             postTypeId: type
         },
         include: [
+            {association: 'extra', attributes: ['extraId', 'extraName', 'extraValue']},
             {association: 'user', attributes: ['userUsername', 'userDisplayName']},
             {association: 'terms', attributes: ['termId', 'termTitle', 'termSlug']},
             {association: 'type', attributes: ['postTypeId', 'postTypeSlug']}
@@ -15,6 +16,8 @@ export default defineEventHandler(async (event) => {
             ['postId', 'DESC']
         ]
     })
+
+
 
     return {status: true, posts}
 })

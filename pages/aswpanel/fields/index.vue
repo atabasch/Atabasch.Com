@@ -1,7 +1,7 @@
 <template>
     <div class="row">
 
-        <div class="col-12 col-md-7">
+        <div class="col-12 col-md-8">
             <PanelTitleBox title="Özel Alanlar"/>
             <table class="table table-striped table-bordered table-hovered bg-white">
                 <thead>
@@ -21,7 +21,7 @@
                         <td class="fw-bold">{{ item.fieldLabel }}</td>
                         <td><code>{{ item.fieldName }}</code></td>
                         <td>{{ item.postType.postTypeTitle }}</td>
-                        <td>{{ $customTypes[item.fieldType] }}</td>
+                        <td>{{ $customTypes[item.fieldType].label }}</td>
                         <td>
                             <button class="btn btn-outline-success btn-sm me-1" @click="setTheField(item, index)"><i class="bi bi-pencil"></i></button>
                             <button class="btn btn-outline-danger btn-sm" @click="sendToDelete(item, index)"><i class="bi bi-trash"></i></button>

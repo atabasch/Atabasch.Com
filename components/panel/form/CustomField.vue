@@ -27,7 +27,7 @@
                 <div class="mb-2">
                     <label for="" class="form-label">Tip</label>
                     <select class="form-control form-select" v-model="field.fieldType">
-                        <option :value="i" v-for="(t,i) in  $customTypes" :key="i">{{ t }}</option>
+                        <option :value="i" v-for="(t,i) in  $customTypes" :key="i">{{ t.label }}</option>
                     </select>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             <textarea rows="3" class="form-control" v-model="field.fieldDescription"></textarea>
         </div>
 
-        <div class="mb-2">
+        <div class="mb-2" v-if="['select', 'radio', 'checkbox'].indexOf(field.fieldType) > -1">
             <label for="" class="form-label">Seçenekler</label>
             <textarea rows="5" class="form-control" v-model="field.fieldOptions"></textarea>
             <small>1:Bir 2:İki şeklinde alt alta yazın</small>

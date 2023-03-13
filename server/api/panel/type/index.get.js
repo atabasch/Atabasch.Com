@@ -4,6 +4,9 @@ export default defineEventHandler( async (event) => {
         const types = await PostType.findAll({
             order: [
                 ['postTypeId', 'DESC']
+            ],
+            include: [
+                {association: 'fields'}
             ]
         })
         return { status: true, types }

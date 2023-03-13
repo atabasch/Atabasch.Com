@@ -32,6 +32,10 @@
                 </client-only>
             </div>
 
+            <panel-form-CustomFieldItem :fields="type.fields" :items="customFields"  />
+
+            <button class="btn btn-warning" @click="showFields()">Check</button>
+
 
         </div> <!-- .col-9 -->
 
@@ -56,7 +60,7 @@
             <div class="mb-2 border-top">
                 <label for="" class="form-label">Gönderi Durumu</label>
                 <select class="form-select" v-model="post.postStatus">
-                    <option v-for="(v, i) in postStatuses" :key="i"  :value="v.value">{{ v.label }}</option>
+                    <option v-for="(v, i) in $postStatuses" :key="i"  :value="v.value">{{ v.label }}</option>
                 </select>
             </div>
 
@@ -85,6 +89,7 @@
 
         </div><!-- col-3 -->
 
+
         <div class="col-12 text-end border-top py-3 mt-3">
             <button v-if="!post.postId" class="btn btn-primary" @click="sendToCreate()">Oluştur</button>
             <button v-if="post.postId" class="btn btn-success" @click="sendToUpdate()">Güncelle</button>
@@ -95,7 +100,7 @@
 
 <script setup>
 import Editor from "@tinymce/tinymce-vue"
-import { ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
+import {ref, toRef, defineProps, defineEmits, computed, onMounted, reactive} from "vue";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -123,27 +128,24 @@ const props = defineProps({
 })
 
 
-const post = toRef(props, 'post')
-const type = toRef(props, 'type')
-const checkedTerms = ref([])
-const changedCover = ref(false)
-const taxonomies = toRef(props, 'taxonomies')
-const postStatuses = [
-    {value:'publish', label:'Yayımda'},
-    {value:'draft', label:'Taslak'},
-    {value:'trash', label:'Çöp Kutusunda'},
-    {value:'waiting', label:'Bekliyor'},
-]
-
+const post          = toRef(props, 'post')
+const type          = toRef(props, 'type')
+const checkedTerms  = ref([])
+const changedCover  = ref(false)
+const taxonomies    = toRef(props, 'taxonomies')
+const customFields    = ref({})
 
 // POST KAYIT İŞLEMİ
 const sendToCreate = ()=>{
+
     const postData = {
         ...post.value,
+        extra: customFields.value,
         terms: checkedTerms.value,
         postTypeId: type.value.postTypeId,
         changedCover: changedCover.value
     }
+
     $fetch('/api/panel/post/create', {
         method: 'POST',
         body: {post: postData}
@@ -158,7 +160,6 @@ const sendToCreate = ()=>{
     })
 
 }
-
 
 const sendToUpdate = ()=>{
     const postData = {
@@ -194,7 +195,17 @@ const changeCover = (event) => {
     }
 }
 
-// COMPUTETSLER
+
+const setCustomFieldValue = function(value, key){
+    customFields.value[key] = value
+    console.log(value.target.value)
+}
+
+function showFields(){
+    console.log(customFields.value)
+}
+
+// COMPUTEDLER
 const getTaxonomies = computed(() => {
     return taxonomies.value
 })
@@ -207,6 +218,13 @@ const getPlugins = computed(() => {
 
 onMounted(() => {
     checkedTerms.value = post.value.terms.map(i => i.termId)
+    customFields.value = type.value.fields.reduce((acc, item) => {
+        acc[item.fieldName] = item.fieldDefaultValue
+        if(item.fieldType==='checkbox'){
+            acc[item.fieldName] = [item.fieldDefaultValue]
+        }
+        return acc
+    }, {})
 })
 
 </script>
