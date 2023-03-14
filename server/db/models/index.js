@@ -18,7 +18,7 @@ UserDataModel.belongsTo(UserModel, { as:'user', foreignKey: 'userId', targetKey:
 UserModel.hasMany(PostModel, { as: 'posts', sourceKey:'userId', foreignKey: 'postAuthor', onDelete: 'SET NULL' })
 TaxonomyModel.hasMany(TermModel, { as: 'terms', sourceKey: 'taxId', foreignKey: 'taxId', onDelete: 'CASCADE' })
 
-PostTypeModel.hasMany(PostModel, { as:'posts', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'SET NULL' })
+PostTypeModel.hasMany(PostModel, { as:'posts', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION' })
 PostModel.belongsTo(PostTypeModel, { as:'type', foreignKey:'postTypeId', sourceKey:'postTypeId', onDelete: 'NO ACTION' })
 
 PostModel.hasMany(PostExtraModel, { as:'extra', sourceKey:'postId', foreignKey:'postId', onDelete: 'CASCADE', onUpdate: 'NO ACTION' })

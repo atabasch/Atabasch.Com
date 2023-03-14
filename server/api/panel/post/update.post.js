@@ -1,5 +1,7 @@
-import {Post} from "~/server/db/models";
+import {Post, PostExtra} from "~/server/db/models";
 import {getBufferFromBase64, uploadToFirestore} from "~/server/lib/image";
+import {objectToJson} from "@/helpers/helpers"
+
 export default defineEventHandler(async (event) => {
     let  {post: postData} = await readBody(event)
 
@@ -18,6 +20,8 @@ export default defineEventHandler(async (event) => {
 
 
         let updatedPost = await post.update(postData)
+
+
         if(!updatedPost){
             return {status: false, message: 'İçerik Güncellenemedi'}
         }else{
@@ -25,6 +29,18 @@ export default defineEventHandler(async (event) => {
                 await updatedPost.removeTerms(postData.terms)
                 await updatedPost.setTerms(postData.terms)
             }
+
+            if(postData.extra){
+                await Object.entries(postData.extra).forEach(async (item) => {
+                    await PostExtra.update({extraValue: objectToJson(item[1])}, {
+                        where: {
+                            postId: updatedPost.postId,
+                            extraName: item[0]
+                        }
+                    })
+                })
+            }
+
             // todo: eğer resim seçilmiş ise kapak fotoğrafı değiştirilecek
             return {status: true, post:updatedPost, message: 'İçerik Güncellendi'}
         }

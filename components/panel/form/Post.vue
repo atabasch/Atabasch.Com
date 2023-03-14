@@ -34,7 +34,6 @@
 
             <panel-form-CustomFieldItem :fields="type.fields" :items="customFields"  />
 
-            <button class="btn btn-warning" @click="showFields()">Check</button>
 
 
         </div> <!-- .col-9 -->
@@ -100,7 +99,7 @@
 
 <script setup>
 import Editor from "@tinymce/tinymce-vue"
-import {ref, toRef, defineProps, defineEmits, computed, onMounted, reactive} from "vue";
+import {ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -133,7 +132,7 @@ const type          = toRef(props, 'type')
 const checkedTerms  = ref([])
 const changedCover  = ref(false)
 const taxonomies    = toRef(props, 'taxonomies')
-const customFields    = ref({})
+const customFields  = ref({})
 
 // POST KAYIT İŞLEMİ
 const sendToCreate = ()=>{
@@ -164,6 +163,7 @@ const sendToCreate = ()=>{
 const sendToUpdate = ()=>{
     const postData = {
         ...post.value,
+        extra: customFields.value,
         terms: checkedTerms.value,
         changedCover: changedCover.value
     }
@@ -196,15 +196,6 @@ const changeCover = (event) => {
 }
 
 
-const setCustomFieldValue = function(value, key){
-    customFields.value[key] = value
-    console.log(value.target.value)
-}
-
-function showFields(){
-    console.log(customFields.value)
-}
-
 // COMPUTEDLER
 const getTaxonomies = computed(() => {
     return taxonomies.value
@@ -218,6 +209,7 @@ const getPlugins = computed(() => {
 
 onMounted(() => {
     checkedTerms.value = post.value.terms.map(i => i.termId)
+
     customFields.value = type.value.fields.reduce((acc, item) => {
         acc[item.fieldName] = item.fieldDefaultValue
         if(item.fieldType==='checkbox'){
@@ -225,6 +217,8 @@ onMounted(() => {
         }
         return acc
     }, {})
+    customFields.value = {...customFields.value, ...post.value.extra}
+
 })
 
 </script>

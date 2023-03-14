@@ -1,4 +1,6 @@
 import {Post} from "~/server/db/models";
+import {isJson} from "@/helpers/helpers"
+
 export default defineEventHandler(async (event) => {
     let {id} = event.context.params
     let post = await Post.findByPk(id, {
@@ -18,8 +20,8 @@ export default defineEventHandler(async (event) => {
     }else{
 
         async function getExtra(extra){
-            let promise = new Promise((r)=>{
-                return r(extra.extraValue)
+            let promise = new Promise((resolve)=>{
+                return resolve( isJson(extra.extraValue)? JSON.parse(extra.extraValue) : extra.extraValue )
             })
             return await promise
         }

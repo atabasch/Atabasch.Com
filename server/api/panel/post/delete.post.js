@@ -1,4 +1,4 @@
-import {Post} from "~/server/db/models";
+import {Post, PostExtra} from "~/server/db/models";
 export default defineEventHandler(async (event) => {
     let  {post: postData} = await readBody(event)
 
@@ -10,6 +10,12 @@ export default defineEventHandler(async (event) => {
         if(!deletedPost){
             return {status: false, message: 'İçerik Silinemedi'}
         }else{
+            await PostExtra.destroy({
+                where: {
+                    postId: postData.postId
+                }
+            })
+
             // todo: Post'a ait olan kapak fotoğrafı da silinecek
             return {status: true, post:deletedPost, message: 'İçerik Silindi'}
         }

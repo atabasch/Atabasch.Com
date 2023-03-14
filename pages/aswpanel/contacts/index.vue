@@ -19,7 +19,7 @@
 
     </div>
     <div class="col">
-        <div class="bg-white border h-100 py-2 px-3">
+        <div class="bg-white border pt-2 px-3 pb-4  mb-3">
 
             <template v-if="contact.contactId">
                 <h1>{{ contact.contactTitle }}</h1>
@@ -28,18 +28,38 @@
             </template>
 
         </div>
+
+        <div class="bg-white border py-2 px-3">
+            <h4>Cevap Yaz</h4><hr>
+
+            <div class="mb-2">
+                <label for="" class="form-label">Başlık</label>
+                <input type="text" class="form-control">
+            </div>
+
+            <div class="mb-2">
+                <label for="" class="form-label">Mesaj</label>
+                <textarea rows="10" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-2 text-end">
+                <button class="btn btn-primary"><i class="bi bi-envelope"></i> Gönder</button>
+            </div>
+        </div>
+
     </div>
 </div>
 </template>
 
 <script setup>
-import {computed, reactive, ref} from "vue";
+import {computed, ref} from "vue";
 
 definePageMeta({layout: 'admin' })
 useHead({title: 'İletişim Mesajları'})
 
 const contacts = ref([])
 const contact = ref({})
+
 useContact().getAll().then(result => {
     if(result.status){
         contacts.value = result.contacts

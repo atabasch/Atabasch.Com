@@ -1,6 +1,6 @@
 import {Post, PostExtra} from "~/server/db/models"
 import {getBufferFromBase64, uploadToFirestore} from "@/server/lib/image"
-import postExtra from "~/server/db/models/PostExtra";
+import {objectToJson} from "@/helpers/helpers"
 
 export default defineEventHandler(async (event) => {
 
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     if(postData.extra){
        await Object.entries(postData.extra).forEach(async (item) => {
-           await postExtra.create({postId: post.postId, extraName: item[0], extraValue: item[1]})
+           await PostExtra.create({postId: post.postId, extraName: item[0], extraValue: objectToJson(item[1]) })
        })
     }
 

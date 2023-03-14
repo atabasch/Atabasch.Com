@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import {computed, defineProps, onMounted, ref} from "vue";
+import {computed, defineProps, onMounted, ref, watch} from "vue";
 const props = defineProps(['modelValue', 'field'])
 const checkedItems = ref([])
 
@@ -25,7 +25,7 @@ const getOptions = computed(() => {
     }, {})
 })
 
-onMounted(() => {
-
+watch(() => props.modelValue, (value) => {
+    checkedItems.value = props.modelValue
 })
 </script>
