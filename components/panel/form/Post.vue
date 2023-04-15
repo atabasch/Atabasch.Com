@@ -100,6 +100,7 @@
 <script setup>
 import Editor from "@tinymce/tinymce-vue"
 import {ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
+import usePost from "../../../composables/usePost";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -145,10 +146,7 @@ const sendToCreate = ()=>{
         changedCover: changedCover.value
     }
 
-    $fetch('/api/panel/post/create', {
-        method: 'POST',
-        body: {post: postData}
-    }).then( response => {
+    usePost().create(toRaw(postData)).then( response => {
         if(response.status && response.post){
             emits('created', response.post)
         }else{
@@ -167,10 +165,7 @@ const sendToUpdate = ()=>{
         terms: checkedTerms.value,
         changedCover: changedCover.value
     }
-    $fetch('/api/panel/post/update', {
-        method: 'POST',
-        body: {post: postData}
-    }).then( response => {
+    usePost().update(postData).then( response => {
         if(response.status && response.post){
             emits('updated', response.post)
         }else{

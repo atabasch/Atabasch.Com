@@ -9,7 +9,6 @@
 
 <script setup>
 import PostList from "@/components/panel/PostList"
-import {storeType} from "@/stores/type"
 import {ref, watch} from "vue";
 
 const route = useRoute()
@@ -29,8 +28,8 @@ useAsyncData(async function(){
         }
         loaded.value = true
     })
-    useFetch('/api/panel/post?type=' + qType).then( ({data, error}) => {
-        items.value = toRaw(data.value.posts)
+    usePost().getAll(qType).then( (response) => {
+        items.value = toRaw(response.posts)
     } )
 })
 

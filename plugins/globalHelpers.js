@@ -65,6 +65,8 @@ export default defineNuxtPlugin(() => {
 
                 panel: (more)   => ( '/aswpanel'+more ),
 
+                login: () => ( '/login?to=/aswpanel' )
+
 
             }, // getUrl
 

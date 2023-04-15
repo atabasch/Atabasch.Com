@@ -94,7 +94,7 @@
 
 <script setup>
 // IMPORTS
-import {ref, computed, reactive, defineEmits, defineProps} from "vue"
+import {ref, computed, reactive, defineEmits, defineProps, toRaw} from "vue"
 const {$showToast} = useNuxtApp()
 
 
@@ -104,16 +104,16 @@ const props = defineProps({
     user: {
         type: Object,
         default: () => ({
-            userUsername : ref(''),
-            userPassword : ref(''),
-            userEmail : ref(''),
+            userUsername : '',
+            userPassword : '',
+            userEmail : '',
             userStatus : 1,
             userLevel : 1,
             userCover : '',
-            userDisplayName : ref(''),
+            userDisplayName : '',
             data: {
-                userFirstname: ref(''),
-                userLastname: ref(''),
+                userFirstname: '',
+                userLastname: '',
                 userBirthdate: null,
                 userGender: 'none'
             }
@@ -153,12 +153,12 @@ const isActiveForSend = computed(() => {
 
 // METHODS
 const sendToCreate = () => {
-    useFetch('/api/panel/user/create', {method: 'POST', body: {user: toRaw(user)}}).then(async ({data, error}) => {
-        if(data.value.status && data.value.user){
+    useUser().create(toRaw(user)).then(async (result) => {
+        if(result.status && result.user){
             $showToast('Kullanıcı hesabı oluşturuldu')
-            emits('created', toRaw(data.value.user))
+            emits('created', {...result.user})
         }else{
-            $showToast(data.value.message || 'Beklenmedik bir hata oluştu', 'error')
+            $showToast(result.message || 'Beklenmedik bir hata oluştu', 'error')
         }
     }).catch(err => $showToast('Beklenmedik bir hata oluştu', 'error') )
 }

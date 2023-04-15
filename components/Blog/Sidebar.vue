@@ -3,7 +3,7 @@
         <h5 class="coloredTitle"><span>Kategoriler</span></h5>
         <hr>
         <ul class="menuList">
-            <li v-for="(i,k) in categories" :key="k"><a href="#">{{ i.title }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }}</span></a></li>
+            <li v-for="(i,k) in categories" :key="k"><a href="#">{{ i.termTitle }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }} </span></a></li>
         </ul>
     </div>
 
@@ -18,15 +18,19 @@
 
 import {ref} from "vue";
 import ColoredTitle from "../global/ColoredTitle";
+import {useGetTerms} from "../../composables/useGetDatas";
 
-const categories = ref([
-    { title: 'Yardımcı Kodlar', count: 25 },
-    { title: 'NodeJS & JavaScript', count: 19 },
-    { title: 'Php', count: 22 },
-    { title: 'MySql ve Sql', count: 9 },
-    { title: 'Python', count: 16 },
-])
+const categories = ref([])
 
+
+useGetTerms({
+    name: 'kategori',
+    columns: 'termId,termTitle,termSlug'
+}).then(({status, terms}) => {
+    if(status && terms){
+        categories.value = terms
+    }
+})
 </script>
 
 <style scoped>

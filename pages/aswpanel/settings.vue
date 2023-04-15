@@ -72,6 +72,7 @@ function sendToCreate(){
         if(result.status && result.config){
             addToConfigs(result.config)
             resetForm()
+            //todo: Ayar eklenince toast uyarısı ver.
         }
     })
 }
@@ -83,6 +84,7 @@ function sendToUpdateAll(){
             useConfig().getAll().then(result => {
                 if(result.status && result.configs){
                     configs.value = result.configs
+                    //todo: Ayar güncellendiğinde toast ile uyarı v er.
                 }
             })
         }

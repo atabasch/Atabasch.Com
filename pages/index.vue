@@ -2,7 +2,7 @@
 
     <AboutSummaryBox/>
     <div style="margin-top: -50px">
-        <AboutSkillsGrid />
+        <AboutSkillsGrid :skills="skills" />
     </div>
     <!-- KULLANILAN TEKNOLOJİLER -->
     <div class="my-5">
@@ -63,23 +63,65 @@ import AboutLanguagesGrid from "../components/About/LanguagesGrid"
 import ProjectsGrid from "../components/About/ProjectsGrid"
 import {ref} from "vue";
 import ColoredTitle from "../components/global/ColoredTitle";
+import useAuth from "../composables/useAuth";
+import {useGetPosts} from "../composables/useGetDatas";
 
-const technologies = ref([
-    {title: 'HTML',         percent: 100,   text: 'Web sayfalarının iskeletini oluşturan işaretleme dili.'},
-    {title: 'CSS',          percent: 75,    text: 'İnternet siteleri için makyaj malzemesi'},
-    {title: 'JavaScript',   percent: 70,    text: 'Kullanıcı etkileşimi ve yeni nesil Back-end'},
-    {title: 'PHP',          percent: 80,    text: 'Web için kullanılan en popüler programlama dillerinden bir tanesi'},
-    {title: 'Mysql',        percent: 90,    text: 'Yazılım hizmetinin verilerinin saklandığı hafıza'},
-    {title: 'WordPress',    percent: 70,    text: 'Hızlı web siteleri oluşturmak için hazır bir sistem'},
-    {title: 'Nuxt & Vue',   percent: 70,    text: 'Hızlı web siteleri oluşturmak için hazır bir sistem'},
-    {title: 'React Native',    percent: 70,    text: 'Hızlı web siteleri oluşturmak için hazır bir sistem'},
-])
 
-const languages = ref([
-    { code:'TR', title: 'Türkçe', level: 6 },
-    { code:'DE', title: 'Deutsch', level: 3 },
-    { code:'EN', title: 'English', level: 1 },
-])
+const options = {
+    skills: {
+        type: 'skills',
+        limit:4,
+        columns: 'postId,postTitle,postDescription',
+        orderBy: 'postId',
+        sort: 'ASC'
+    },
+    technology: {
+        type: 'technology',
+        limit:10,
+        columns: 'postId,postTitle,postDescription',
+        orderBy: 'postId',
+        sort: 'ASC'
+    },
+    language: {
+        type: 'language',
+        limit:3,
+        columns: 'postId,postTitle',
+        orderBy: 'postId',
+        sort: 'ASC'
+    }
+}
+
+
+
+
+const skills = ref([]);
+const technologies = ref([])
+const languages = ref([])
+// useGetPosts(options.skills).then(({status, posts}) => {
+//     if(status && posts )
+//         skills.value = posts
+// })
+//
+// useGetPosts(options.technology).then(({status, posts}) => {
+//     if(status && posts ){
+//         technologies.value = posts
+//     }
+// })
+//
+// useGetPosts(options.language).then(({status, posts}) => {
+//     if(status && posts )
+//         languages.value = posts
+// })
+
+useAsyncData(function(){
+    $fetch('/api/site/home').then(async (response) => {
+        skills.value = response.skills
+        technologies.value = response.technologies
+        languages.value = response.languages
+    })
+})
+
+
 
 
 </script>

@@ -5,14 +5,14 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="(i, k) in items" :key="k">
                 <div class="technologyItem p-2 box-dark-blue h-100">
                     <div class="d-flex justify-content-between">
-                        <h6><a href="" class="text-decoration-none text-light-blue">{{ i.title }}</a></h6>
-                        <span class="text-white">%{{ i.percent }}</span>
+                        <h6><a href="" class="text-decoration-none text-light-blue">{{ i.postTitle }}</a></h6>
+                        <span class="text-white">%{{ useGetPostExtra(i.extra, 'percent') }}</span>
                     </div>
-                    <div class="progress" style="height: 5px" role="progressbar" aria-label="Warning striped example" :aria-valuenow="i.percent" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar progress-bar-striped bg-success" :style="'width: '+i.percent+'%'"></div>
+                    <div class="progress" style="height: 5px" role="progressbar" aria-label="Warning striped example" :aria-valuenow="useGetPostExtra(i.extra, 'percent')" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped bg-success" :style="'width: '+useGetPostExtra(i.extra, 'percent')+'%'"></div>
                     </div>
                     <hr>
-                    <p>{{ i.text }}</p>
+                    <p>{{ i.postDescription }}</p>
                 </div>
             </div>
 

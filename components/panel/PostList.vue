@@ -77,7 +77,7 @@ const statusList = [
 // Gönderiyi çöpe at
 const sendToChangeStatus = ({item, index, status}) => {
     let postData = {postId: item.postId, postStatus: status}
-    $fetch('/api/panel/post/update', { method:'POST', body: {post: postData} }).then( response => {
+    usePost().update(postData).then( response => {
         if(response.status && response.post){
             props.items.splice(index, 1, {...item, ...response.post})
             $showToast(response.message || 'İçerik güncelleme başarılı oldu', 'success')
@@ -87,7 +87,7 @@ const sendToChangeStatus = ({item, index, status}) => {
 
 const sendToChangeCommentStatus = ({item, index, status}) => {
     let postData = {postId: item.postId, postAllowComment: status}
-    $fetch('/api/panel/post/update', { method:'POST', body: {post: postData} }).then( response => {
+    usePost().update(postData).then( response => {
         if(response.status && response.post){
             props.items.splice(index, 1, {...item, ...response.post})
             $showToast(response.message || 'İçerik güncelleme başarılı oldu', 'success')
@@ -101,12 +101,12 @@ const sendToDelete = ({item, index})=>{
     let title = 'İçerik Silinecek'
     let body = `<strong>${item.postTitle}</strong> başlıklı içeriği silmek üzeresiniz. Bu işlem bir daha geri alınamaz. Silmek sitediğinize emin misiniz?`
     $showAlert({title, body}, function(){
-        useFetch('/api/panel/post/delete', {method:'POST', body: {post: toRaw(item)}}).then(async ({data}) => {
-            if(data.value.status){
+        usePost().delete(toRaw(item)).then(async (data) => {
+            if(data.status){
                 props.items.splice(index, 1)
-                $showToast(data.value.message || 'İçerik başarıyla silindi.')
+                $showToast(data.message || 'İçerik başarıyla silindi.')
             }else{
-                $showToast(data.value.message || 'İçerik silme başarsız oldu')
+                $showToast(data.message || 'İçerik silme başarsız oldu')
             }
         }).catch(err => { showError('Beklenmedik bir hata oluştu') })
     })

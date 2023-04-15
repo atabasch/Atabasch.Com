@@ -12,11 +12,13 @@
 </main>
 </template>
 
-<script setup lang="ts" >
+<script setup >
 import {storeTaxonomy} from "@/stores/taxonomy"
 import {storeType} from "@/stores/type"
 import "sweetalert2/src/sweetalert2.scss"
 import Sidebar from "@/components/panel/Sidebar";
+import {onMounted} from "vue";
+
 
 useHead({
     htmlAttrs: {
@@ -42,6 +44,8 @@ useAsyncData(function(){
         }
     } )
 })
+
+
 </script>
 
 <style scoped lang="scss">

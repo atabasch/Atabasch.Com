@@ -13,9 +13,9 @@ const {id} = route.params
 
 const user = ref(null)
 
-useFetch('/api/panel/user/'+id).then( async ({data, error}) => {
-    if(data.value.status && data.value.user){
-        user.value = data.value.user
+useUser().getOne(id).then( async (result) => {
+    if(result.status && result.user){
+        user.value = result.user
     }else{
         router.push({ path: '/aswpanel/users' })
     }

@@ -68,7 +68,8 @@
 </template>
 
 <script setup>
-import {ref, computed} from "vue"
+import {ref, computed, toRaw} from "vue"
+import useUser from "../../../composables/useUser";
 definePageMeta({layout:'admin'})
 useHead({ title: 'Kullanıcı Hesap Listesi' })
 // DATAS
@@ -76,9 +77,11 @@ const users = ref([])
 const {$showToast, $showAlert} = useNuxtApp()
 
 // FETCH
-useFetch('/api/panel/user?include=data').then( async ({data: {value: {status, users: apiUsers}}, error}) => {
-    users.value = apiUsers
-} )
+useUser().getAll().then(result => {
+    if(result.status && result.users){
+        users.value = result.users
+    }
+})
 
 // COMPUTEDS
 const getUsers = computed(() => users.value)
@@ -87,15 +90,12 @@ const getUsers = computed(() => users.value)
 const sendToChangeCol = (datas, index) => {
     let user = users.value[index]
     let postDatas = {...datas, userId: user.userId }
-    useFetch('/api/panel/user/update', { method:'POST',
-        body: {
-            user: toRaw(postDatas)
-        } }).then( async ({data, error}) => {
-        if(data.value.status && data.value.user){
-            users.value.splice(index, 1, data.value.user)
-            $showToast(data.value.message || 'Kullanıcı Güncellendi')
+    useUser().update(toRaw(postDatas)).then( async (response) => {
+        if(response.status && response.user){
+            users.value.splice(index, 1, response.user)
+            $showToast(response.message || 'Kullanıcı Güncellendi')
         }else{
-            $showToast(data.value.message || 'Güncelleme Başarısız', 'error')
+            $showToast(response.message || 'Güncelleme Başarısız', 'error')
         }
     } ).catch(err => {
          $showToast('Beklenmedik bir sorun oluştu', 'error')
@@ -105,7 +105,7 @@ const sendToChangeCol = (datas, index) => {
 
 const sendToDelete = (user, index) => {
     let localUsers = new Promise(async (resolve) => {
-        let {status, users} = await $fetch('/api/panel/user?fields=userId,userUsername&level=1,2,3,4')
+        let {status, users} = await useUser().getAllForSelectList()
         let result = await users.reduce( (acc, item) => {
             acc[item.userId] = item.userUsername
             return acc
@@ -126,12 +126,12 @@ const sendToDelete = (user, index) => {
         }
     }, function(result){
 
-        useFetch('/api/panel/user/delete', {method: 'POST', body: {user: toRaw(user), authorId:result.value}}).then(async ({data}) => {
-            if(data.value.status){
+        useUser().delete(toRaw(user), result.value).then(async (response) => {
+            if(response.status){
                 users.value.splice(index, 1)
-                $showToast(data.value.message || 'Kullanıcı Silindi')
+                $showToast(response.message || 'Kullanıcı Silindi')
             }else{
-                $showToast(data.value.message || 'Kullanıcı Silinemedi', 'error')
+                $showToast(response.message || 'Kullanıcı Silinemedi', 'error')
             }
         }).catch(err => { $showToast('Beklenmedik bir hata oluştu', 'error') })
 

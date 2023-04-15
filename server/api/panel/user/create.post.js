@@ -1,9 +1,12 @@
 import {User} from "~/server/db/models"
+import {hashPassword} from "@/helpers/helpers"
+
 export default defineEventHandler(async (event) => {
     const {user: postData} = await readBody(event)
 
     //todo: Burada resim upload işlemi yap
-    // TODO: Kullanıcı parolasını hashle
+
+    postData.userPassword = await hashPassword(postData.userPassword)
 
     try {
         const createdUser = await User.create({...postData},{

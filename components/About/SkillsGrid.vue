@@ -3,34 +3,21 @@
     <div class="aboutSkills border border-dark bg-dark-blue py-2 px-3">
 
         <div class="row">
-            <div class="skillItem col-md-3">
-                <span class="skillIcon"><i class="bi bi-code text-white"></i></span>
-                <h5 class="text-light-blue">Web Geliştirme</h5>
-                <p>Sıfırdan kodlayarak (php, laravel, javascript, nodejs, sql) veya WordPress içerik yönetim sistemi ile web siteleri geliştiriyorum</p>
+
+            <div class="skillItem col-md-3" v-for="(skill, key) in skills" :key="key">
+                <span class="skillIcon"><i :class="useGetPostExtra(skill.extra, 'icon') + ' text-white'"></i></span>
+                <h5 class="text-light-blue">{{ skill.postTitle }}</h5>
+                <p>{{ skill.postDescription }}</p>
+
             </div>
 
-            <div class="skillItem col-md-3">
-                <span class="skillIcon"><i class="bi bi-window-sidebar text-white"></i></span>
-                <h5 class="text-light-blue">Font-end</h5>
-                <p>Web siteleri için ziyaretçilerin göreceği görsel arayüzü en yeni teknolojileri (Vue.js, React) kullanarak tasarlıyorum.</p>
-            </div>
-
-            <div class="skillItem col-md-3">
-                <span class="skillIcon"><i class="bi bi-phone text-white"></i></span>
-                <h5 class="text-light-blue">Mobil Uygulama</h5>
-                <p>Müşteriler için her platformda çalıştırılabilen native (React Native) mobil uygulamalar geliştirebilirim.</p>
-            </div>
-
-            <div class="skillItem col-md-3">
-                <span class="skillIcon"><i class="bi bi-patch-check text-white"></i></span>
-                <h5 class="text-light-blue">Eğitim</h5>
-                <p>Bildiğim ve öğrenmek istediğiniz bir programlama dilini (php, javascript, python, go, sql) veya tasarım kodlamasını (html, css, bootstrap) size öğretebilirim.</p>
-            </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import {useGetPostExtra} from "../../composables/useGetDatas";
+const {skills} = defineProps(['skills']);
 </script>
 
 <style scoped>

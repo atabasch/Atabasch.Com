@@ -7,6 +7,7 @@
 
 <script setup>
 useHead({
+    title: 'Atabasch - Furkan Atabaş',
     link: [
         { rel:'stylesheet', href: '/styles/default.css' }
     ],
@@ -20,3 +21,4 @@ useHead({
     }
 })
 </script>
+

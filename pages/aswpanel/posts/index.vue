@@ -5,21 +5,13 @@
 
 <script setup>
 import PostList from "@/components/panel/PostList"
-const route = useRoute()
-import {ref, onMounted} from "vue";
+import {ref} from "vue";
+const { $getUrl } = useNuxtApp()
 
 definePageMeta({ layout: 'admin' })
+useRouter().replace($getUrl.panel(''))
 
 const items = ref([]);
-// useFetch('/api/panel/post?type=' + (route.query.type || 'post')).then( ({data, error}) => {
-//     console.log(data)
-//     items.value = toRaw(data.value.posts)
-// } )
-
-
-
-
-//
 </script>
 
 <style scoped>

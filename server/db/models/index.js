@@ -33,7 +33,7 @@ TermModel.belongsToMany(PostModel, { as: 'posts', uniqueKey:false, foreignKey: '
 PostTypeModel.hasMany(CustomFieldModel, { as:'fields', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
 CustomFieldModel.belongsTo(PostTypeModel, { as:'postType', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
 
-NavigationModel.hasMany(NavigationModel, { as:'items', sourceKey:'navigationId', foreignKey: 'navigationParent', onDelete: 'CASCADE', onUpdate: 'NO ACTION'  })
+// NavigationModel.hasMany(NavigationModel, { as:'items', sourceKey:'navigationId', foreignKey: 'navigationParent', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'  })
 
 
 export const User = UserModel
@@ -52,23 +52,23 @@ export const Navigation = NavigationModel
 
 
 export const Sync =  async function(){
-    await UserModel.sync({ force: false })
-    await UserDataModel.sync({ force: false })
-    await TaxonomyModel.sync({ force: false })
-    await PostType.sync({ force: false })
-    await PostModel.sync({ force: false })
-    await PostExtraModel.sync({ force: false })
-    await TermModel.sync({ force: false })
-    await PostTermModel.sync({ force: false })
-    await ConfigModel.sync({ force: false })
-    await ContactModel.sync({ force: false })
-    await CustomFieldModel.sync({ force: false })
-    await NavigationModel.sync({ force: false })
+    await UserModel.sync({ force: true })
+    await UserDataModel.sync({ force: true })
+    await TaxonomyModel.sync({ force: true })
+    await PostType.sync({ force: true })
+    await PostModel.sync({ force: true })
+    await PostExtraModel.sync({ force: true })
+    await TermModel.sync({ force: true })
+    await PostTermModel.sync({ force: true })
+    await ConfigModel.sync({ force: true })
+    await ContactModel.sync({ force: true })
+    await CustomFieldModel.sync({ force: true })
+    await NavigationModel.sync({ force: true })
 }
 
 
 export const Destroy =  async function(){
-    // await connection.drop()
+    await connection.drop()
     await User.drop()
     await UserData.drop()
     await Taxonomy.drop()
@@ -77,7 +77,7 @@ export const Destroy =  async function(){
     await PostExtra.drop()
     await Term.drop()
     await PostTerm.drop()
-    // await Config.drop()
+    await Config.drop()
     await Contact.drop()
     await CustomField.drop()
     await Navigation.drop()

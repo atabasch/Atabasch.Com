@@ -25,7 +25,7 @@ const taxonomies = ref([])
 
 
 
-await $fetch('/api/panel/post/'+id).then( async (response) => {
+usePost().getOne(id).then( async (response) => {
     if(response.status && response.post){
         post.value = toRaw(response.post)
         type.value = post.value.type

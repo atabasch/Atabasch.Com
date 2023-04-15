@@ -148,9 +148,9 @@ const clearForm = () => {
 
 // İçeriği Kaydet
 const sendToCreate = () => {
-    $fetch('/api/panel/term/create', { method:'POST', body: {term: toRaw(term.value)} }).then( (data) => {
-        if(data.status){
-            terms.value.unshift(data.term)
+    useTaxonomy().term.create(toRaw(term.value)).then( (response) => {
+        if(response.status){
+            terms.value.unshift(response.term)
             clearForm()
             showToast('Yeni eleman oluşturuldu')
         }else{
@@ -161,7 +161,7 @@ const sendToCreate = () => {
 
 // İçeriği güncelle
 const sendToUpdate = () => {
-    $fetch('/api/panel/term/update', {method:'POST', body: {term: toRaw(term.value)}}).then( (data) => {
+    useTaxonomy().term.update(toRaw(term.value)).then( (data) => {
         if(data.status){
             terms.value.splice(term.value.index, 1, data.term)
             clearForm()
@@ -175,7 +175,7 @@ const sendToUpdate = () => {
 
 // İçeriği Sil
 const sendToDelete = () => {
-    $fetch('/api/panel/term/delete', {method:'POST', body: {term: toRaw(term.value)}}).then( (data) => {
+    useTaxonomy().term.delete(toRaw(term.value)).then( (data) => {
         if(data.status){
             terms.value.splice(term.value.index, 1)
             clearForm()
