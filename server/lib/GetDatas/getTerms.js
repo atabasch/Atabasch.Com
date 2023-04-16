@@ -23,9 +23,7 @@ export default async (taxonomyIdOrSlug=false, options={}) => {
             taxId: taxonomy.get().taxId
         },
         raw: false,
-        attributes: {
-            include: options.columns
-        },
+        attributes: options.columns,
         limit: options.limit,
         offset: options.offset,
         order: [ [ options.order, options.sort ] ]

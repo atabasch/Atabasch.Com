@@ -1,9 +1,9 @@
 <template>
-    <h1 :class="'coloredTitle'" v-html="props.title"></h1>
+    <h1 :class="props.className" v-html="props.title"></h1>
 </template>
 
 <script setup>
-const props = defineProps(['title'])
+const props = defineProps(['title','className'])
 </script>
 
 <style scoped>

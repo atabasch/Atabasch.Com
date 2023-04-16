@@ -1,4 +1,4 @@
-import {getPosts, getPost, getTaxonomy} from "@/server/lib/GetDatas"
+import {getPosts, getPost, getTerms} from "@/server/lib/GetDatas"
 
 export default defineEventHandler(async (event) => {
 
@@ -9,7 +9,6 @@ export default defineEventHandler(async (event) => {
         languages: [],
         projects: [],
         references: [],
-        reference_categories: [],
         posts: [],
         blog_categories: [],
         top_views: []
@@ -26,7 +25,7 @@ export default defineEventHandler(async (event) => {
     result.technologies = await getPosts('technology', { limit:8, columns: 'postId,postTitle,postSlug,postDescription' })
 
     // Diller
-    result.languages = await getPosts('language', { limit:3, columns: 'postId,postTitle,postSlug' })
+    result.languages = await getPosts('language', { limit:3, columns: 'postId,postTitle,postSlug', sort:'ASC' })
 
     // Projeler
     result.projects = await getPosts('project', { limit:3, columns: 'postId,postTitle,postSlug,postDescription' })
@@ -36,6 +35,10 @@ export default defineEventHandler(async (event) => {
 
     // Makaleler
     result.posts = await getPosts('post', { limit:5, columns: 'postId,postTitle,postSlug,postDescription' })
+    result.blog_categories = await getTerms('kategori', { columns: 'termId,termTitle,termSlug'});
+
+    // Çok Okunanlar
+    result.top_views = await getPosts('post', { limit:7, columns: 'postId,postTitle,postSlug,postDescription,postViews', orderBy: 'postViews', sort:'DESC'})
 
     return result
 

@@ -32,7 +32,7 @@
                 </client-only>
             </div>
 
-            <panel-form-CustomFieldItem :fields="type.fields" :items="customFields"  />
+            <panel-form-CustomFieldItem v-if="type.fields" :fields="type.fields" :items="customFields"  />
 
 
 
@@ -101,6 +101,7 @@
 import Editor from "@tinymce/tinymce-vue"
 import {ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
 import usePost from "../../../composables/usePost";
+import useAuth from "../../../composables/useAuth";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -119,7 +120,7 @@ const props = defineProps({
             postStatus: 'publish',
             postTypeId: null,
             postParent: 0,
-            postAuthor : 1, // todo: Author ID Giriş yapmış kullanıcı id numarası
+            postAuthor :false,
             postAllowComment: true,
             postViews: 0,
             postPublishedAt: Date.now()
@@ -134,6 +135,7 @@ const checkedTerms  = ref([])
 const changedCover  = ref(false)
 const taxonomies    = toRef(props, 'taxonomies')
 const customFields  = ref({})
+const coverPath = ref(post.value.postCover)
 
 // POST KAYIT İŞLEMİ
 const sendToCreate = ()=>{
@@ -181,9 +183,11 @@ const sendToUpdate = ()=>{
 const changeCover = (event) => {
     if(event.target.files.length){
         let coverFile = event.target.files[0]
+
         let reader = new FileReader();
         reader.onloadend = (e) => {
-            post.value.postCover = reader.result
+            post.value.postCover = e.target.result
+            coverPath.value = e.target.result
             changedCover.value = true
         }
         reader.readAsDataURL(coverFile)
@@ -196,13 +200,14 @@ const getTaxonomies = computed(() => {
     return taxonomies.value
 })
 
-const getCover = computed(() => post.value.postCover)
+const getCover = computed(() => coverPath.value)
 
 const getPlugins = computed(() => {
     return 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount '
 })
 
 onMounted(() => {
+    post.value.postAuthor = useAuth().get('userId')
     checkedTerms.value = post.value.terms.map(i => i.termId)
 
     customFields.value = type.value.fields.reduce((acc, item) => {

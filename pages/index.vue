@@ -2,31 +2,29 @@
 
     <AboutSummaryBox/>
     <div style="margin-top: -50px">
-        <AboutSkillsGrid :skills="skills" />
+        <AboutSkillsGrid :skills="data.skills" />
     </div>
     <!-- KULLANILAN TEKNOLOJİLER -->
     <div class="my-5">
-        <AboutTechnologiesGrid :items="technologies" />
+        <AboutTechnologiesGrid :items="data.technologies" rtl />
     </div>
-    <AboutLanguagesGrid :items="languages" />
 
     <div>
-        <ProjectsGrid></ProjectsGrid>
+        <AboutLanguagesGrid :items="data.languages" />
+    </div>
+
+    <div>
+        <ProjectsGrid :items="data.projects" />
     </div>
 
 
     <div class="py-5">
-        <ColoredTitle :title="'Portfolio'" :size="3">
-            <nav class="nav">
-                <a class="nav-link active" aria-current="page" href="#">Front-end</a>
-                <a class="nav-link" href="#">Back-end</a>
-                <a class="nav-link" href="#">Tasarım</a>
-            </nav>
+        <ColoredTitle :title="'Portfolio'" :size="3"  :more="{label: 'Tümünü Görüntüle', path: '/blog'}">
         </ColoredTitle>
 
         <div class="row g-4">
-            <div class="col-12 col-sm-6 col-lg-4" v-for="n in 6">
-                <PortfolioItem :item="{id:n}"/>
+            <div class="col-12 col-sm-6 col-lg-4" v-for="(item, key) in data.references" :key="key">
+                <PortfolioItem :item="item"/>
             </div>
         </div>
 
@@ -61,63 +59,33 @@ import AboutSkillsGrid from "../components/About/SkillsGrid"
 import AboutTechnologiesGrid from "../components/About/TechnologiesGrid"
 import AboutLanguagesGrid from "../components/About/LanguagesGrid"
 import ProjectsGrid from "../components/About/ProjectsGrid"
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import ColoredTitle from "../components/global/ColoredTitle";
-import useAuth from "../composables/useAuth";
-import {useGetPosts} from "../composables/useGetDatas";
-
-
-const options = {
-    skills: {
-        type: 'skills',
-        limit:4,
-        columns: 'postId,postTitle,postDescription',
-        orderBy: 'postId',
-        sort: 'ASC'
-    },
-    technology: {
-        type: 'technology',
-        limit:10,
-        columns: 'postId,postTitle,postDescription',
-        orderBy: 'postId',
-        sort: 'ASC'
-    },
-    language: {
-        type: 'language',
-        limit:3,
-        columns: 'postId,postTitle',
-        orderBy: 'postId',
-        sort: 'ASC'
-    }
-}
 
 
 
 
-const skills = ref([]);
-const technologies = ref([])
-const languages = ref([])
-// useGetPosts(options.skills).then(({status, posts}) => {
-//     if(status && posts )
-//         skills.value = posts
-// })
-//
-// useGetPosts(options.technology).then(({status, posts}) => {
-//     if(status && posts ){
-//         technologies.value = posts
-//     }
-// })
-//
-// useGetPosts(options.language).then(({status, posts}) => {
-//     if(status && posts )
-//         languages.value = posts
-// })
+const data = reactive({
+    skills: [],
+    technologies: [],
+    languages: [],
+    projects: [],
+    references: [],
+    posts: [],
+    categories: []
+
+})
+
 
 useAsyncData(function(){
     $fetch('/api/site/home').then(async (response) => {
-        skills.value = response.skills
-        technologies.value = response.technologies
-        languages.value = response.languages
+        data.skills = response.skills
+        data.technologies = response.technologies
+        data.languages = response.languages
+        data.projects = response.projects
+        data.references = response.references
+        data.posts = response.posts
+        data.categories = response.categories
     })
 })
 

@@ -1,5 +1,5 @@
 import {Post, PostExtra} from "~/server/db/models";
-import {getBufferFromBase64, uploadToFirestore} from "~/server/lib/image";
+import {uploadImage} from "~/server/lib/image";
 import {objectToJson} from "@/helpers/helpers"
 
 export default defineEventHandler(async (event) => {
@@ -11,11 +11,10 @@ export default defineEventHandler(async (event) => {
     }else{
 
         if(postData.postCover && postData.changedCover){
-            await getBufferFromBase64(postData.postCover).then( async ({file, ext}) => {
-                await uploadToFirestore({file,ext}).then( result => {
-                    postData.postCover = result.mediaLink
-                } )
-            } )
+            let imageLink = await uploadImage(postData.postCover);
+            if(imageLink){
+                postData.postCover = imageLink
+            }
         }
 
 

@@ -3,8 +3,6 @@ import {Model, DataTypes} from "sequelize";
 
 class Contact extends Model{}
 
-
-//todo: Contact tablosunu oluştur
 Contact.init({
 
     contactId:  {

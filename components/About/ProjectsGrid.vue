@@ -1,8 +1,8 @@
 <template>
     <ColoredTitle :title="'Yazılım Projeleri'" :size="3" />
     <div class="row g-3">
-        <div class="col-12 col-sm-6 col-lg-4" v-for="(n,i) in 3">
-            <ProjectItem/>
+        <div class="col-12 col-sm-6 col-lg-4" v-for="(item, index) in items" :key="index">
+            <ProjectItem :item="item"/>
         </div>
     </div>
 </template>
@@ -10,6 +10,10 @@
 <script setup>
 import ProjectItem from "../ProjectItem";
 import ColoredTitle from "../global/ColoredTitle";
+import {toRef} from "vue";
+
+const props = defineProps(['items'])
+const items = toRef(props, 'items')
 </script>
 
 <style scoped>

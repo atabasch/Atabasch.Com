@@ -1,12 +1,12 @@
 <template>
-        <div class="d-flex align-items-center justify-content-between" :class="{ 'flex-row-reverse':reverse }">
-            <component :is="getHeadComponent" :title="getTitle"/>
+        <div class="d-flex align-items-center justify-content-between" :class="{ 'flex-row-reverse':rtl }">
+            <component :is="getHeadComponent" :title="getTitle" :className="reverse? 'coloredTitleReverse' : 'coloredTitle'"/>
             <div>
                 <NuxtLink v-if="more" :to="more.path" class="text-decoration-none" >{{ more.label || 'Tümünü Görüntüle' }}</NuxtLink>
                 <slot/>
             </div>
         </div>
-        <hr/>
+        <hr v-if="!borderless"/>
 </template>
 
 <script setup>
@@ -24,13 +24,17 @@ const props = defineProps({
     title: {type:String, default: ''},
     size: {type:[String,Number], default: 3},
     more: {type:Object},
-    reverse: {type:Boolean, default: false}
+    reverse: {type:Boolean, default: false},
+    rtl: {type:Boolean, default: false},
+    borderless: {type:Boolean, default: false},
 })
 
 const title     = toRef(props, 'title')
 const size      = toRef(props, 'size')
 const more      = toRef(props, 'more')
 const reverse   = toRef(props, 'reverse')
+const rtl   = toRef(props, 'rtl')
+const borderless   = toRef(props, 'borderless')
 
 
 const getTitle = computed(() => {
