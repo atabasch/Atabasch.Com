@@ -1,6 +1,6 @@
 <template>
     <div class="box-dark-blue p-3 projectItem h-100">
-        <h4><i class="bi bi-github"></i> <a href="" class="text-decoration-none text-white">{{ project.postTitle }}</a></h4><hr>
+        <h4><i class="bi bi-github"></i> <NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none text-white">{{ project.postTitle }}</NuxtLink></h4><hr>
         <p>{{ project.postDescription }}</p>
         <div class="d-flex justify-content-end flex-wrap">
             <span href="" class="badge text-bg-primary m-1 p-1">Nuxt + Vue</span>

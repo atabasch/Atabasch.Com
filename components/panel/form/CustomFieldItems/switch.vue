@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import {defineProps, defineEmits, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 const props = defineProps(['modelValue', 'field'])
 const emits = defineEmits(['update:modelValue'])
 const value = ref(props.modelValue)

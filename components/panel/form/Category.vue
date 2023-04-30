@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, defineEmits, defineProps, toRaw, watch} from "vue"
+import {ref, toRaw, watch} from "vue"
 
 const initCategory = {
     name: '',

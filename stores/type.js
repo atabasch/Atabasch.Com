@@ -11,6 +11,10 @@ export const storeType = defineStore('type', {
             return state.types
         },
 
+        getEnableTypes(state){
+            return state.types.filter(type => type.postTypeStatus == 1)
+        },
+
         getType(state){
             return {
                 withIndex: (index) => this.getTypes[index] || null,

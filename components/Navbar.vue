@@ -1,19 +1,21 @@
 <template>
     <nav class="navbar navbar-expand-lg fixed-top border-bottom border-dark bg-dark-blue">
         <div class="container py-2">
-            <a class="navbar-brand text-primary coloredTitle" href="#"><span class="bi bi-laptop"></span> Atabasch</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <NuxtLink class="navbar-brand text-primary coloredTitle" to="/"><span class="bi bi-laptop"></span> Atabasch</NuxtLink>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#headerNavbarContent" aria-controls="headerNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="headerNavbarContent">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">Anasayfa</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">Hakkımda</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">Referanslar</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">Projeler</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">Blog</a></li>
-                    <li class="nav-item mx-2"><a class="nav-link" href="#">İletişim</a></li>
+                    <li class="nav-item mx-2" v-for="(item, index) in (storeSite().getNavigation('header-menu')?.items || [])">
+                        <NuxtLink :id="item.extraId || 'header-nav-'+item.navigationSlug"
+                                  :class="'nav-link '+(item.extraClass || '')"
+                                  :target="item.extraTarget || '_self'"
+                                  :rel="item.extraRel || ''"
+                                  :to="item.navigationTarget"
+                                  v-html="(item.extraBefore || '')+(item.navigationName)+(item.extraAfter || '')"
+                        ></NuxtLink>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-search"></i></a></li>
@@ -23,10 +25,9 @@
     </nav>
 </template>
 
-<script>
-export default {
-    name: "Navbar"
-}
+<script setup>
+import {storeSite} from "~/stores/site";
+
 </script>
 
 <style scoped>

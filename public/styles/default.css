@@ -1,6 +1,7 @@
+
 body *{
   color: #7F92B0 !important;
-
+  font-family: 'Noto Sans', sans-serif;
 }
 
 a{
@@ -11,6 +12,11 @@ a:hover,
 a.active,
 a:active{
   color: #1CC2E7 !important;
+}
+
+body{
+  background-color: #0F172A;
+  padding-top: 85px;
 }
 
 .color-title{
@@ -51,4 +57,35 @@ a:active{
 .img-filter-dark-blue:hover figcaption{
   background: rgb(0,45,96);
   background: radial-gradient(circle, rgba(0,45,96,0.21052170868347342) 50%, rgba(0,0,0,0.6587009803921569) 100%);
+}
+
+/**
+ POST SINGLE
+ */
+.postSingle{
+
+}
+
+.postSingleHeader{
+
+}
+
+.postSingleCover{
+
+}
+
+.postSingleContent{
+}
+.postSingleContent *{
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: #94A9C9 !important;
+}
+
+
+
+.postSingleFooter{
+
 }

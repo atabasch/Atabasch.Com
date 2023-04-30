@@ -17,7 +17,7 @@ import checkbox from "./CustomFieldItems/checkbox"
 import switchCheckbox from "./CustomFieldItems/switch"
 
 
-import {defineProps, toRef} from "vue";
+import {toRef} from "vue";
 const props = defineProps(['fields', 'items'])
 const items = toRef(props, "items")
 

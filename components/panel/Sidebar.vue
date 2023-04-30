@@ -10,7 +10,7 @@
 
 
 
-            <template v-for="(type, index) in storeType().getTypes">
+            <template v-for="(type, index) in storeType().getEnableTypes">
 
                 <li class="nav-item">
                     <button class="btn btn-toggle d-inline-flex align-items-center border-0 collapsed" data-bs-toggle="collapse" :data-bs-target="'#collapse-post-type-'+type.postTypeId" aria-expanded="true">

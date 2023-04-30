@@ -1,5 +1,5 @@
 <template>
-    <div class="row pt-5 mt-5 g-4">
+    <div class="row g-4">
         <div class="col col-sm-6">
             <div class="aboutMeBox h-100 d-flex flex-column justify-content-end">
                 <span class="personHello">Herkese Merhaba!</span>

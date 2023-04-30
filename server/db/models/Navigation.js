@@ -36,7 +36,10 @@ Navigation.init({
     navigationExtra: {
         type: DataTypes.TEXT,
         defaultValue: null,
-        allowNull: true
+        allowNull: true,
+        get(){
+            return JSON.parse(this.getDataValue('navigationExtra'))
+        }
     },
 
 }, {

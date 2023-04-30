@@ -60,7 +60,7 @@
 
 <script setup>
 // IMPORTS
-import {defineProps, defineEmits, watch, ref, toRef, reactive} from "vue"
+import {watch, ref, toRef, reactive} from "vue"
 import useTaxonomy from "../../../composables/useTaxonomy";
 const {$showToast} = useNuxtApp()
 

@@ -80,7 +80,7 @@
 
 <script setup>
 
-import {toRef, toRaw, defineEmits, defineProps} from "vue";
+import {toRef, toRaw} from "vue";
 
 const emits = defineEmits(['created', 'updated', 'cancelled'])
 const props = defineProps({

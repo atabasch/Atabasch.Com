@@ -94,7 +94,7 @@
 
 <script setup>
 // IMPORTS
-import {ref, computed, reactive, defineEmits, defineProps, toRaw} from "vue"
+import {ref, computed, reactive, toRaw} from "vue"
 const {$showToast} = useNuxtApp()
 
 

@@ -103,6 +103,24 @@ export default defineNuxtPlugin(() => {
                     }
                 } )
             }, //showAlert
+
+            getHeadDatasByPost(post){
+                return {
+                    title: post.postTitle,
+                    meta: [
+                        { hid: "description",       name: "description",            content: post.postDescription },
+                        { hid: "og:title",          property: "og:title",           content: post.postTitle },
+                        { hid: "og:description",    property: "og:description",     content: post.postDescription },
+                        { hid: "og:image",          property: "og:image",           content: post.postCover || '' },
+                        { hid: "og:url",            property: "og:url",             content: process.client? window.location.href : '' },
+                        { hid: "twitter:title",     name: "twitter:title",          content: post.postTitle },
+                        { hid: "twitter:description",  name: "twitter:description", content: post.postDescription },
+                        { hid: "twitter:image",     name: "twitter:image",          content: post.postCover || '' },
+                        { hid: "twitter:card",      name: "twitter:card",           content: "summary_large_image" }
+                    ]
+                }
+            },
+
         }
 
     }

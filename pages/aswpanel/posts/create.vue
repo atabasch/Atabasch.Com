@@ -8,7 +8,7 @@
 
 <script setup>
 // IMPORTS
-import PostForm from "~/components/panel/form/Post"
+import PostForm from "../../../components/panel/form/Post"
 import {ref} from "vue";
 import usePostType from "../../../composables/usePostType";
 const {$showToast}  = useNuxtApp()

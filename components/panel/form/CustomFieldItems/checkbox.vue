@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import {computed, defineProps, onMounted, ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 const props = defineProps(['modelValue', 'field'])
 const checkedItems = ref([])
 

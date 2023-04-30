@@ -24,7 +24,7 @@
             <tr v-for="(item, index) in props.items">
                 <td><img :src="item.postCover || ''" width="65" height="65" /></td>
                 <td>
-                    <strong>{{ item.postTitle || '' }}</strong><br>
+                    <strong><NuxtLink class="text-decoration-none text-black" target="_blank" :to="$getUrl.post(item.postSlug)">{{ item.postTitle || '' }}</NuxtLink></strong><br>
                     <NuxtLink :to="$getUrl.panel('/posts/'+item.postId)" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">Düzenle</NuxtLink>
                     <button v-if="item.postStatus==='trash'" @click="sendToChangeStatus({item, index, status: 'publish'})" class="btn btn-outline-success btn-sm me-1 p-0 px-1">Yayımla</button>
                     <button v-if="item.postStatus!=='trash'" @click="sendToChangeStatus({item, index, status: 'trash'})" class="btn btn-outline-danger btn-sm me-1 p-0 px-1">Çöp'e Gönder</button>
@@ -63,7 +63,6 @@
 </template>
 
 <script setup>
-import {defineProps} from "vue"
 const props = defineProps(['items'])
 
 const {$showToast, $showAlert} = useNuxtApp()

@@ -3,34 +3,22 @@
         <h5 class="coloredTitle"><span>Kategoriler</span></h5>
         <hr>
         <ul class="menuList">
-            <li v-for="(i,k) in categories" :key="k"><a href="#">{{ i.termTitle }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }} </span></a></li>
+            <li v-for="(i,k) in (storeSite().getTaxonomy('kategori')?.terms || [])" :key="k">
+                <NuxtLink :to="`/${storeSite().getTaxonomy('kategori').taxSlug}/${i.termSlug}`">{{ i.termTitle }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }} </span></NuxtLink>
+            </li>
         </ul>
     </div>
 
 
     <div class="box-dark-blue p-4 mt-4">
         <ColoredTitle title="Çok Okunanlar" :size="5" />
-        <BlogSidebarPost v-for="n in 5" :item="{postId:n}" />
+        <BlogSidebarPost v-for="(item,key) in (storeSite().getTopPosts || [])" :key="'top-views-post-'+key" :item="item" />
     </div>
 </template>
 
 <script setup>
-
-import {ref} from "vue";
 import ColoredTitle from "../global/ColoredTitle";
-import {useGetTerms} from "../../composables/useGetDatas";
-
-const categories = ref([])
-
-
-useGetTerms({
-    name: 'kategori',
-    columns: 'termId,termTitle,termSlug'
-}).then(({status, terms}) => {
-    if(status && terms){
-        categories.value = terms
-    }
-})
+import {storeSite} from "~/stores/site";
 </script>
 
 <style scoped>

@@ -24,10 +24,10 @@
                         v-model="post.postContent"
                         api-key="zg5qqvkbcoe4zoxffbj01vv7p0k9ngm1bhqros79xtpmt3vb"
                         :plugins="getPlugins"
-                        toolbar="undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat"
+                        toolbar="undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link file image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat"
                         :inline="false"
                         output-format="html"
-                        :init="{height: '650px'}"
+                        :init="{height: '650px', images_upload_url:'/api/media/upload', images_upload_handler:onImageUpload}"
                     />
                 </client-only>
             </div>
@@ -99,9 +99,10 @@
 
 <script setup>
 import Editor from "@tinymce/tinymce-vue"
-import {ref, toRef, defineProps, defineEmits, computed, onMounted} from "vue";
+import {ref, toRef, computed, onMounted} from "vue";
 import usePost from "../../../composables/usePost";
 import useAuth from "../../../composables/useAuth";
+import useUpload from "../../../composables/useUpload";
 
 
 const emits = defineEmits(['created', 'updated'])
@@ -221,6 +222,20 @@ onMounted(() => {
 
 })
 
+
+const onImageUpload = (e) => {
+    return new Promise(async (resolve, reject) => {
+        useUpload(e.blob()).then(response => {
+            if(response.status){
+                resolve(response.url)
+            }else{
+                reject(response.message)
+            }
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
 </script>
 
 

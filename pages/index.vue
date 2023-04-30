@@ -37,8 +37,10 @@
         <ColoredTitle :title="'Blog Yazıları'" :size="3" :more="{label: 'Tümünü Görüntüle', path: '/blog'}" />
         <div class="row">
             <div class="col-8">
-                <BlogListItemVertical />
-                <BlogListItemHorizontal v-for="n in 3" :item="{postId: n}" />
+                <template v-if="data.posts" v-for="(post, key) in data.posts" :key="key">
+                    <BlogListItemVertical v-if="key<1" :item="post" />
+                    <BlogListItemHorizontal v-else :item="post" />
+                </template>
             </div><!-- .coll-8 -->
 
 
@@ -72,7 +74,8 @@ const data = reactive({
     projects: [],
     references: [],
     posts: [],
-    categories: []
+    categories: [],
+    top_views: [],
 
 })
 
@@ -85,6 +88,7 @@ useAsyncData(function(){
         data.projects = response.projects
         data.references = response.references
         data.posts = response.posts
+        data.top_views = response.top_views
         data.categories = response.categories
     })
 })

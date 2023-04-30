@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import {computed, defineProps} from "vue";
+import {computed} from "vue";
 const props = defineProps(['modelValue', 'field'])
 const getOptions = computed(() => {
     return props.field.fieldOptions.split(/\n/).reduce((obj, item) => {

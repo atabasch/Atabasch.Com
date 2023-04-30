@@ -33,7 +33,7 @@ TermModel.belongsToMany(PostModel, { as: 'posts', uniqueKey:false, foreignKey: '
 PostTypeModel.hasMany(CustomFieldModel, { as:'fields', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
 CustomFieldModel.belongsTo(PostTypeModel, { as:'postType', sourceKey:'postTypeId', foreignKey:'postTypeId', onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
 
-// NavigationModel.hasMany(NavigationModel, { as:'items', sourceKey:'navigationId', foreignKey: 'navigationParent', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'  })
+NavigationModel.hasMany(NavigationModel, { as:'items', sourceKey:'navigationId', foreignKey: 'navigationParent', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'  })
 
 
 export const User = UserModel

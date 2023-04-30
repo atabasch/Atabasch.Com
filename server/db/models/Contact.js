@@ -43,7 +43,10 @@ Contact.init({
     contactExtra:   {
         type: DataTypes.TEXT,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
+        get(){
+            return JSON.parse(this.getDataValue('contactExtra'))
+        }
     },
     contactStatus:  {
         type: DataTypes.ENUM('unread', 'read', 'answered', 'transferred', 'marked'), // okunmadı, okundu, cevaplandı, transfer edildi, işaretlenddi (favori-dikkat çekici)

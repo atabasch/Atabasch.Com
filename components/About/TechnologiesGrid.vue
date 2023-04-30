@@ -5,7 +5,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="(i, k) in items" :key="k">
                 <div class="technologyItem p-2 box-dark-blue h-100">
                     <div class="d-flex justify-content-between">
-                        <h6><a href="" class="text-decoration-none text-light-blue">{{ i.postTitle }}</a></h6>
+                        <h6><NuxtLink :to="$getUrl.post(i.postSlug)" class="text-decoration-none text-light-blue">{{ i.postTitle }}</NuxtLink></h6>
                         <span class="text-white">%{{ useGetPostExtra(i.extra, 'percent') }}</span>
                     </div>
                     <div class="progress" style="height: 5px" role="progressbar" aria-label="Warning striped example" :aria-valuenow="useGetPostExtra(i.extra, 'percent')" aria-valuemin="0" aria-valuemax="100">
