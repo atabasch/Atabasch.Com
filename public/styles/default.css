@@ -74,7 +74,9 @@ body{
 
 }
 
-.postSingleContent{
+.postSingleContent img{
+  max-width: 100%;
+  height: auto;
 }
 .postSingleContent *{
   font-family: "Noto Sans", sans-serif;
@@ -88,4 +90,10 @@ body{
 
 .postSingleFooter{
 
+}
+
+
+
+.cursor-pointer{
+  cursor: pointer !important;
 }

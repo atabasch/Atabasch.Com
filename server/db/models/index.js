@@ -11,6 +11,7 @@ import ConfigModel from "~/server/db/models/Config";
 import ContactModel from "~/server/db/models/Contact";
 import CustomFieldModel from "~/server/db/models/CustomField";
 import NavigationModel from "~/server/db/models/Navigation";
+import MediaModel from "~/server/db/models/Media";
 
 UserModel.hasOne(UserDataModel, { as:'data', sourceKey:'userId', foreignKey: 'userId', onDelete: 'CASCADE' })
 UserDataModel.belongsTo(UserModel, { as:'user', foreignKey: 'userId', targetKey:'userId', onDelete: 'CASCADE' })
@@ -48,22 +49,24 @@ export const Config = ConfigModel
 export const Contact = ContactModel
 export const CustomField = CustomFieldModel
 export const Navigation = NavigationModel
+export const Media = MediaModel
 
 
 
 export const Sync =  async function(){
-    await UserModel.sync({ force: true })
-    await UserDataModel.sync({ force: true })
-    await TaxonomyModel.sync({ force: true })
-    await PostType.sync({ force: true })
-    await PostModel.sync({ force: true })
-    await PostExtraModel.sync({ force: true })
-    await TermModel.sync({ force: true })
-    await PostTermModel.sync({ force: true })
-    await ConfigModel.sync({ force: true })
-    await ContactModel.sync({ force: true })
-    await CustomFieldModel.sync({ force: true })
-    await NavigationModel.sync({ force: true })
+    await UserModel.sync({ force: false })
+    await UserDataModel.sync({ force: false })
+    await TaxonomyModel.sync({ force: false })
+    await PostType.sync({ force: false })
+    await PostModel.sync({ force: false })
+    await PostExtraModel.sync({ force: false })
+    await TermModel.sync({ force: false })
+    await PostTermModel.sync({ force: false })
+    await ConfigModel.sync({ force: false })
+    await ContactModel.sync({ force: false })
+    await CustomFieldModel.sync({ force: false })
+    await NavigationModel.sync({ force: false })
+    await MediaModel.sync({ force: false })
 }
 
 
@@ -81,5 +84,6 @@ export const Destroy =  async function(){
     await Contact.drop()
     await CustomField.drop()
     await Navigation.drop()
+    await Media.drop()
 }
 

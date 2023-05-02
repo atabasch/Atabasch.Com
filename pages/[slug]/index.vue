@@ -10,6 +10,7 @@ import {useHead} from "@unhead/vue";
 
 import Page from "../../components/Templates/Page.vue";
 import Post from "../../components/Templates/Post.vue";
+import Technology from "../../components/Templates/Technology.vue";
 
 const {$getHeadDatasByPost} = useNuxtApp()
 const post  = ref(false)
@@ -36,6 +37,7 @@ useAsyncData(async () => {
 const componentList = ref({
     post: Post,
     page: Page,
+    technology: Technology,
     default: Page
 })
 

@@ -56,6 +56,7 @@
 </template>
 
 <script setup>
+import BlogSidebar from "../Blog/Sidebar";
 import {toRef} from "vue";
 
 const props = defineProps({

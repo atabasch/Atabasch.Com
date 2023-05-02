@@ -22,7 +22,7 @@
         </template>
         <template v-if="props.items">
             <tr v-for="(item, index) in props.items">
-                <td><img :src="item.postCover || ''" width="65" height="65" /></td>
+                <td><img :src="item.postCover || '/images/camera.png'" width="65" height="65"  :alt="item.postTitle"/></td>
                 <td>
                     <strong><NuxtLink class="text-decoration-none text-black" target="_blank" :to="$getUrl.post(item.postSlug)">{{ item.postTitle || '' }}</NuxtLink></strong><br>
                     <NuxtLink :to="$getUrl.panel('/posts/'+item.postId)" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">Düzenle</NuxtLink>

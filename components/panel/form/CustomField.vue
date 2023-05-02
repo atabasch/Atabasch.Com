@@ -10,7 +10,7 @@
             <div class="col-6">
                 <div class="mb-2">
                     <label for="" class="form-label">Anahtar Değer <code>name=""</code></label>
-                    <input type="text" class="form-control" v-model="field.fieldName" />
+                    <input type="text" class="form-control" v-model="field.fieldName" required/>
                 </div>
             </div>
 

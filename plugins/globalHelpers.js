@@ -79,9 +79,9 @@ export default defineNuxtPlugin(() => {
                 }
             }, // getYoutubeId
 
-            showToast(message, type='success'){
+            showToast(message, type='success', callback=()=>null){
                 if(process.client){
-                    Swal.fire({title:message, icon:type, toast:true, position:'top-end', timer:3000, showConfirmButton:false, timerProgressBar: true})
+                    Swal.fire({title:message, icon:type, toast:true, position:'top-end', timer:3000, showConfirmButton:false, timerProgressBar: true}).then(callback)
                 }
             }, //toast
 

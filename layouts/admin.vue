@@ -5,7 +5,7 @@
         <Sidebar />
     </div>
     <div class="d-flex flex-column mt-2 mx-3 flex-grow-1">
-        <div style="max-width: 1500px">
+        <div style="">
             <slot />
         </div>
     </div>

@@ -11,7 +11,9 @@
 
 <script setup>
 import {ref, toRaw, computed, reactive} from "vue";
-import PostForm from "~/components/panel/form/Post"
+import PostForm from "../../../components/panel/form/Post"
+import usePost from "../../../composables/usePost";
+import {useRouter} from "nuxt/app";
 const {$showToast} = useNuxtApp()
 definePageMeta({ layout: 'admin' })
 useHead({title: 'İçerik Düzenle'})
@@ -45,7 +47,9 @@ const getPost = computed(() => {
 })
 
 const onUpdate = (post) => {
-    $showToast('İçerik güncellendi')
+    $showToast('İçerik güncellendi', 'success', function () {
+        useRouter().go(0)
+    })
 }
 </script>
 

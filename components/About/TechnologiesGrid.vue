@@ -1,5 +1,5 @@
 <template>
-        <ColoredTitle title="Kullanılan Teknolojiler" size="3" reverse rtl/>
+        <ColoredTitle :title="props.title || 'Kullanılan Teknolojiler'" size="3" reverse rtl/>
         <div class="row g-3">
 
             <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="(i, k) in items" :key="k">
@@ -23,7 +23,7 @@
 import {toRef} from "vue";
 import ColoredTitle from "../global/ColoredTitle";
 
-const props = defineProps(['items'])
+const props = defineProps(['items', 'title'])
 const items = toRef(props, 'items')
 </script>
 

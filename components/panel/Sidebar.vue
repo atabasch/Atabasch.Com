@@ -41,6 +41,7 @@
 
             <li class="nav-item"><NuxtLink to="/aswpanel/users" class="nav-link" active-class="active"><em class="bi bi-people"></em> Kullanıcılar</NuxtLink></li>
             <li class="nav-item"><NuxtLink to="/aswpanel/navigations" class="nav-link" active-class="active"><em class="bi bi-signpost-split"></em> Menüler</NuxtLink></li>
+            <li class="nav-item"><NuxtLink to="/aswpanel/media" class="nav-link" active-class="active"><em class="bi bi-folder2-open"></em> Medya</NuxtLink></li>
             <li class="nav-item"><NuxtLink to="/aswpanel/comments" class="nav-link" active-class="active"><em class="bi bi-chat-quote"></em> Yorumlar</NuxtLink></li>
             <li class="nav-item"><NuxtLink to="/aswpanel/contacts" class="nav-link" active-class="active"><em class="bi bi-envelope"></em> İletişim</NuxtLink></li>
 

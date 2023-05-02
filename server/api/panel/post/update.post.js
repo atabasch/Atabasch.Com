@@ -31,12 +31,18 @@ export default defineEventHandler(async (event) => {
 
             if(postData.extra){
                 await Object.entries(postData.extra).forEach(async (item) => {
-                    await PostExtra.update({extraValue: objectToJson(item[1])}, {
+
+                    let [extra, created] = await PostExtra.findOrCreate({
                         where: {
                             postId: updatedPost.postId,
                             extraName: item[0]
                         }
                     })
+
+                    if(extra){
+                        await extra.update({extraValue: objectToJson(item[1])})
+                    }
+
                 })
             }
 

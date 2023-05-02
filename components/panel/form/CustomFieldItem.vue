@@ -1,10 +1,10 @@
 <template>
     <PanelTitleBox title="Özel Alanlar"/>
 
-    <div class="mb-2" v-for="(field, index) in props.fields" :key="index">
-        <label class="form-label fw-bold">{{ field.fieldLabel }}{{ field.fieldRequired? '*' : '' }}</label>
-        <component :is="getComponent($customTypes[field.fieldType].componentName)" :field="field" v-model="items[field.fieldName]"/>
-        <div class="form-text" v-if="field.fieldDescription">{{ field.fieldDescription }}</div>
+    <div class="border p-3 mb-3" v-for="(field, index) in props.fields" :key="index">
+            <label class="form-label fw-bold fs-6">{{ field.fieldLabel }}{{ field.fieldRequired? '*' : '' }}</label>
+            <component :is="getComponent($customTypes[field.fieldType].componentName)" :field="field" v-model="items[field.fieldName]"/>
+            <div class="form-text" v-if="field.fieldDescription">{{ field.fieldDescription }}</div>
     </div>
 </template>
 
@@ -15,6 +15,7 @@ import textarea from "./CustomFieldItems/textarea"
 import radio from "./CustomFieldItems/radio"
 import checkbox from "./CustomFieldItems/checkbox"
 import switchCheckbox from "./CustomFieldItems/switch"
+import file from "./CustomFieldItems/file"
 
 
 import {toRef} from "vue";
@@ -28,6 +29,7 @@ let fields = {
     'radio': radio,
     'checkbox': checkbox,
     'switch': switchCheckbox,
+    'file': file,
 }
 const getComponent = (name) => fields[name]
 </script>
