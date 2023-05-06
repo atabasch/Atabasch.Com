@@ -1,16 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-12 my-4">
-            <h1 :title="post.postTitle" class="coloredTitleReverse">{{ post.postTitle }}</h1>
-            <hr>
-            <nav style="--bs-breadcrumb-divider: '›';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><NuxtLink to="/">Anasayfa</NuxtLink></li>
-                    <li class="breadcrumb-item"><NuxtLink to="/blog">Blog</NuxtLink></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ post.postTitle }}</li>
-                </ol>
-            </nav>
-        </div>
+        <Breadcrumb :title="post.postTitle"/>
 
 
         <div class="col-12 col-lg-8">
@@ -30,7 +20,7 @@
                     </figure>
                     <p>
                         <span v-for="(category, index) in post.taxonomies.kategori" :key="index">
-                            <router-link class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-normal px-2 py-2 mx-1" :to="`/${category.taxonomy.slug}/${category.slug}`">{{ category.title }}</router-link>
+                            <NuxtLink class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-normal px-2 py-2 mx-1" :to="$getUrl.term('kategori',category.slug)">{{ category.title }}</NuxtLink>
                         </span>
                     </p>
                     <hr>
@@ -42,7 +32,7 @@
                 <footer class="postSingleFooter">
                     <p>
                         <span v-for="(keyword, index) in post.postKeywords.split(',')" :key="index">
-                            <router-link class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-meidum px-2 py-2 mx-1" :to="`/keyword/${keyword}`">{{ keyword }}</router-link>
+                            <NuxtLink class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-meidum px-2 py-2 mx-1" :to="`/keyword/${keyword}`">{{ keyword }}</NuxtLink>
                         </span>
                     </p>
                 </footer>
@@ -56,7 +46,7 @@
 </template>
 
 <script setup>
-import BlogSidebar from "../Blog/Sidebar";
+import BlogSidebar from "../../Blog/Sidebar";
 import {toRef} from "vue";
 
 const props = defineProps({

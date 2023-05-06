@@ -4,7 +4,7 @@
         <tr>
             <th width="65"></th>
             <th>Başlık</th>
-            <th width="210">Kategori</th>
+<!--            <th width="210">Kategori</th>-->
             <th width="120">Yazar</th>
             <th width="100">Yayımlanma</th>
             <th width="25"></th>
@@ -21,20 +21,24 @@
             </tr>
         </template>
         <template v-if="props.items">
-            <tr v-for="(item, index) in props.items">
-                <td><img :src="item.postCover || '/images/camera.png'" width="65" height="65"  :alt="item.postTitle"/></td>
+            <tr v-for="(item, index) in props.items" class="post-item">
+                <td><img :src="item.postCover || '/images/camera.png'" width="65" height="65"  :alt="item.postTitle" style="object-fit: cover"/></td>
                 <td>
-                    <strong><NuxtLink class="text-decoration-none text-black" target="_blank" :to="$getUrl.post(item.postSlug)">{{ item.postTitle || '' }}</NuxtLink></strong><br>
-                    <NuxtLink :to="$getUrl.panel('/posts/'+item.postId)" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">Düzenle</NuxtLink>
-                    <button v-if="item.postStatus==='trash'" @click="sendToChangeStatus({item, index, status: 'publish'})" class="btn btn-outline-success btn-sm me-1 p-0 px-1">Yayımla</button>
-                    <button v-if="item.postStatus!=='trash'" @click="sendToChangeStatus({item, index, status: 'trash'})" class="btn btn-outline-danger btn-sm me-1 p-0 px-1">Çöp'e Gönder</button>
-                    <button v-if="item.postStatus==='trash'" @click="sendToDelete({item, index})" class="btn btn-outline-danger btn-sm me-1 p-0 px-1">Kalıcı Olarak Sil</button>
+                    <strong><NuxtLink class="text-decoration-none text-black" :to="$getUrl.panel('/posts/'+item.postId) ">{{ item.postTitle || '' }}</NuxtLink></strong><br>
+                    <small><code class="bg-white p-1">/{{ item.postSlug }}</code></small>
+                    <div class="mt-2 action-buttons">
+                        <NuxtLink :to="$getUrl.post(item.postSlug)" target="_blank" class=" me-2 link-dark link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Görüntüle</NuxtLink>
+                        <NuxtLink :to="$getUrl.panel('/posts/'+item.postId)" class=" me-2 link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Düzenle</NuxtLink>
+                        <NuxtLink :to="null" v-if="item.postStatus==='trash'" @click.stop="sendToChangeStatus({item, index, status: 'publish'})" class="cursor-pointer me-2 link-success link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Yayımla</NuxtLink>
+                        <NuxtLink :to="null" v-if="item.postStatus!=='trash'" @click.stop="sendToChangeStatus({item, index, status: 'trash'})" class="cursor-pointer me-2 link-danger link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Çöp'e Gönder</NuxtLink>
+                        <NuxtLink :to="null" v-if="item.postStatus==='trash'" @click.stop="sendToDelete({item, index})" class="cursor-pointer me-2 link-danger link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Kalıcı Olarak Sil</NuxtLink>
+                    </div>
                 </td>
-                <td>
-                    <template v-if="item.terms">
-                        <a href="" v-for="(t, i) in item.terms" :key="i" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">{{ t.termTitle }}</a>
-                    </template>
-                </td>
+<!--                <td>-->
+<!--                    <template v-if="item.terms">-->
+<!--                        <a href="" v-for="(t, i) in item.terms" :key="i" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">{{ t.termTitle }}</a>-->
+<!--                    </template>-->
+<!--                </td>-->
                 <td><a href="" class="btn btn-outline-primary btn-sm me-1 p-0 px-1">{{ item.user.userUsername || '' }}</a></td>
                 <td>
                     <span class="badge text-bg-primary fw-normal">{{ $getDateFormat(item.postCreatedAt, 'dateTimeMedium') }}</span><br/>
@@ -119,5 +123,10 @@ const showError = (message) => {
 </script>
 
 <style scoped>
-
+.action-buttons{
+    visibility: hidden;
+}
+.post-item:hover .action-buttons{
+    visibility: visible;
+}
 </style>

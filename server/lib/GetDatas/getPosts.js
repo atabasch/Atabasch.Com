@@ -1,5 +1,4 @@
 import {Post, PostType} from "~/server/db/models";
-import {getPostType} from "~/server/lib/GetDatas";
 import {Op} from "sequelize";
 
 export default async (postTypeIdOrSlug, options={}) => {
@@ -12,6 +11,18 @@ export default async (postTypeIdOrSlug, options={}) => {
     options.order       = options.orderBy || 'postId'
     options.sort        = options.sort || 'DESC'
     options.columns     = options.columns || null
+
+    options.in          = !options.in? [] : options.in.split(',')
+    options.not_in      = !options.not_in? null : options.not_in.split(',')
+
+    options.filter      = options.filter || {}
+    options.extraFilter = options.extraFilter || null
+    options.termFilter  = options.termFilter || null
+    options.userFilter  = options.userFilter || null
+
+
+
+
     if(options.columns){
         options.columns = options.columns.split(',')
     }
@@ -30,7 +41,10 @@ export default async (postTypeIdOrSlug, options={}) => {
     let findOptions = {
         where: {
             postTypeId: type.postTypeId,
-            postStatus: 'publish'
+            postStatus: 'publish',
+
+
+            ...options.filter
         },
         offset: options.offset,
         limit: options.limit,
@@ -41,13 +55,22 @@ export default async (postTypeIdOrSlug, options={}) => {
 
         include: [
             {   association:  'terms',
-                attributes: ['termId', 'termTitle', 'termSlug']
+                attributes: ['termId', 'termTitle', 'termSlug'],
+                include: [
+                    {
+                        association:  'taxonomy',
+                        attributes: ['taxId', 'taxTitle', 'taxSlug'],
+                    }
+                ],
+                where: options.termFilter
             },
             {   association:  'extra',
-                attributes: ['extraName', 'extraValue']
+                attributes: ['extraName', 'extraValue'],
+                where: options.extraFilter
             },
             {   association:  'user',
                 attributes: ['userId', 'userUsername', 'userEmail', 'userDisplayName', 'userLevel', 'userCover'],
+                where: options.userFilter
             },
         ]
     }
@@ -74,3 +97,4 @@ export default async (postTypeIdOrSlug, options={}) => {
 
     return posts
 }
+

@@ -120,7 +120,7 @@ const setNavigation = (nav, index) => {
     navigation.value = {
         index,
         ...nav,
-        navigationExtra: JSON.parse(nav.navigationExtra)
+        navigationExtra: (nav.navigationExtra)
     }
 }
 

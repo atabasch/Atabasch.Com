@@ -166,7 +166,7 @@ useNavigation().getOneWithItems(id).then(result => {
  * ====================
  */
 const setNavigation = (nav, index) => {
-    item.value = {...nav, index:index, navigationExtra: JSON.parse(nav.navigationExtra)}
+    item.value = {...nav, index:index, navigationExtra: (nav.navigationExtra)}
 }
 
 const clearForm = () => {

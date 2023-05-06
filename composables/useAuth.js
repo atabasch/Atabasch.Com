@@ -24,7 +24,7 @@ export default () => ({
       return true
     },
 
-    isLoggedIn: function(level=1){
+    isLoggedIn: async function(level=1){
         return new Promise(async (resolve, reject) => {
             if(!authInit.value){
                 let token = null
@@ -35,12 +35,12 @@ export default () => ({
                 if(response.status && response.user){
                     authUser.value = {...response.user, token}
                 }else{
-                    resolve(false)
+                   resolve(false)
                 }
                 authInit.value = true
             }
 
-            resolve(authUser.value.userId && authUser.value.userLevel >= level)
+           resolve(authUser.value.userId && authUser.value.userLevel >= level)
         })
     },
 

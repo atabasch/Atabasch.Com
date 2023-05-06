@@ -1,5 +1,7 @@
 import {connection} from "~/server/db/connection"
-import {Model, DataTypes} from "sequelize"
+import {Model, DataTypes, Op} from "sequelize"
+import slugify from "~/helpers/slugify";
+import Post from "~/server/db/models/Post";
 // import Taxonomy from "~/server/db/models/Taxonomy";
 // import Post from "~/server/db/models/Post";
 // import PostTerm from "~/server/db/models/PostTerm";
@@ -44,29 +46,29 @@ Term.init({
     tableName: "terms",
     timestamps: false,
     hooks: {
-        // beforeCreate: async function(model){
-        //     let slug = slugify(model.term_title);
-        //     model.term_slug = slug;
-        //
-        //     for(let i=2; i<=11; i++){
-        //         let term = await Term.findOne( { where: { term_slug: model.term_slug } } );
-        //         if(!term){ break; }else{
-        //             model.term_slug = slug +"-"+ i;
-        //         }
-        //     }
-        // },
-        //
-        // beforeUpdate: async function(model){
-        //     let slug = slugify(model.term_title);
-        //     model.term_slug = slug;
-        //
-        //     for(let i=2; i<=11; i++){
-        //         let term = await Term.findOne( { where: { term_slug: model.term_slug, term_id: { [Op.ne]:model.term_id } } } );
-        //         if(!term){ break; }else{
-        //             model.term_slug = slug +"-"+ i;
-        //         }
-        //     }
-        // }
+        beforeCreate: async function(model){
+            let slug = await slugify(model.termTitle);
+            model.termSlug = slug;
+
+            for(let i=2; i<=11; i++){
+                let term = await Term.findOne( { where: { termSlug: model.termSlug } } );
+                if(!term){ break; }else{
+                    model.termSlug = slug +"-"+ i;
+                }
+            }
+        },
+
+        beforeUpdate: async function(model){
+            let slug = await slugify(model.termTitle);
+            model.termSlug = slug;
+
+            for(let i=2; i<=11; i++){
+                let term = await Term.findOne( { where: { termSlug: model.termSlug, termId: { [Op.ne]:model.termId } } } );
+                if(!term){ break; }else{
+                    model.termSlug = slug +"-"+ i;
+                }
+            }
+        }
     }
 });
 

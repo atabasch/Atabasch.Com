@@ -30,11 +30,13 @@ export default defineEventHandler(async (event) => {
     result.navigations = await Navigation.findAll({
         where: { navigationType:'menu' },
         attributes: ['navigationId', 'navigationName', 'navigationSlug', 'navigationParent', 'navigationTarget','navigationExtra'],
+        order: [
+            ['items', 'navigationOrder', 'ASC'],
+        ],
         include: [
             {
                 association: 'items',
-                attributes: ['navigationId', 'navigationName', 'navigationSlug', 'navigationParent', 'navigationTarget', 'navigationParent', 'navigationExtra'],
-                order: [['navigationOrder', 'ASC']],
+                attributes: ['navigationId', 'navigationName', 'navigationSlug', 'navigationParent', 'navigationTarget', 'navigationParent', 'navigationExtra']
             },
         ],
     })

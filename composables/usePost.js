@@ -24,5 +24,10 @@ export default () => {
             return $fetch('/api/panel/post/delete', {method: 'POST', body: postData, headers: { ...useAuth().getHeaderToken() } } )
         }, // delete
 
+        updatePostViews: async (idOrSlug) => {
+            let body = { idOrSlug: idOrSlug  }
+            return $fetch('/api/site/post_views', {method:'POST', body: body } )
+        }, // create
+
     } // return
 } // export defaul

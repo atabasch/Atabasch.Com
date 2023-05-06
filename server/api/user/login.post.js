@@ -35,7 +35,12 @@ export default defineEventHandler(async (event) => {
         cover:          userData.userCover,
         displayName:    userData.userDisplayName
     }
-    let token = await createJwt(tokenData, 60 * (process.env.APP_LOGIN_TIMEOUT || 30) ) // 1 saat
+
+    let tokenLimit = 60 * (process.env.APP_LOGIN_TIMEOUT || 30)
+    if(postData.remember){
+        tokenLimit = 60 * parseInt(process.env.APP_LOGIN_TIMEOUT_REMEMBER || 60 * 24 * 7) // 7 gün
+    }
+    let token = await createJwt(tokenData,  tokenLimit) // 1 saat
     delete userData.userPassword
 
     // Kullanıcı Son giriş tarihini güncelle

@@ -8,16 +8,15 @@
                 </figure>
             </NuxtLink>
         </div>
-        <div class="col p-0">
+        <div class="col p-sm-0">
             <div>
-                <span class="fs-6 fw-"><i class="bi bi-clock"></i> 3 dakika'da oku</span>
+                <span class="fs-6 me-2"><i class="bi bi-clock"></i> {{ $getDateFormat(item.postPublishedAt, 'dateLong') }}</span>
+                <span class="fs-6 me-2"><i class="bi bi-eye"></i> {{ item.postViews }}</span>
             </div>
-            <h3 class="fs-4 my-2" :title="item.postTitle"><NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none">{{ item.postTitle }}</NuxtLink></h3>
+            <h3 class="fs-4 my-2" :title="item.postTitle"><NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none text-light-white">{{ item.postTitle }}</NuxtLink></h3>
             <p>{{ item.postDescription }}</p>
             <div>
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket1</a>
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket2</a>
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket3</a>
+                <NuxtLink :to="$getUrl.term(term.taxonomy.taxSlug, term.termSlug)" class="link-secondary me-2 text-decoration-none" v-for="term in useFilterTerms(item.terms, 'kategori')">#{{ term.termSlug }}</NuxtLink>
             </div>
         </div>
     </div>
@@ -25,7 +24,7 @@
 
 <script setup>
 import {toRef} from "vue";
-
+import {useFilterTerms} from "../../composables/useGetDatas";
 const props = defineProps({
     item: {
         type: Object

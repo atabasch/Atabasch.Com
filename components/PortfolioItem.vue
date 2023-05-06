@@ -1,15 +1,15 @@
 <template>
-    <div class="workItem box-dark-blue p-3 h-100">
+    <div class="workItem h-100">
         <NuxtLink :to="$getUrl.post(item.postSlug)">
             <figure class="img-filter-dark-blue ratio ratio-4x3">
-                <img v-if="item.postCover" :src="item.postCover" class="img-fluid" />
+                <img v-if="item.postCover" :src="item.postCover" class="img-fluid object-fit-cover" />
                 <figcaption></figcaption>
             </figure>
         </NuxtLink>
-        <div class="p-2">
-            <h4 class="my-3 title"><NuxtLink :to="$getUrl.post(item.postSlug)" class="link-light text-decoration-none">{{ item.postTitle }}</NuxtLink></h4>
-            <p class="description">{{ item.postDescription.substr(0, 255) }}</p>
-        </div>
+        <h5 class="mt-3 title">
+            <NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none text-white">{{ item.postTitle }}</NuxtLink>
+        </h5>
+        <p class="description">{{ item.postDescription.substr(0, 255) }}</p>
     </div>
 </template>
 
@@ -22,16 +22,19 @@ const item = toRef(props, 'item')
 
 <style scoped>
     .title{
-        font-size: 24px;
-        line-height: 32px;
-        /*height: 64px;*/
-        /*overflow: hidden;*/
+        font-size: 18px;
+        line-height: 25px;
+        height: 25px;
+        overflow: hidden;
     }
 
     .description {
-        font-size: 18px;
-        line-height: 28px;
-        /*height: 84px;*/
-        /*overflow: hidden;*/
+        font-size: 15px;
+        line-height: 22px;
+        padding: 0;
+        margin: 0;
+        margin-top: -5px;
+        height: 44px;
+        overflow: hidden;
     }
 </style>

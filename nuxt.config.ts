@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+require('dotenv').config()
 export default defineNuxtConfig({
 
     app: {
@@ -44,13 +45,19 @@ export default defineNuxtConfig({
                 messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
                 appId: process.env.FIREBASE_APP_ID || '',
                 measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
-            }
+            },
+            referenceBranchSlug: process.env.REFERENCE_BRANCH_SLUG || 'branch',
+            referenceTechnologySlug: process.env.REFERENCE_TECHNOLOGY_SLUG || 'teknoloji',
+            postsPerPage: process.env.POSTS_PER_PAGE || 10,
+            referencesPerPage: process.env.REFERENCES_PER_PAGE || 10,
+
         }
     },
 
     modules: [
         '@pinia/nuxt',
     ],
+
 
 
 

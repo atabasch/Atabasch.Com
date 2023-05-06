@@ -9,12 +9,14 @@
   },
   "devDependencies": {
     "@nuxt/image": "^0.7.1",
-    "nuxt": "^3.2.0"
+    "nuxt": "^3.2.0",
+    "nuxt-simple-sitemap": "^2.4.22"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.6",
     "@tinymce/tinymce-vue": "^5.0.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
     "firebase": "^9.17.1",
     "firebase-admin": "^11.5.0",
     "image-size": "^1.0.2",

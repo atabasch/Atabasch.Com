@@ -1,7 +1,8 @@
 <template>
+    <Breadcrumb :title="post.postTitle"/>
+
     <article class="postSingle">
         <header class="postSingleHeader">
-            <ColoredTitle :title="post.postTitle" size="1" reverse/>
             <figure class="text-center postSingleCover" v-if="post.postCover">
                 <img :src="post.postCover" :alt="post.postTitle" class="w-full h-auto rounded img-fluid"/>
             </figure>
@@ -17,8 +18,8 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import {useGetPosts} from "../../composables/useGetDatas";
-import TechnologiesGrid from "../About/TechnologiesGrid.vue";
+import {useGetPosts} from "../../../composables/useGetDatas";
+import TechnologiesGrid from "../../About/TechnologiesGrid.vue";
 
 const {post} = defineProps({
     post: {

@@ -14,8 +14,6 @@
                     <h5 class="fs-6 card-title"><NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none sidebarPostTitle">{{ item.postTitle }}</NuxtLink></h5>
                     <p class="card-text"><small class="text-body-secondary"><i class="bi bi-eye"></i> {{ item.postViews }} </small></p>
                 </div>
-
-
             </div>
 
         </NuxtLink>

@@ -35,6 +35,16 @@ export const useGetPostExtra = (extra:extraItem[], extraName:string, defaultValu
             result = extraItem.extraValue;
         }
     })
-
     return  result;
 }
+
+
+interface PostTerm {
+    taxonomy: {
+        taxSlug: string | null;
+    };
+}
+
+export const useFilterTerms = (terms: PostTerm[] = [], taxSlug: string | null = null): PostTerm[] => {
+    return terms.filter((term) => term.taxonomy?.taxSlug === taxSlug);
+};

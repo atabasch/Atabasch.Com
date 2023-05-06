@@ -4,7 +4,7 @@
         <hr>
         <ul class="menuList">
             <li v-for="(i,k) in (storeSite().getTaxonomy('kategori')?.terms || [])" :key="k">
-                <NuxtLink :to="`/${storeSite().getTaxonomy('kategori').taxSlug}/${i.termSlug}`">{{ i.termTitle }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }} </span></NuxtLink>
+                <NuxtLink :to="$getUrl.term('kategori', i.termSlug)">{{ i.termTitle }} <span class="badge text-bg-primary float-end" style="width: 40px">{{ i.count }} </span></NuxtLink>
             </li>
         </ul>
     </div>

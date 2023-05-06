@@ -7,8 +7,8 @@
         <div class="col-6 col-sm-8 col-lg-9">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5">
                 <div class="col p-2" v-for="(file, index) in items" :key="'media-file-'+index">
-                    <nuxt-link to="#" @click.stop="setCurrent(file)" href="">
-                        <img :src="file.mediaPath" class="img-fluid">
+                    <nuxt-link to="#" @click.stop="setCurrent(file)" href="" class="ratio ratio-4x3">
+                        <img :src="file.mediaPath" class="img-fluid" style="object-fit: cover">
                     </nuxt-link>
                 </div>
             </div>

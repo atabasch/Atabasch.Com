@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import PostList from "@/components/panel/PostList"
+import PostList from "../../../components/panel/PostList"
 import {ref} from "vue";
 const { $getUrl } = useNuxtApp()
 

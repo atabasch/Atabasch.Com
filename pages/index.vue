@@ -1,6 +1,6 @@
 <template>
 
-    <AboutSummaryBox/>
+    <AboutSummaryBox :post="data.about"/>
     <div style="margin-top: -50px">
         <AboutSkillsGrid :skills="data.skills" />
     </div>
@@ -19,15 +19,12 @@
 
 
     <div class="py-5">
-        <ColoredTitle :title="'Portfolio'" :size="3"  :more="{label: 'Tümünü Görüntüle', path: '/blog'}">
-        </ColoredTitle>
-
+        <ColoredTitle :title="'Portfolio'" :size="3"  :more="{label: 'Tümünü Görüntüle', path: '/referanslar'}" />
         <div class="row g-4">
             <div class="col-12 col-sm-6 col-lg-4" v-for="(item, key) in data.references" :key="key">
                 <PortfolioItem :item="item"/>
             </div>
         </div>
-
     </div>
 
 
@@ -53,7 +50,6 @@
 
 
 
-    <Footer />
 </template>
 
 <script setup>
@@ -68,6 +64,7 @@ import ColoredTitle from "../components/global/ColoredTitle";
 
 
 const data = reactive({
+    about: [],
     skills: [],
     technologies: [],
     languages: [],
@@ -82,6 +79,7 @@ const data = reactive({
 
 useAsyncData(function(){
     $fetch('/api/site/home').then(async (response) => {
+        data.about = response.about
         data.skills = response.skills
         data.technologies = response.technologies
         data.languages = response.languages

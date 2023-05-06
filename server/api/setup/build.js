@@ -19,6 +19,8 @@ const configsArray = [
     ['mail_sender', '', 'E-posta Gönderen'],
     ['mail_sender_name', '', 'E-posta Gönderen Adı'],
     ['mail_reply', '', 'E-posta Cevap Postası'],
+
+    ['about_summary_id', '', 'Anasayfada gösterilen küçük hakkımda sayfası id numarası'],
 ]
 
 export default defineEventHandler( async (event) => {

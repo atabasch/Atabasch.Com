@@ -1,16 +1,35 @@
 <template>
+<!--    <Transition>-->
+<!--    <div v-if="!pageLoaded" class="bg-dark-blue" style="position: fixed; top:0; bottom:0; right:0; width: 100%;height: 100%; z-index: 9999; display: flex; justify-content: center; align-items: center">-->
+<!--        <LoaderSpinners/>-->
+<!--    </div>-->
+<!--    </Transition>-->
     <component :is="getTheComponent" v-if="post" :post="post"></component>
+    <Error404 v-if="notFound" />
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useHead} from "@unhead/vue";
+import Error404 from "../../components/404.vue"
+
+const pageLoaded = ref(false)
+const notFound = ref(false)
+const postViewsHandler = ref(null)
 
 
 
-import Page from "../../components/Templates/Page.vue";
-import Post from "../../components/Templates/Post.vue";
-import Technology from "../../components/Templates/Technology.vue";
+import Blog from "../../components/Templates/Blog.vue";
+import Contact from "../../components/Templates/Contact.vue";
+import References from "../../components/Templates/References.vue";
+
+import SinglePage from "../../components/Templates/Single/Page.vue";
+import SinglePost from "../../components/Templates/Single/Post.vue";
+import SingleTechnology from "../../components/Templates/Single/Technology.vue";
+import SingleReference from "../../components/Templates/Single/Reference.vue";
+import LoaderSpinners from "../../components/panel/LoaderSpinners";
+import usePost from "../../composables/usePost";
+import {useRouter} from "nuxt/app";
 
 const {$getHeadDatasByPost} = useNuxtApp()
 const post  = ref(false)
@@ -29,23 +48,61 @@ useAsyncData(async () => {
             slug: useRoute().params.slug
         }
     });
+
     if(response.status && response.post){
         post.value = response.post;
     }
 })
 
+const singleComponentList = ref({
+    post: SinglePost,
+    page: SinglePage,
+    technology: SingleTechnology,
+    reference: SingleReference,
+    default: SinglePage
+})
+
 const componentList = ref({
-    post: Post,
-    page: Page,
-    technology: Technology,
-    default: Page
+    blog: Blog,
+    contact: Contact,
+    reference: References,
+    default: SinglePage
 })
 
 const getTheComponent = computed(() => {
+    if(!post.value.extra?.template){
+        return singleComponentList.value[post.value.type.slug] || singleComponentList.value.default
+    }else{
+        if(post.value.extra.template === 'default'){
+            return singleComponentList.value[post.value.type.slug] || singleComponentList.value.default
+        }else{
+            return componentList.value[post.value.extra.template] || componentList.value.default
+        }
+    }
 
-    return componentList.value[post.value.type.slug] || componentList.value.default
+})
+
+onMounted(() => {
+    postViewsHandler.value = setTimeout(() => {
+        usePost().updatePostViews(post.value.postId)
+    }, 7000);
+})
+
+// component kapanırken çalışır
+onBeforeUnmount(() => {
+    clearTimeout(postViewsHandler.value)
+    postViewsHandler.value  = null
 })
 </script>
 
-<style scoped>
+<style>
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
 </style>

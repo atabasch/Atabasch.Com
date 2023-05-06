@@ -7,14 +7,14 @@
             </figure>
         </NuxtLink>
         <div class="p-3">
-            <span class="fs-6 fw-"><i class="bi bi-clock"></i> 3 dakika'da oku</span>
-            <h2><NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none">{{ item.postTitle }}</NuxtLink></h2>
+            <div>
+                <span class="fs-6 me-2"><i class="bi bi-clock"></i> {{ $getDateFormat(item.postPublishedAt, 'dateLong') }}</span>
+                <span class="fs-6 me-2"><i class="bi bi-eye"></i> {{ item.postViews }}</span>
+            </div>
+            <h2><NuxtLink :to="$getUrl.post(item.postSlug)" class="text-decoration-none text-light-white">{{ item.postTitle }}</NuxtLink></h2>
             <p>{{ item.postDescription }}</p>
             <div>
-                <!-- todo: makaleye bağlı etiketleri çek -->
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket1</a>
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket2</a>
-                <a href="" class="link-secondary me-2 text-decoration-none">#etiket3</a>
+                <NuxtLink :to="$getUrl.term(term.taxonomy.taxSlug, term.termSlug)" class="link-secondary me-2 text-decoration-none" v-for="term in useFilterTerms(item.terms, 'kategori')">#{{ term.termSlug }}</NuxtLink>
             </div>
         </div>
     </div>

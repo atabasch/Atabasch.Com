@@ -58,6 +58,8 @@ export default defineNuxtPlugin(() => {
                 post: (slug)    => ( `/${slug}` ),
 
                 page: (slug)    => ( `/sayfa/${slug}` ),
+                term: (taxonomy, term)    => ( `/term/${taxonomy}/${term}` ),
+                taxonomy: (slug)    => ( `/taksonomi/${slug}` ),
 
                 category: (slug) => ( `/kategori/${slug}` ),
 
@@ -119,8 +121,7 @@ export default defineNuxtPlugin(() => {
                         { hid: "twitter:card",      name: "twitter:card",           content: "summary_large_image" }
                     ]
                 }
-            },
-
+            }
         }
 
     }

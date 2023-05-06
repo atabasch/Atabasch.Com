@@ -13,11 +13,11 @@
 </template>
 
 <script setup >
+
 import {storeTaxonomy} from "@/stores/taxonomy"
 import {storeType} from "@/stores/type"
 import "sweetalert2/src/sweetalert2.scss"
 import Sidebar from "@/components/panel/Sidebar";
-import {onMounted} from "vue";
 
 
 useHead({
@@ -44,6 +44,7 @@ useAsyncData(function(){
         }
     } )
 })
+
 
 
 </script>

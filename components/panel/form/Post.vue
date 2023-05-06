@@ -24,7 +24,7 @@
                         v-model="post.postContent"
                         api-key="zg5qqvkbcoe4zoxffbj01vv7p0k9ngm1bhqros79xtpmt3vb"
                         :plugins="getPlugins"
-                        toolbar="undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link file image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat"
+                        :toolbar="getToolbars"
                         :inline="false"
                         output-format="html"
                         :init="{height: '650px', images_upload_url:'/api/media/upload', images_upload_handler:onImageUpload}"
@@ -43,7 +43,7 @@
                 <label for="" class="form-label">Kapak Fotoğrafı</label>
                 <div class="coverPlaceholderArea ratio ratio-4x3 border" @click="$refs.refInputCover.click()">
                     <div v-if="!getCover"><strong>Tıkla & Seç</strong></div>
-                    <img :src="getCover" class="img-fluid" v-if="getCover" />
+                    <img :src="getCover" class="img-fluid" v-if="getCover" style="object-fit: cover"/>
                 </div>
                 <input type="file" class="form-control d-none" ref="refInputCover" @change="changeCover($event)">
             </div>
@@ -205,6 +205,9 @@ const getCover = computed(() => coverPath.value)
 
 const getPlugins = computed(() => {
     return 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount '
+})
+const getToolbars = computed(() => {
+    return 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link file image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | code'
 })
 
 onMounted(() => {

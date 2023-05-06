@@ -1,20 +1,21 @@
 <template>
-        <Navbar  />
+    <Navbar  />
     <div class="d-flex flex-column w-100 position-absolute justify-content-between" style="min-height: calc(100vh - 85px)">
         <div class="container">
-            <slot />
+            <Error404/>
         </div>
         <Footer/>
     </div>
 </template>
 
 <script setup>
-import {storeSite} from "@/stores/site"
+import {storeSite} from "./stores/site"
 import {useAsyncData} from "nuxt/app";
-import Footer from "../components/Footer";
+import Footer from "./components/Footer";
+import Error404 from "./components/404";
 
 useHead({
-    title: 'Atabasch - Furkan Atabaş',
+    title: 'Sayfa Bulunamadı - Atabasch',
     link: [
         { rel:'stylesheet', href: '/styles/default.css' },
         { rel:'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true},
@@ -39,5 +40,8 @@ useAsyncData(async () => {
     })
 
 })
+
+
+console.log(useRouter())
 </script>
 
