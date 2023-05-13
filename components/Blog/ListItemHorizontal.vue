@@ -3,7 +3,7 @@
         <div class="col-12 col-md-5">
             <NuxtLink :to="$getUrl.post(item.postSlug)">
                 <figure class="img-filter-dark-blue ratio ratio-4x3">
-                    <img :src="item.postCover" :alt="item.postTitle" class="img-fluid" />
+                    <img :src="item.postCover" :alt="item.postTitle" class="img-fluid object-fit-cover" />
                     <figcaption></figcaption>
                 </figure>
             </NuxtLink>

@@ -40,8 +40,5 @@ useAsyncData(async () => {
     })
 
 })
-
-
-console.log(useRouter())
 </script>
 

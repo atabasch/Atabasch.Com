@@ -3,6 +3,7 @@
         <NuxtLink :to="$getUrl.post(item.postSlug)">
             <figure class="img-filter-dark-blue ratio ratio-4x3">
                 <img v-if="item.postCover" :src="item.postCover" class="img-fluid object-fit-cover" />
+                <span class="markedSpanForMyProject" v-if="item.extra.find(e => { return e.extraName==='is_the_project_mine' && e.extraValue==='1' })">Atabasch</span>
                 <figcaption></figcaption>
             </figure>
         </NuxtLink>
@@ -37,4 +38,6 @@ const item = toRef(props, 'item')
         height: 44px;
         overflow: hidden;
     }
+
+
 </style>

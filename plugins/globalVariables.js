@@ -46,7 +46,8 @@ export default defineNuxtPlugin(() => {
                 'switch': { label: 'Switch (Aç/Kapat Seçim Butonu)', componentName: 'switch'},
                 'radio': { label: 'Radio (Tekli Seçim Kutusu)', componentName: 'radio'},
                 'select': { label: 'Select (Açılır Liste) ', componentName: 'select'},
-                'file': { label: 'Dosya', componentName: 'file'},
+                'image': { label: 'Görsel', componentName: 'image'},
+                'image_multiple': { label: 'Görsel (Çoklu)', componentName: 'image_multiple'},
             }
 
 

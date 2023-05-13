@@ -1,12 +1,9 @@
 <template>
     <div class="row">
-        <Breadcrumb :title="post.postTitle"/>
-
-
+        <Breadcrumb :title="(route.query.s || '') + ': için sonuçlar'"/>
         <div class="col-12 col-lg-8">
             <template v-if="posts" v-for="(post, key) in posts" :key="key">
-                <BlogListItemVertical v-if="key<1" :item="post" />
-                <BlogListItemHorizontal v-else :item="post" />
+                <BlogListItemHorizontal :item="post" />
             </template>
 
             <div class="d-flex justify-content-center" v-if="!loadedLastPost">
@@ -17,32 +14,22 @@
             </div>
 
         </div>
-        <div class="col-12 col-lg-4">
-            <BlogSidebar/>
-        </div>
     </div>
-
 </template>
 
 <script setup>
-import BlogSidebar from "../Blog/Sidebar";
-import {onMounted, ref, toRef} from "vue";
+import {onMounted, ref, toRef, watch} from "vue";
 import {useGetPosts} from "../../composables/useGetDatas";
-import {useRuntimeConfig} from "nuxt/app";
+import {useRoute, useRuntimeConfig} from "nuxt/app";
 const {public: config} = useRuntimeConfig()
 
-const props = defineProps({
-    post: {
-        type: Object,
-        required: true
-    },
-})
-const post = toRef(props, 'post');
 const posts = ref([])
 const loading = ref(false);
 const offset = ref(0);
 const limit = ref(10);
 const loadedLastPost = ref(false);
+const route = useRoute();
+
 
 
 const loadPosts = () => {
@@ -51,6 +38,7 @@ const loadPosts = () => {
         type: 'post',
         offset: offset.value,
         limit: limit.value,
+        search: route.query.s || ''
     }).then(resp => {
         if (resp.status && resp.posts) {
             posts.value = [...posts.value, ...resp.posts]
@@ -71,9 +59,12 @@ onMounted(() => {
     loadPosts();
 })
 
+watch(() => route.query.s, () => {
+    posts.value = []
+    loadPosts();
+})
 </script>
 
-
-<style>
+<style scoped>
 
 </style>

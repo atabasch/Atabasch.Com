@@ -153,6 +153,42 @@ const { $showToast } = useNuxtApp()
 ```
 
 
+## [4] - Router
+2 adet yönlendirici composable vardır.
+- useRoute()
+- useRouter()
+
+#### [4.1] - useRoute()
+```js
+const route = useRoute()
+route.params.param_name // page/[param_name].vue dosyasındaki [param_name] değerini alır.
+route.query.param_name // ?param_name=xyz değerini alır.
+route.path
+route.fullPath
+route.hash
+route.name
+route.redirectedFrom
+route.meta
+route.matched
+```
+
+#### [4.2] - useRouter()
+Yönlendirme işlemleri için kullanılır.
+```js
+const router = useRouter()
+router.push('/path')
+router.replace('/path')
+
+router.go(-1) // Mümkünse 1 sayfa geri gider.
+router.back()
+
+router.go(1) // Mümkünse geri gelindikten sonra 1 sayfa ileri gider.
+router.forward()
+
+```
+
+
+
 # Sequelize
 
 ## one-to-one

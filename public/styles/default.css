@@ -140,3 +140,70 @@ body{
 *::-webkit-scrollbar-thumb:active {
   background-color: #0DCAF0;
 }
+
+
+img.pswp__img{
+    max-width: 1600px !important;
+    max-height: 960px !important;
+    height: auto !important;
+}
+
+/**
+  -> ARAMA KUTUSU
+ */
+#navSearchContainer{ width: 230px;  }
+#navSearchContainer .input-group{ width: 85px !important; transition: all 500ms;  }
+#navSearchContainer .input-group:has(> input:focus),
+#navSearchContainer .input-group:has(> input.active){ width: 230px !important;  }
+#navSearchContainer input{
+  background-color: transparent;
+  overflow: hidden;
+  padding-right: 3px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+#navSearchContainer button{
+  background-color:  rgba(255,255,255,0.1);
+  color: #0DCAF0;
+  font-weight: bold;
+}
+#navSearchContainer input:focus{
+  box-shadow: none;
+  text-align: left !important;
+}
+@media screen and (max-width: 992px){
+  #navSearchContainer{ width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top:5px}
+  #navSearchContainer .input-group{ width: 100% !important;  }
+  #navSearchContainer .input-group:has(> input:focus){ width: 100% !important;  }
+}
+
+/**
+  -> SEÇİLİ YAZILAR
+ */
+::-moz-selection { color: white; background: #0DCAF0; }
+
+::selection { color: white; background: #0DCAF0; }
+
+
+/**
+  -> REFERANSLARDAKİ BANA AİT BÖLÜMÜ
+ */
+.markedSpanForMyProject{
+  display: inline-block;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 14px;
+  line-height: 24px;
+  height: 26px;
+  width: auto;
+  padding: 0 12px;
+  font-style: italic;
+  background-color: #131C31 !important;
+  color: #0DCAF0;
+  box-shadow: 0 0 2px #0DCAF0;
+  z-index: 100;
+  border-radius: 20px ;
+}

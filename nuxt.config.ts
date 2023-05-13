@@ -48,8 +48,15 @@ export default defineNuxtConfig({
             },
             referenceBranchSlug: process.env.REFERENCE_BRANCH_SLUG || 'branch',
             referenceTechnologySlug: process.env.REFERENCE_TECHNOLOGY_SLUG || 'teknoloji',
+            postsByTermPerPage: process.env.POSTS_BY_TERM_PER_PAGE || 12,
             postsPerPage: process.env.POSTS_PER_PAGE || 10,
             referencesPerPage: process.env.REFERENCES_PER_PAGE || 10,
+
+            blogPageSlug: process.env.BLOG_PAGE_SLUG || 'blog',
+            referencePageSlug: process.env.REFERENCE_PAGE_SLUG || 'referanslar',
+            technologyPageSlug: process.env.TECHNOLOGY_PAGE_SLUG || 'teknoloji',
+            searchPageSlug: process.env.SEARCH_PAGE_SLUG || 'ara',
+            contactPageSlug: process.env.CONTACT_PAGE_SLUG || 'iletisim',
 
         }
     },

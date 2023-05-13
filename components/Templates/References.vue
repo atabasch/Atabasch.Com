@@ -3,7 +3,7 @@
 
     <div class="pb-4">
         <button :class="'btn m-2 ms-0 '+(!currentTermId? 'btn-success' : 'btn-dark')" @click="getItemsByTerm(null)">Tümü</button>
-        <button :class="'btn m-2 ms-0 '+(currentTermId==term.termId? 'btn-success' : 'btn-dark')" v-for="term in terms" :key="'portfolio-term-'+term.termId" @click="getItemsByTerm(term.termId)">{{ term.termTitle }}</button>
+        <button :class="'btn m-2 ms-0 '+(currentTermId==term.termSlug? 'btn-success' : 'btn-dark')" v-for="term in terms" :key="'portfolio-term-'+term.termId" @click="getItemsByTerm(term.termSlug)">{{ term.termTitle }}</button>
     </div>
 
     <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
@@ -18,10 +18,10 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref, toRef} from "vue";
+import {computed, onMounted, ref, toRef, watch} from "vue";
 import PortfolioItem from "../PortfolioItem";
 import {useGetPosts, useGetTerms} from "../../composables/useGetDatas";
-import {useRuntimeConfig} from "nuxt/app";
+import {useRoute, useRuntimeConfig} from "nuxt/app";
 import Breadcrumb from "../Breadcrumb";
 
 const {public: config} = useRuntimeConfig()
@@ -41,6 +41,7 @@ const offset = ref(0);
 const limit = ref(12);
 const loadedLastPost = ref(false);
 const currentTermId = ref(null);
+const route = useRoute();
 
 
 
@@ -85,6 +86,16 @@ const loadPosts = (more=false) => {
 onMounted(() => {
     loadPosts();
     loadTerms()
+    if(route.query.branch){
+        getItemsByTerm(route.query.branch)
+    }
+})
+
+
+watch(route.query.branch, (newVal, oldVal) => {
+    if(newVal){
+        getItemsByTerm(newVal)
+    }
 })
 
 </script>

@@ -6,9 +6,25 @@
         <div class="col-12">
             <article class="postSingle">
                 <header class="postSingleHeader">
-                    <figure class="text-center postSingleCover" v-if="post.extra.project_image || post.postCover">
-                        <img :src="post.extra.project_image || post.postCover" :alt="post.postTitle" class="w-full h-auto rounded img-fluid"/>
-                    </figure>
+
+                    <div id="referenceCarrousel" class="carousel slide " data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div :class="'carousel-item ' + (key===0 && 'active' || '') "  v-for="(image, key) in getImagesForCarousel" :key="'swiper-item-'+key+1" data-bs-interval="4000">
+                                <NuxtLink :href="image" rel="noreferrer" target="_blank" class="ratio ratio-21x9"  data-pswp-width="1600"  data-pswp-height="900">
+                                    <img :src="image" :alt="post.postTitle" class="object-fit-cover" loading="lazy"/>
+                                </NuxtLink>
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#referenceCarrousel" data-bs-slide="prev">
+                            <span class="bi bi-chevron-left fs-1" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#referenceCarrousel" data-bs-slide="next">
+                            <span class="bi bi-chevron-right fs-1" aria-hidden="true"></span>
+                        </button>
+                    </div><!-- .carousel slider -->
+
+
                 </header>
 
 
@@ -22,6 +38,9 @@
                     <div class="col-12 col-lg-8 postSingleContent">
                         <h2 class="fs-3 text-light-white mb-4 fw-bold">Proje Detayları</h2>
                         <div v-html="post.postContent"></div>
+
+                        <hr class="my-5"/>
+
 
                         <footer class="postSingleFooter">
                             <p>
@@ -46,7 +65,7 @@
                                     <NuxtLink v-for="(item, index) in post.taxonomies.branch"
                                               :key="index"
                                               class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none p-2 px-2 m-1 ms-0 rounded-0"
-                                              :to="$getUrl.term(item.taxonomy.slug, item.slug)">{{ item.title }}</NuxtLink>
+                                              :to="$getUrl.branch('branch', item.slug)">{{ item.title }}</NuxtLink>
 
                                 </p>
                             </div>
@@ -57,14 +76,14 @@
                                     <NuxtLink v-for="(item, index) in post.taxonomies.teknoloji"
                                         :key="index"
                                               class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none p-2 px-2 m-1 ms-0 rounded-0"
-                                              :to="$getUrl.term(item.taxonomy.slug, item.slug)">{{ item.title }}</NuxtLink>
+                                              :to="$getUrl.post(item.slug)">{{ item.title }}</NuxtLink>
 
                                 </p>
                             </div>
 
                             <div v-if="post.extra.client || post.extra.is_the_project_mine"><hr>
                                 <h6 class="mb-1 text-white">Müşteri</h6>
-                                <p class="mb-1">{{ !post.extra.is_the_project_mine? post.extra.client : 'Bana Ait' }}</p>
+                                <p class="mb-1" v-html='(!post.extra.is_the_project_mine? post.extra.client : `<span class="markedSpanForMyProject mt-2" style="position: static;">Atabasch</span>`)'></p>
                             </div>
 
                             <div v-if="post.extra.url"><hr>
@@ -104,7 +123,36 @@
 </template>
 
 <script setup>
-import {onMounted, ref, toRef} from "vue";
+
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+import 'photoswipe/style.css';
+
+const lightbox = ref(null)
+
+onMounted(() => {
+    if(!lightbox.value){
+        lightbox.value = new PhotoSwipeLightbox({
+            gallery: '#referenceCarrousel',
+            children: 'a',
+            pswpModule: () => import('photoswipe'),
+            bgOpacity: 0.9,
+            closeOnScroll: false,
+            spacing: 0.5,
+            loop: true,
+            wheelToZoom: true,
+            padding: { top: 20, bottom: 40, left: 100, right: 100 },
+            escKey: true,
+            arrowKeys: true,
+            maxWidthToAnimate: 800
+        });
+        lightbox.value.init();
+    }
+})
+
+
+
+
+import {computed, onMounted, ref, toRef} from "vue";
 import {useGetPosts} from "../../../composables/useGetDatas";
 import PortfolioItem from "../../PortfolioItem.vue";
 import ColoredTitle from "../../global/ColoredTitle";
@@ -123,17 +171,33 @@ const getCleanUrl = (url) => {
     return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
 }
 
-
-onMounted(() => {
-    useGetPosts({
-        type: 'reference',
-        limit: 4,
-    }).then(resp => {
-        if (resp.status && resp.posts) {
-            references.value = resp.posts;
-        }
-    })
+useGetPosts({
+    type: 'reference',
+    limit: 4,
+    sort: 'random',
+    not_in: post.value.postId
+}).then(resp => {
+    if (resp.status && resp.posts) {
+        references.value = resp.posts;
+    }
 })
+
+
+
+const getImagesForCarousel = computed(() => {
+
+    let images = []
+    if(post.value.extra.project_image || post.value.postCover){
+        images.push(post.value.extra.project_image || post.value.postCover)
+    }
+    if(post.value.extra.project_images){
+        images = [...images, ...(post.value.extra.project_images.split(',') || [])]
+    }
+    return images
+})
+
+
+
 
 </script>
 

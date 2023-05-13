@@ -33,7 +33,7 @@
     <div class="py-5">
         <ColoredTitle :title="'Blog Yazıları'" :size="3" :more="{label: 'Tümünü Görüntüle', path: '/blog'}" />
         <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-lg-7 col-xl-8">
                 <template v-if="data.posts" v-for="(post, key) in data.posts" :key="key">
                     <BlogListItemVertical v-if="key<1" :item="post" />
                     <BlogListItemHorizontal v-else :item="post" />

@@ -1,5 +1,5 @@
 import {Post, PostType} from "~/server/db/models";
-import {Op} from "sequelize";
+import {Op, fn} from "sequelize";
 
 export default async (postTypeIdOrSlug, options={}) => {
 
@@ -12,8 +12,9 @@ export default async (postTypeIdOrSlug, options={}) => {
     options.sort        = options.sort || 'DESC'
     options.columns     = options.columns || null
 
-    options.in          = !options.in? [] : options.in.split(',')
-    options.not_in      = !options.not_in? null : options.not_in.split(',')
+    options.in          = !options.in? false : options.in.split(',')
+    options.not_in      = !options.not_in? [] : options.not_in.split(',')
+    options.search      = !options.search? [] : options.search.split(',')
 
     options.filter      = options.filter || {}
     options.extraFilter = options.extraFilter || null
@@ -42,16 +43,12 @@ export default async (postTypeIdOrSlug, options={}) => {
         where: {
             postTypeId: type.postTypeId,
             postStatus: 'publish',
-
-
             ...options.filter
         },
         offset: options.offset,
         limit: options.limit,
         raw: false,
-        order: [
-            [options.order, options.sort]
-        ],
+        order: options.sort.toLowerCase()==='random'? fn('RAND') : [ [options.order, options.sort] ],
 
         include: [
             {   association:  'terms',
@@ -92,9 +89,32 @@ export default async (postTypeIdOrSlug, options={}) => {
     }
 
 
+    if(options.search){
+        findOptions.where = {
+            ...findOptions.where,
+            [Op.or]: [
+                { postTitle: { [Op.like]: `%${options.search}%` } },
+                { postDescription: { [Op.like]: `%${options.search}%` } },
+                { postKeywords: { [Op.like]: `%${options.search}%` } }
+            ]
+        }
+    }
 
-    let posts = await Post.findAll(findOptions)
+    if(options.in){
+        findOptions.where.postId = options.in
+    }
 
-    return posts
+    if(options.not_in){
+        findOptions.where.postId = {
+            [Op.notIn]: options.not_in
+        }
+    }
+
+
+
+
+
+
+    return await Post.findAll(findOptions)
 }
 

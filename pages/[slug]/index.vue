@@ -27,9 +27,12 @@ import SinglePage from "../../components/Templates/Single/Page.vue";
 import SinglePost from "../../components/Templates/Single/Post.vue";
 import SingleTechnology from "../../components/Templates/Single/Technology.vue";
 import SingleReference from "../../components/Templates/Single/Reference.vue";
+import Search from "../../components/Templates/Search";
+
 import LoaderSpinners from "../../components/panel/LoaderSpinners";
 import usePost from "../../composables/usePost";
-import {useRouter} from "nuxt/app";
+
+
 
 const {$getHeadDatasByPost} = useNuxtApp()
 const post  = ref(false)
@@ -66,6 +69,7 @@ const componentList = ref({
     blog: Blog,
     contact: Contact,
     reference: References,
+    search: Search,
     default: SinglePage
 })
 

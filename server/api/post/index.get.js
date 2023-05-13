@@ -24,5 +24,5 @@ export default defineEventHandler(async (event) => {
 
     let posts = await getPosts(postType.postTypeId, options)
 
-    return { status:true, type:postType, posts:posts }
+    return { status:true, type:postType, posts }
 })

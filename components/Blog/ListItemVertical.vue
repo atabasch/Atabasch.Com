@@ -1,8 +1,8 @@
 <template>
     <div class="box-dark-blue mb-5">
         <NuxtLink :to="$getUrl.post(item.postSlug)">
-            <figure class="img-filter-dark-blue">
-                <img :src="item.postCover" class="img-fluid" />
+            <figure class="img-filter-dark-blue ratio ratio-16x9 ">
+                <img :src="item.postCover" class="img-fluid object-fit-cover" />
                 <figcaption></figcaption>
             </figure>
         </NuxtLink>

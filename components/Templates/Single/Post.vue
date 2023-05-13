@@ -12,6 +12,7 @@
                         <div class="border-end pe-3"><em class="bi bi-person-lines-fill"></em> {{ post.user.displayName }}</div>
                         <div class="border-end px-3"><em class="bi bi-clock"></em> {{ timeToDate(post.postPublishedAt) }}</div>
                         <div class="border-end px-3"><em class="bi bi-eye"></em> {{ post.postViews }}</div>
+                        <!-- todo: Burada yorum sayısı gelecek -->
                         <div class=" px-3"><em class="bi bi-chat-dots"></em> {{ 0 }}</div>
                     </div>
 
@@ -32,7 +33,7 @@
                 <footer class="postSingleFooter">
                     <p>
                         <span v-for="(keyword, index) in post.postKeywords.split(',')" :key="index">
-                            <NuxtLink class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-meidum px-2 py-2 mx-1" :to="`/keyword/${keyword}`">{{ keyword }}</NuxtLink>
+                            <NuxtLink class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none fw-meidum px-2 py-2 mx-1" :to="$getUrl.search(keyword)">{{ keyword }}</NuxtLink>
                         </span>
                     </p>
                 </footer>

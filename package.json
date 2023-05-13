@@ -22,11 +22,13 @@
     "image-size": "^1.0.2",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.1.2",
+    "photoswipe": "^5.3.7",
     "pinia": "^2.0.30",
     "sass": "^1.58.1",
     "sequelize": "^6.28.0",
     "slugify": "^1.6.5",
     "sweetalert2": "^11.7.1",
+    "swiper": "^9.3.1",
     "tinymce": "^6.3.1"
   }
 }

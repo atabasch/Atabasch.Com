@@ -15,7 +15,8 @@ import textarea from "./CustomFieldItems/textarea"
 import radio from "./CustomFieldItems/radio"
 import checkbox from "./CustomFieldItems/checkbox"
 import switchCheckbox from "./CustomFieldItems/switch"
-import file from "./CustomFieldItems/file"
+import image from "./CustomFieldItems/image"
+import image_multiple from "./CustomFieldItems/images"
 
 
 import {toRef} from "vue";
@@ -29,7 +30,8 @@ let fields = {
     'radio': radio,
     'checkbox': checkbox,
     'switch': switchCheckbox,
-    'file': file,
+    'image': image,
+    'image_multiple': image_multiple,
 }
 const getComponent = (name) => fields[name]
 </script>

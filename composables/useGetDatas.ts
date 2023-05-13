@@ -19,9 +19,19 @@ export const useGetPosts = (options:Options) => {
     return $fetch('/api/post', { method:'GET', params:options });
 }
 
+export const useGetTerm = (options:Options) => {
+    return $fetch('/api/site/term', { method:'GET', params:options });
+}
+
 export const useGetTerms = (options:Options) => {
     return $fetch('/api/term', { method:'GET', params:options });
 }
+
+export const useGetTaxonomy = (options:Options) => {
+    return $fetch('/api/site/taxonomy', { method:'GET', params:options });
+}
+
+
 
 
 

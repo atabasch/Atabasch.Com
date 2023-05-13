@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import {useRuntimeConfig} from "nuxt/app";
 
 const months = [
     { name: "Ocak",     short: "Oca" },
@@ -45,6 +46,7 @@ let formatTypes = {
 
 
 export default defineNuxtPlugin(() => {
+    const {public: config} = useRuntimeConfig()
 
     return {
 
@@ -57,8 +59,8 @@ export default defineNuxtPlugin(() => {
             getUrl: {
                 post: (slug)    => ( `/${slug}` ),
 
-                page: (slug)    => ( `/sayfa/${slug}` ),
-                term: (taxonomy, term)    => ( `/term/${taxonomy}/${term}` ),
+                page: (slug)    => ( `/${slug}` ),
+                term: (taxonomy, term)    => ( `/${taxonomy}/${term}` ),
                 taxonomy: (slug)    => ( `/taksonomi/${slug}` ),
 
                 category: (slug) => ( `/kategori/${slug}` ),
@@ -67,7 +69,10 @@ export default defineNuxtPlugin(() => {
 
                 panel: (more)   => ( '/aswpanel'+more ),
 
-                login: () => ( '/login?to=/aswpanel' )
+                login: () => ( '/login?to=/aswpanel' ),
+
+                branch: (branchSlug, term) => (  config.referencePageSlug+'?'+branchSlug+'='+term  ),
+                search: (text) => (  config.searchPageSlug+'?s='+text  ),
 
 
             }, // getUrl
@@ -118,6 +123,22 @@ export default defineNuxtPlugin(() => {
                         { hid: "twitter:title",     name: "twitter:title",          content: post.postTitle },
                         { hid: "twitter:description",  name: "twitter:description", content: post.postDescription },
                         { hid: "twitter:image",     name: "twitter:image",          content: post.postCover || '' },
+                        { hid: "twitter:card",      name: "twitter:card",           content: "summary_large_image" }
+                    ]
+                }
+            },
+
+            getHeadDatasByTerm(term){
+                console.log("term düştü", term);
+                return {
+                    title: term.termTitle,
+                    meta: [
+                        { hid: "description",       name: "description",            content: term.termDescription },
+                        { hid: "og:title",          property: "og:title",           content: term.termTitle },
+                        { hid: "og:description",    property: "og:description",     content: term.termDescription },
+                        { hid: "og:url",            property: "og:url",             content: process.client? window.location.href : '' },
+                        { hid: "twitter:title",     name: "twitter:title",          content: term.termTitle },
+                        { hid: "twitter:description",  name: "twitter:description", content: term.termDescription },
                         { hid: "twitter:card",      name: "twitter:card",           content: "summary_large_image" }
                     ]
                 }

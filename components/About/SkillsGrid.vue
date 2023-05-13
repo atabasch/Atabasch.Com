@@ -2,9 +2,9 @@
     <h3 class="coloredTitle mb-3">Mesleki <span>Beceriler</span></h3>
     <div class="aboutSkills border border-dark bg-dark-blue py-2 px-3">
 
-        <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
 
-            <div class="skillItem col-md-3" v-for="(skill, key) in skills" :key="key">
+            <div class="skillItem col" v-for="(skill, key) in skills" :key="key">
                 <span class="skillIcon"><i :class="useGetPostExtra(skill.extra, 'icon') + ' text-white'"></i></span>
                 <h5 class="text-light-blue">{{ skill.postTitle }}</h5>
                 <p>{{ skill.postDescription }}</p>
@@ -29,11 +29,14 @@ const {skills} = defineProps(['skills']);
     font-size: 46px;
 }
 
-.aboutSkills .skillItem{
+.skillItem{
     text-align: center;
 }
-.aboutSkills .skillItem:not(:last-child){
+.skillItem:not(:last-child){
     border-right: 1px solid #222F43
 }
 
+@media screen and (max-width: 991px) {
+    .skillItem{ border: none !important }
+}
 </style>
