@@ -110,7 +110,7 @@ export default defineEventHandler(async (event) => {
     // Çerezlere erişmek
     const cookies = parseCookies(event)
     
-    // Runtime ayarlarına erişmek (nuxt.config.ts) dosyasındaki ayarlar.
+    // Runtime ayarlarına erişmek (nuxt.config.js) dosyasındaki ayarlar.
     const config = useRuntimeConfig()
 
     // Ekran basılacak JSON

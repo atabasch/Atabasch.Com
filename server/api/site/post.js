@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
                     ['userDisplayName', 'displayName']]
             },
             { association: 'extra', attributes: ['extraName', 'extraValue'] },
-            { association: 'terms', attributes: ['termId', 'taxId', 'termTitle', 'termSlug', 'termParent'], include: [{ association: 'taxonomy', attributes: ['taxTitle', 'taxSlug'] }] },
+            { association: 'terms', attributes: ['termId', 'taxId', 'termTitle', 'termSlug', 'termDescription', 'termParent'], include: [{ association: 'taxonomy', attributes: ['taxTitle', 'taxSlug'] }] },
         ]
     })
 
@@ -64,6 +64,7 @@ export default defineEventHandler(async (event) => {
                 id: term.termId,
                 title: term.termTitle,
                 slug: term.termSlug,
+                description: term.termDescription,
                 parent: term.termParent,
                 taxonomy: {
                     id: term.taxId,

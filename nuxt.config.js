@@ -1,8 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 require('dotenv').config()
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
+    css: [
+       "~/assets/scss/app.scss"
+    ],
+
+    ssr: true,
 
     app: {
+
+
+
         head: {
             link: [
                 {
@@ -13,12 +23,12 @@ export default defineNuxtConfig({
                 },
                 {
                     rel:'stylesheet',
-                    href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css',
+                    href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css'
                 },
                 {
                     rel:'stylesheet',
-                    href: '/styles/style.css',
-                },
+                    href: '/styles/style.css'
+                }
             ],
             script: [
                 {
@@ -30,9 +40,12 @@ export default defineNuxtConfig({
                     src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js',
                     crossorigin: 'anonymous',
                     integrity:'sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD'
-                },
+                }
             ]
         }
+
+
+
     },
 
     runtimeConfig: {
@@ -44,7 +57,7 @@ export default defineNuxtConfig({
                 storageBucket: process.env.FIREBASE_STORAGE_BUCKET || '',
                 messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
                 appId: process.env.FIREBASE_APP_ID || '',
-                measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
+                measurementId: process.env.FIREBASE_MEASUREMENT_ID || ''
             },
             referenceBranchSlug: process.env.REFERENCE_BRANCH_SLUG || 'branch',
             referenceTechnologySlug: process.env.REFERENCE_TECHNOLOGY_SLUG || 'teknoloji',
@@ -56,16 +69,13 @@ export default defineNuxtConfig({
             referencePageSlug: process.env.REFERENCE_PAGE_SLUG || 'referanslar',
             technologyPageSlug: process.env.TECHNOLOGY_PAGE_SLUG || 'teknoloji',
             searchPageSlug: process.env.SEARCH_PAGE_SLUG || 'ara',
-            contactPageSlug: process.env.CONTACT_PAGE_SLUG || 'iletisim',
+            contactPageSlug: process.env.CONTACT_PAGE_SLUG || 'iletisim'
 
         }
     },
 
     modules: [
-        '@pinia/nuxt',
-    ],
-
-
-
+        '@pinia/nuxt'
+    ]
 
 })

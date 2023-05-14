@@ -1,5 +1,5 @@
 import {Media} from "../../../db/models"
-import {defineEventHandler} from "h3";
+import {defineEventHandler, getCookie} from "h3";
 export default defineEventHandler(async (event) => {
 
     let files = await Media.findAll({
@@ -8,6 +8,6 @@ export default defineEventHandler(async (event) => {
         ]
     })
 
-    return {status: true, files}
+    return {status: true, files, cookie: getCookie(event, 'access_token') }
 
 })

@@ -9,9 +9,10 @@
 </template>
 
 <script setup>
-import {storeSite} from "@/stores/site"
-import {useAsyncData} from "nuxt/app";
+import {storeSite} from "../stores/site"
+import {useAsyncData, useCookie} from "nuxt/app";
 import Footer from "../components/Footer";
+
 
 useHead({
     title: 'Atabasch - Furkan Atabaş',
@@ -27,7 +28,13 @@ useHead({
     },
     bodyAttrs: {
         class: '',
-    }
+    },
+    script: [
+        {
+            src: '/scripts/custom.js',
+            body: true,
+        }
+    ]
 })
 
 let useStoreSite = storeSite()
@@ -39,5 +46,6 @@ useAsyncData(async () => {
     })
 
 })
-</script>
 
+
+</script>

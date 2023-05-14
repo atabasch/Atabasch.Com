@@ -1,6 +1,6 @@
 import {Op, fn} from "sequelize"
 import {User} from "~/server/db/models";
-import {readBody} from "h3";
+import {defineEventHandler, readBody, setCookie} from "h3";
 import {createJwt, checkPassword} from "@/helpers/helpers"
 
 export default defineEventHandler(async (event) => {
@@ -41,6 +41,15 @@ export default defineEventHandler(async (event) => {
         tokenLimit = 60 * parseInt(process.env.APP_LOGIN_TIMEOUT_REMEMBER || 60 * 24 * 7) // 7 gün
     }
     let token = await createJwt(tokenData,  tokenLimit) // 1 saat
+
+    // todo: cookie set et
+    // setCookie(event, 'access_token', token, {
+    //     maxAge: 60,
+    // })
+    // setCookie(event, 'refresh_token', token, {
+    //     maxAge: 60,
+    // })
+
     delete userData.userPassword
 
     // Kullanıcı Son giriş tarihini güncelle

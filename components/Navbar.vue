@@ -18,15 +18,11 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav" id="navbarUlRight">
-<!--                    <li class="nav-item">-->
-<!--                        <input type="search" class="form-control" placeholder="Aranacak bir şeyler yazın.">-->
-<!--                    </li>-->
                     <li class="nav-item text-end justify-content-end" id="navSearchContainer">
                         <div class="input-group m-0 float-end">
                             <input type="search" v-model="searchedData" class="form-control form-control-sm" :class="{ 'active':searchedData.length > 2 }" @keyup.enter="searchToPosts()" placeholder="Aranacak bir şeyler yazın." aria-describedby="button-addon2">
                             <button class="btn btn-outline-secondary bi bi-search border-0" type="button" id="button-addon2" @click="searchToPosts()"></button>
                         </div>
-<!--                        <a href="" class="nav-link"><i class="bi bi-search"></i></a>-->
                     </li>
                 </ul>
             </div>

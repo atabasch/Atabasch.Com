@@ -73,10 +73,12 @@
                             <div><hr>
                                 <h6 class="mb-1 text-white">Teknolojiler</h6>
                                 <p class="mb-1">
-                                    <NuxtLink v-for="(item, index) in post.taxonomies.teknoloji"
+                                    <Button v-for="(item, index) in post.taxonomies.teknoloji"
                                         :key="index"
                                               class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis text-decoration-none p-2 px-2 m-1 ms-0 rounded-0"
-                                              :to="$getUrl.post(item.slug)">{{ item.title }}</NuxtLink>
+                                              data-bs-toggle="tooltip" data-bs-placement="top"
+                                              :data-bs-title="item.description"
+                                                :title="item.description">{{ item.title }}</Button>
 
                                 </p>
                             </div>

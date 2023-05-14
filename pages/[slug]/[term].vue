@@ -1,13 +1,11 @@
 <template>
-
     <Breadcrumb :title="getTerm?.termTitle || ''"/>
-    <component :is="getTheComponent"></component>
+    <component :is="getTheComponent" :items="items" :currentPage="getCurrentPageNumber"></component>
 </template>
 
 <script setup>
 import {navigateTo, useAsyncData, useRoute, useRuntimeConfig} from "nuxt/app";
-import {computed, onMounted, ref, watch} from "vue";
-import storePosts from "../../stores/posts"
+import {computed, ref, watch} from "vue";
 const {$getHeadDatasByTerm} = useNuxtApp()
 
 
@@ -15,7 +13,7 @@ const {$getHeadDatasByTerm} = useNuxtApp()
 import Breadcrumb from "../../components/Breadcrumb";
 import Default from "../../components/Templates/Taxonomy/Default.vue";
 import {useHead} from "@unhead/vue";
-import {useGetTerm} from "../../composables/useGetDatas";
+import {useGetPosts, useGetTerm} from "../../composables/useGetDatas";
 
 
 
@@ -25,6 +23,7 @@ const {slug: paramTaxonomy, term: paramTerm} = route.params
 
 // Tanımlamalar
 const term = ref(false)
+const items = ref([])
 const {public: config} = useRuntimeConfig()
 useHead(() => $getHeadDatasByTerm(term.value))
 
@@ -36,29 +35,37 @@ const components = {
 const getTheComponent   = computed(() => components[paramTaxonomy] || components.default)
 const getTerm           = computed(() => term.value)
 
-
-
+const getItems = (term) => {
+    useGetPosts({
+        term: term,
+        page: getCurrentPageNumber.value,
+        limit: config.postsPerPage || 10
+    }).then(data => {
+        if(data.status && data.posts){
+            items.value = data.posts
+        }
+    })
+}
 
 useAsyncData(async () => {
-    storePosts().setPageNumber(parseInt(route.query.page || 1))
     let {status: rStatus, term: rTerm} = await useGetTerm({ term: paramTerm })
     if(rStatus && rTerm){
         term.value = rTerm
-        await storePosts().loadPostsByTerm(paramTerm)
+        getItems(paramTerm)
     }else{
         navigateTo('/404')
     }
 })
 
+
+
+const getCurrentPageNumber = computed(() => {
+    return parseInt(route.query.page || 1)
+})
+
 watch(() => route.query, async () => {
-    storePosts().setPageNumberAndLoadPosts(parseInt(route.query.page || 1), paramTerm)
+    getItems(paramTerm)
 })
-
-onUnmounted(() => {
-    storePosts().resetStates()
-})
-
-
 
 </script>
 

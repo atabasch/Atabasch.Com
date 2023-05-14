@@ -10,8 +10,8 @@
 <!--            </template>-->
 
             <div class="overflow-hidden">
-                <NuxtLink v-if="storePosts().getPrevPageNumber" :to="route.path+'?page='+storePosts().getPrevPageNumber" class="btn btn-dark float-start"><em class="bi bi-chevron-left"></em> Önceki Sayfa</NuxtLink>
-                <NuxtLink v-if="storePosts().getNextPageNumber" :to="route.path+'?page='+storePosts().getNextPageNumber" class="btn btn-dark float-end"><em class="bi bi-chevron-right"></em> Sonraki Sayfa</NuxtLink>
+                <NuxtLink v-if="getPrevPageNumber" :to="route.path+'?page='+getPrevPageNumber" class="btn btn-dark float-start"><em class="bi bi-chevron-left"></em> Önceki Sayfa</NuxtLink>
+                <NuxtLink v-if="getNextPageNumber" :to="route.path+'?page='+getNextPageNumber" class="btn btn-dark float-end"><em class="bi bi-chevron-right"></em> Sonraki Sayfa</NuxtLink>
             </div>
 
         </div>
@@ -24,14 +24,30 @@
 <script setup>
 import BlogSidebar from "../../Blog/Sidebar";
 import {useRoute, useRuntimeConfig} from "nuxt/app";
-import {computed, ref} from "vue";
+import {computed, ref, toRef} from "vue";
 const {public: config} = useRuntimeConfig()
 const route = useRoute()
-
-import storePosts from "../../../stores/posts"
+const props = defineProps({
+    items: {
+        type: Array,
+        default: []
+    },
+    currentPage: {
+        type: Number,
+        default: 1
+    },
+})
 
 const getPosts = computed(() => {
-    return storePosts().getPosts
+    return props.items
+})
+
+
+const getPrevPageNumber = computed(() => {
+    return props.currentPage < 2 ? null : props.currentPage - 1;
+})
+const getNextPageNumber = computed(() => {
+    return getPosts.value.length < config.postsPerPage ? null : props.currentPage + 1;
 })
 
 </script>
