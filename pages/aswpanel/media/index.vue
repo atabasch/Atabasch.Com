@@ -1,6 +1,7 @@
 <template>
+<div>
     <PanelTitleBox title="Medya Dosyaları">
-<!--        <NuxtLink :to="$getUrl.panel('/media/create')" class="btn btn-sm btn-primary">Dosya Yükle</NuxtLink>-->
+        <!--        <NuxtLink :to="$getUrl.panel('/media/create')" class="btn btn-sm btn-primary">Dosya Yükle</NuxtLink>-->
     </PanelTitleBox>
 
     <div class="row">
@@ -44,7 +45,7 @@
 
         </div>
     </div>
-
+</div>
 </template>
 
 <script setup>

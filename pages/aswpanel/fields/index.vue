@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="row">
 
         <div class="col-12 col-md-8">
@@ -37,6 +38,7 @@
         </div><!-- col -->
 
     </div><!-- row -->
+</div>
 </template>
 
 <script setup>

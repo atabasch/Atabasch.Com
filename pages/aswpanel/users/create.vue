@@ -1,6 +1,8 @@
 <template>
-    <PanelTitleBox :title="'Yeni Kullanıcı Oluştur'" />
-    <panel-form-user @created="onCreate($event)" />
+    <div>
+        <PanelTitleBox :title="'Yeni Kullanıcı Oluştur'" />
+        <panel-form-user @created="onCreate($event)" />
+    </div>
 </template>
 
 <script setup>

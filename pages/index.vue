@@ -1,4 +1,5 @@
 <template>
+<div>
 
     <AboutSummaryBox :post="data.about"/>
     <div style="margin-top: -50px">
@@ -47,9 +48,7 @@
         </div>
     </div>
 
-
-
-
+</div>
 </template>
 
 <script setup>

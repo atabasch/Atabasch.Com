@@ -1,10 +1,11 @@
 <template>
-<div class="row">
+<div>
+    <div class="row">
 
-    <div class="col-12 col-md-7">
-        <PanelTitleBox title="İçerik Tipleri"/>
-        <table class="table table-striped table-bordered table-hovered bg-white">
-            <thead>
+        <div class="col-12 col-md-7">
+            <PanelTitleBox title="İçerik Tipleri"/>
+            <table class="table table-striped table-bordered table-hovered bg-white">
+                <thead>
                 <tr>
                     <th>Başlık</th>
                     <th>Taksonomiler</th>
@@ -12,8 +13,8 @@
                     <th width="25"></th>
                     <th width="85"></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <template v-if="storeType().getTypes">
                     <tr v-for="(item, index) in storeType().getTypes" :key="index">
                         <td class="fw-bold">{{ item.postTypeTitle }} <code>{{ item.postTypeSlug }}</code></td>
@@ -31,16 +32,17 @@
                         </td>
                     </tr>
                 </template>
-            </tbody>
-        </table>
-    </div><!-- col-12 col-md-7" -->
+                </tbody>
+            </table>
+        </div><!-- col-12 col-md-7" -->
 
-    <div class="col">
-        <PanelTitleBox title="İçerik Tipi Oluştur"/>
-        <PanelFormPostType :type="type" :update="update" @created="onCreate($event)" @updated="onUpdate($event)" @cancelled="onCancel()"></PanelFormPostType>
-    </div><!-- col -->
+        <div class="col">
+            <PanelTitleBox title="İçerik Tipi Oluştur"/>
+            <PanelFormPostType :type="type" :update="update" @created="onCreate($event)" @updated="onUpdate($event)" @cancelled="onCancel()"></PanelFormPostType>
+        </div><!-- col -->
 
-</div><!-- row -->
+    </div><!-- row -->
+</div>
 </template>
 
 <script setup>

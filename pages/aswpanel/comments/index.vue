@@ -1,5 +1,7 @@
 <template>
-Yorumlar
+<div>
+    Yorumlar
+</div>
 </template>
 
 <script setup>

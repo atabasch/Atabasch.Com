@@ -1,9 +1,10 @@
 <template>
-    <PanelTitleBox title="Kullanıcı Hesapları">
-        <NuxtLink :to="$getUrl.panel('/users/create')" class="btn btn-sm btn-primary">Yeni Hesap Oluştur</NuxtLink>
-    </PanelTitleBox>
-    <table class="table table-striped table-hover table-bordered">
-        <thead>
+    <div>
+        <PanelTitleBox title="Kullanıcı Hesapları">
+            <NuxtLink :to="$getUrl.panel('/users/create')" class="btn btn-sm btn-primary">Yeni Hesap Oluştur</NuxtLink>
+        </PanelTitleBox>
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
             <tr>
                 <th></th>
                 <th>Kullanıcı</th>
@@ -16,8 +17,8 @@
                 <th style="width: 125px">Cinsiyet</th>
                 <th style="width: 90px"></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
 
             <tr v-for="(user, index) in users" :key="index">
                 <td></td>
@@ -39,8 +40,8 @@
 
                 <!-- STATUS -->
                 <td style="width: 20px;">
-                        <button v-if="user.userStatus" class="btn text-start btn-sm btn-success" @click="sendToChangeCol({userStatus:false}, index)"><i class="bi bi-check2"></i></button>
-                        <button v-if="!user.userStatus" class="btn text-start btn-sm btn-danger" @click="sendToChangeCol({userStatus:true}, index)"><i class="bi bi-x"></i></button>
+                    <button v-if="user.userStatus" class="btn text-start btn-sm btn-success" @click="sendToChangeCol({userStatus:false}, index)"><i class="bi bi-check2"></i></button>
+                    <button v-if="!user.userStatus" class="btn text-start btn-sm btn-danger" @click="sendToChangeCol({userStatus:true}, index)"><i class="bi bi-x"></i></button>
                 </td>
 
                 <!-- USER DATES -->
@@ -63,8 +64,9 @@
 
             </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script setup>

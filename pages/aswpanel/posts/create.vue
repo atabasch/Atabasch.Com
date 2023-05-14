@@ -1,8 +1,10 @@
 <template>
-<PanelLoaderSpinners v-if="!loaded" center fullHeight />
-<div v-if="loaded">
-    <PanelTitleBox :title="`Yeni ${postType.postTypeTitleSingle} Oluştur`"></PanelTitleBox>
-    <PostForm  @created="onCreate($event)" :type="postType" :taxonomies="taxonomies" />
+<div>
+    <PanelLoaderSpinners v-if="!loaded" center fullHeight />
+    <div v-if="loaded">
+        <PanelTitleBox :title="`Yeni ${postType.postTypeTitleSingle} Oluştur`"></PanelTitleBox>
+        <PostForm  @created="onCreate($event)" :type="postType" :taxonomies="taxonomies" />
+    </div>
 </div>
 </template>
 

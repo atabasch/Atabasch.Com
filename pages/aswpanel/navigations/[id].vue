@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="row">
         <div class="col-12 col-md-7">
             <PanelTitleBox :title="'Navigasyon: ' + navigation.navigationName"/>
@@ -105,6 +106,7 @@
 
 
     </div>
+</div>
 </template>
 
 <script setup>

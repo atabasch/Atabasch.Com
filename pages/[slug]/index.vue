@@ -1,6 +1,8 @@
 <template>
-    <component :is="getTheComponent" v-if="post" :post="post"></component>
-    <Error404 v-if="notFound" />
+    <div>
+        <component :is="getTheComponent" v-if="post" :post="post"></component>
+        <Error404 v-if="notFound" />
+    </div>
 </template>
 
 <script setup>

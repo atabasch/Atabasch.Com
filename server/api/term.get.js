@@ -1,5 +1,6 @@
 import {Taxonomy, Term} from "@/server/db/models"
-import {defineEventHandler, getQuery, readBody} from "h3";
+import {defineEventHandler, getQuery} from "h3";
+import {literal} from "sequelize";
 
 export default defineEventHandler( async (event) => {
     let query = await getQuery(event)
@@ -40,7 +41,7 @@ export default defineEventHandler( async (event) => {
         limit: options.limit,
         attributes: [
             ...options.columns,
-            ['(SELECT COUNT(*) FROM post_term as pt WHERE pt.TermId=Term.TermId)', 'count']
+            literal('(SELECT COUNT(*) FROM post_term as pt WHERE pt.TermId=Term.TermId)', 'count')
         ]
 
 

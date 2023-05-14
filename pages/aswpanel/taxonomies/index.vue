@@ -1,32 +1,33 @@
 <template>
+<div>
     <div class="row">
         <div class="col-md-7">
             <PanelTitleBox title="Taxonomi Listesi"></PanelTitleBox>
             <table class="table table-striped table-bordered table-hovered bg-white">
                 <thead>
-                    <tr>
-                        <th width="30">#</th>
-                        <th>Taksonomi</th>
-                        <th width="25"></th>
-                        <th width="25"></th>
-                        <th width="25"></th>
-                        <th width="25"></th>
-                    </tr>
+                <tr>
+                    <th width="30">#</th>
+                    <th>Taksonomi</th>
+                    <th width="25"></th>
+                    <th width="25"></th>
+                    <th width="25"></th>
+                    <th width="25"></th>
+                </tr>
                 </thead>
 
                 <tbody>
 
-                    <tr v-for="(tax, index) in storeTaxonomy().getTaxonomies" :key="index">
-                        <td>{{ tax.taxId }}</td>
-                        <td><strong>{{ tax.taxTitle }} <code>{{ tax.taxSlug }}</code></strong>  <br>
-                            <small class="text-secondary">{{ tax.taxDescription }}</small>
-                        </td>
-                        <td v-if="tax.taxStatus"><button class="btn btn-success btn-sm"><i class="bi bi-check"></i></button></td>
-                        <td v-if="!tax.taxStatus"><button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button></td>
-                        <td><NuxtLink :to="'/aswpanel/taxonomies/'+tax.taxSlug" @click="setCurrentTaxonomy(tax, index)" class="btn btn-primary btn-sm"><i class="bi bi-chevron-right"></i></NuxtLink></td>
-                        <td><button @click="setCurrentTaxonomy(tax, index)" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></button></td>
-                        <td><button @click="checkDeleteTaxonomy(tax, index)" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button></td>
-                    </tr>
+                <tr v-for="(tax, index) in storeTaxonomy().getTaxonomies" :key="index">
+                    <td>{{ tax.taxId }}</td>
+                    <td><strong>{{ tax.taxTitle }} <code>{{ tax.taxSlug }}</code></strong>  <br>
+                        <small class="text-secondary">{{ tax.taxDescription }}</small>
+                    </td>
+                    <td v-if="tax.taxStatus"><button class="btn btn-success btn-sm"><i class="bi bi-check"></i></button></td>
+                    <td v-if="!tax.taxStatus"><button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button></td>
+                    <td><NuxtLink :to="'/aswpanel/taxonomies/'+tax.taxSlug" @click="setCurrentTaxonomy(tax, index)" class="btn btn-primary btn-sm"><i class="bi bi-chevron-right"></i></NuxtLink></td>
+                    <td><button @click="setCurrentTaxonomy(tax, index)" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></button></td>
+                    <td><button @click="checkDeleteTaxonomy(tax, index)" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button></td>
+                </tr>
 
                 </tbody>
             </table>
@@ -74,6 +75,7 @@
         </div>
 
     </div>
+</div>
 </template>
 
 <script setup>

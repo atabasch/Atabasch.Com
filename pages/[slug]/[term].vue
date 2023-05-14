@@ -1,6 +1,8 @@
 <template>
-    <Breadcrumb :title="getTerm?.termTitle || ''"/>
-    <component :is="getTheComponent" :items="items" :currentPage="getCurrentPageNumber"></component>
+    <div>
+        <Breadcrumb :title="getTerm?.termTitle || ''"/>
+        <component :is="getTheComponent" :items="items" :currentPage="getCurrentPageNumber"></component>
+    </div>
 </template>
 
 <script setup>

@@ -1,6 +1,8 @@
 <template>
-    <PanelTitleBox :title="'Düzenle: '" />
-    <panel-form-user @updated="onUpdate($event)" v-if="user" :user="user" />
+    <div>
+        <PanelTitleBox :title="'Düzenle: '" />
+        <panel-form-user @updated="onUpdate($event)" v-if="user" :user="user" />
+    </div>
 </template>
 
 <script setup>

@@ -1,69 +1,71 @@
 <template>
-<div class="row">
-    <div class="col-12 col-md-7">
-        <PanelTitleBox title="Menüler"/>
-        <table class="table table-striped table-bordered table-hovered bg-white">
-            <thead>
-            <tr>
-                <th>Menü</th>
-                <th>Slug</th>
-                <th width="25"></th>
-                <th width="25"></th>
-                <th width="25"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <template v-if="navigations">
-                <tr v-for="(item, index) in navigations" :key="index">
-                    <td class="fw-bold">{{ item.navigationName }}</td>
-                    <td><code>{{ item.navigationSlug }}</code></td>
-                    <td><NuxtLink :to="$getUrl.panel('/navigations/'+item.navigationId)" class="btn btn-primary btn-sm"><i class="bi bi-chevron-right"></i></NuxtLink></td>
-                    <td><button class="btn btn-success btn-sm" @click="setNavigation(item, index)"><i class="bi bi-pencil"></i></button></td>
-                    <td><button class="btn btn-danger btn-sm" @click="sendDelete(item, index)"><i class="bi bi-trash"></i></button></td>
+<div>
+    <div class="row">
+        <div class="col-12 col-md-7">
+            <PanelTitleBox title="Menüler"/>
+            <table class="table table-striped table-bordered table-hovered bg-white">
+                <thead>
+                <tr>
+                    <th>Menü</th>
+                    <th>Slug</th>
+                    <th width="25"></th>
+                    <th width="25"></th>
+                    <th width="25"></th>
                 </tr>
-            </template>
-            </tbody>
-        </table>
-    </div><!-- col-12 col-md-7" -->
+                </thead>
+                <tbody>
+                <template v-if="navigations">
+                    <tr v-for="(item, index) in navigations" :key="index">
+                        <td class="fw-bold">{{ item.navigationName }}</td>
+                        <td><code>{{ item.navigationSlug }}</code></td>
+                        <td><NuxtLink :to="$getUrl.panel('/navigations/'+item.navigationId)" class="btn btn-primary btn-sm"><i class="bi bi-chevron-right"></i></NuxtLink></td>
+                        <td><button class="btn btn-success btn-sm" @click="setNavigation(item, index)"><i class="bi bi-pencil"></i></button></td>
+                        <td><button class="btn btn-danger btn-sm" @click="sendDelete(item, index)"><i class="bi bi-trash"></i></button></td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div><!-- col-12 col-md-7" -->
 
 
-    <div class="col">
-        <PanelTitleBox :title="!navigation.navigationId? 'Yeni Menü Oluştur' : 'Düzenle: '+navigation.navigationName"/>
-        <form @submit.prevent="sendSave()">
-            <div class="mb-2">
-                <div class="form-label">Menü Adı</div>
-                <input type="text" class="form-control" v-model="navigation.navigationName" required minlength="3">
-            </div>
-
-            <div class="mb-2">
-                <div class="form-label">Menü Slug</div>
-                <input type="text" class="form-control" v-model="navigation.navigationSlug" required minlength="3">
-                <p class="form-text">Türkçe karakter bulunmayan küçük harfler ve (-)tire den oluşan bir isim</p>
-            </div>
-
-            <div class="row">
-                <div class="mb-2 col-6">
-                    <div class="form-label">Menü Kimliği <code>id="[...]"</code></div>
-                    <input type="text" class="form-control" v-model="navigation.navigationExtra.id" required minlength="3">
+        <div class="col">
+            <PanelTitleBox :title="!navigation.navigationId? 'Yeni Menü Oluştur' : 'Düzenle: '+navigation.navigationName"/>
+            <form @submit.prevent="sendSave()">
+                <div class="mb-2">
+                    <div class="form-label">Menü Adı</div>
+                    <input type="text" class="form-control" v-model="navigation.navigationName" required minlength="3">
                 </div>
 
-                <div class="mb-2 col-6">
-                    <div class="form-label">Menü Sınıfı <code>class="[...]"</code></div>
-                    <input type="text" class="form-control" v-model="navigation.navigationExtra.class" required minlength="3">
+                <div class="mb-2">
+                    <div class="form-label">Menü Slug</div>
+                    <input type="text" class="form-control" v-model="navigation.navigationSlug" required minlength="3">
+                    <p class="form-text">Türkçe karakter bulunmayan küçük harfler ve (-)tire den oluşan bir isim</p>
                 </div>
-            </div>
 
-            <hr/>
+                <div class="row">
+                    <div class="mb-2 col-6">
+                        <div class="form-label">Menü Kimliği <code>id="[...]"</code></div>
+                        <input type="text" class="form-control" v-model="navigation.navigationExtra.id" required minlength="3">
+                    </div>
 
-            <div class="mb-2 text-end">
-                <button v-if="!navigation.navigationId" class="btn btn-primary ms-2" type="submit">Oluştur</button>
-                <button v-if="navigation.navigationId" class="btn btn-danger ms-2" type="button" @click="clearForm()">Vazgeç</button>
-                <button v-if="navigation.navigationId" class="btn btn-success ms-2" type="submit">Güncelle</button>
-            </div>
-        </form>
+                    <div class="mb-2 col-6">
+                        <div class="form-label">Menü Sınıfı <code>class="[...]"</code></div>
+                        <input type="text" class="form-control" v-model="navigation.navigationExtra.class" required minlength="3">
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="mb-2 text-end">
+                    <button v-if="!navigation.navigationId" class="btn btn-primary ms-2" type="submit">Oluştur</button>
+                    <button v-if="navigation.navigationId" class="btn btn-danger ms-2" type="button" @click="clearForm()">Vazgeç</button>
+                    <button v-if="navigation.navigationId" class="btn btn-success ms-2" type="submit">Güncelle</button>
+                </div>
+            </form>
+        </div>
+
+
     </div>
-
-
 </div>
 </template>
 

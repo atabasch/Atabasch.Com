@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="row">
         <div class="col-md-7">
             <PanelTitleBox :title="taxonomy.taxTitle"></PanelTitleBox>
@@ -71,6 +72,7 @@
         </div>
 
     </div>
+</div>
 </template>
 
 <script setup>

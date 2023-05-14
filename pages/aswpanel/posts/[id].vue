@@ -1,12 +1,14 @@
 <template>
-    <PanelLoaderSpinners v-if="!loaded" center fullHeight />
-    <template v-if="loaded">
-        <PanelTitleBox :title="getPageTitle">
-            <NuxtLink v-if="getPost.postId" target="_blank" :to="$getUrl.post(getPost.postSlug)" class="btn btn-sm btn-secondary me-2">Yazıyı Görüntüle</NuxtLink>
-            <NuxtLink :to="$getUrl.panel('/posts/create?type='+type.postTypeId)" class="btn btn-sm btn-primary">Yeni {{ type.postTypeTitleSingle }} Ekle</NuxtLink>
-        </PanelTitleBox>
-        <PostForm :post="{...getPost}" :type="type" @updated="onUpdate($event)" :taxonomies="taxonomies"/>
-    </template>
+    <div>
+        <PanelLoaderSpinners v-if="!loaded" center fullHeight />
+        <template v-if="loaded">
+            <PanelTitleBox :title="getPageTitle">
+                <NuxtLink v-if="getPost.postId" target="_blank" :to="$getUrl.post(getPost.postSlug)" class="btn btn-sm btn-secondary me-2">Yazıyı Görüntüle</NuxtLink>
+                <NuxtLink :to="$getUrl.panel('/posts/create?type='+type.postTypeId)" class="btn btn-sm btn-primary">Yeni {{ type.postTypeTitleSingle }} Ekle</NuxtLink>
+            </PanelTitleBox>
+            <PostForm :post="{...getPost}" :type="type" @updated="onUpdate($event)" :taxonomies="taxonomies"/>
+        </template>
+    </div>
 </template>
 
 <script setup>

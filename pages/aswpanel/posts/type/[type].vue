@@ -1,10 +1,12 @@
 <template>
-    <div v-if="loaded">
-        <PanelTitleBox :title="postType.postTypeTitle">
-            <NuxtLink :to="$getUrl.panel('/posts/create?type='+qType)" class="btn btn-sm btn-primary">Yeni {{ postType.postTypeTitleSingle }} Ekle</NuxtLink>
-        </PanelTitleBox>
-        <PostList v-if="items" :items="items" />
-    </div>
+   <div>
+       <div v-if="loaded">
+           <PanelTitleBox :title="postType.postTypeTitle">
+               <NuxtLink :to="$getUrl.panel('/posts/create?type='+qType)" class="btn btn-sm btn-primary">Yeni {{ postType.postTypeTitleSingle }} Ekle</NuxtLink>
+           </PanelTitleBox>
+           <PostList v-if="items" :items="items" />
+       </div>
+   </div>
 </template>
 
 <script setup>

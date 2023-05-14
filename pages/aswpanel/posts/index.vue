@@ -1,6 +1,8 @@
 <template>
-    <PanelTitleBox :title="'İçerik Listesi'"></PanelTitleBox>
-    <PostList v-if="items" :items="items" />
+    <div>
+        <PanelTitleBox :title="'İçerik Listesi'"></PanelTitleBox>
+        <PostList v-if="items" :items="items" />
+    </div>
 </template>
 
 <script setup>
