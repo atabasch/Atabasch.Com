@@ -1,4 +1,5 @@
 <template>
+    <PanelTitleBox :title="getPostTypeTitle"/>
     <div class="mb-2">
         <label for="" class="form-label">Başlık</label>
         <input type="text" class="form-control" v-model="type.postTypeTitle"/>
@@ -38,7 +39,7 @@
         <label for="" class="form-label">Bağlı Taksonomiler</label>
         <ul class="list-group">
             <li class="list-group-item" v-for="(t, i) in taxonomies" :key="i">
-                <input class="form-check-input me-1" type="checkbox" :value="t.taxSlug" :id="'taxListItem'+t.taxId" v-model="type.postTypeTaxonomies">
+                <input class="form-check-input me-1" type="checkbox" :value="t.taxSlug" :id="'taxListItem'+t.taxId" v-model="selectedTaxonomies">
                 <label class="form-check-label stretched-link" :for="'taxListItem'+t.taxId">{{ t.taxTitle }}</label>
             </li>
         </ul>
@@ -60,7 +61,7 @@
 
 <script setup>
 // IMPORTS
-import {watch, ref, toRef, reactive} from "vue"
+import {watch, ref, toRef, toRaw, computed} from "vue"
 import useTaxonomy from "../../../composables/useTaxonomy";
 const {$showToast} = useNuxtApp()
 
@@ -77,6 +78,7 @@ const props = defineProps({
 })
 const type = toRef(props, 'type')
 const taxonomies = ref([])
+const selectedTaxonomies = ref([])
 
 // FETCH
 useTaxonomy().getAll().then(response => {
@@ -87,7 +89,7 @@ useTaxonomy().getAll().then(response => {
 
 // METHODS
 function sendToCreate(){
-    usePostType().create(toRaw(type.value)).then(async (response) => {
+    usePostType().create({ ...toRaw(type.value), postTypeTaxonomies: selectedTaxonomies.value }).then(async (response) => {
         if(response.status && response.type){
             $showToast('İçerik tipi oluşturuldu')
             emits('created', {...response.type})
@@ -100,7 +102,7 @@ function sendToCreate(){
 }
 
 function sendToUpdate(){
-    usePostType().update(toRaw(type.value)).then(response => {
+    usePostType().update({ ...toRaw(type.value), postTypeTaxonomies: selectedTaxonomies.value }).then(response => {
         if(response.status && response.type){
             $showToast('İçerik tipi güncellendi')
             emits('updated', {...response.type})
@@ -114,11 +116,11 @@ function sendToCancel(){
     emits('cancelled')
 }
 
-watch(type, (nv, ov) => {
-    if(type.value.postTypeId){
-        type.value.postTypeTaxonomies = (typeof nv.postTypeTaxonomies !== 'object')? [] : JSON.parse(nv.postTypeTaxonomies)
-    }
+const getPostTypeTitle = computed(() => {
+    selectedTaxonomies.value = !Array.isArray(type.value.postTypeTaxonomies)? JSON.parse(type.value.postTypeTaxonomies) : []
+    return type.value.postTypeId? 'Düzenle: ' + type.value.postTypeTitle : 'İçerik Tipi Oluştur'
 })
+
 
 </script>
 

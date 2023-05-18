@@ -7,10 +7,10 @@
             <article class="postSingle">
                 <header class="postSingleHeader">
 
-                    <div id="referenceCarrousel" class="carousel slide " data-bs-ride="carousel">
+                    <div id="referenceCarrousel" class="carousel slide " data-bs-ride="carousel" data-bs-touch="true">
                         <div class="carousel-inner">
-                            <div :class="'carousel-item ' + (key===0 && 'active' || '') "  v-for="(image, key) in getImagesForCarousel" :key="'swiper-item-'+key+1" data-bs-interval="4000">
-                                <NuxtLink :href="image" rel="noreferrer" target="_blank" class="ratio ratio-21x9"  data-pswp-width="1600"  data-pswp-height="900">
+                            <div :class="'carousel-item ' + (key===0 && 'active' || '') "  v-for="(image, key) in getImagesForCarousel" :key="'swiper-item-'+key+1" data-bs-interval="4000" >
+                                <NuxtLink :href="false" @click.stop="updateLihtbox(image, key)" rel="noreferrer" target="_blank" class="ratio ratio-21x9">
                                     <img :src="image" :alt="post.postTitle" class="object-fit-cover" loading="lazy"/>
                                 </NuxtLink>
                             </div>
@@ -38,6 +38,7 @@
                     <div class="col-12 col-lg-8 postSingleContent">
                         <h2 class="fs-3 text-light-white mb-4 fw-bold">Proje Detayları</h2>
                         <div v-html="post.postContent"></div>
+
 
                         <hr class="my-5"/>
 
@@ -119,42 +120,32 @@
                 </div>
             </div>
         </div>
-
+        <FsLightbox
+            :toggler="lightbox.status"
+            :slide="lightbox.key"
+            :type="'image'"
+            :sources="getImagesForCarousel"
+        />
     </div>
 
 </template>
 
 <script setup>
 
-import PhotoSwipeLightbox from 'photoswipe/lightbox';
-import 'photoswipe/style.css';
-
-const lightbox = ref(null)
-
-onMounted(() => {
-    if(!lightbox.value){
-        lightbox.value = new PhotoSwipeLightbox({
-            gallery: '#referenceCarrousel',
-            children: 'a',
-            pswpModule: () => import('photoswipe'),
-            bgOpacity: 0.9,
-            closeOnScroll: false,
-            spacing: 0.5,
-            loop: true,
-            wheelToZoom: true,
-            padding: { top: 20, bottom: 40, left: 100, right: 100 },
-            escKey: true,
-            arrowKeys: true,
-            maxWidthToAnimate: 800
-        });
-        lightbox.value.init();
-    }
-})
+import FsLightbox from "fslightbox-vue/v3";
+const lightbox = ref({
+    status:false,
+    key:0
+});
+const updateLihtbox = (image, key) => {
+    lightbox.value.status = !lightbox.value.status
+    lightbox.value.key = key+1
+}
 
 
 
 
-import {computed, onMounted, ref, toRef} from "vue";
+import {computed, ref, toRef} from "vue";
 import {useGetPosts} from "../../../composables/useGetDatas";
 import PortfolioItem from "../../PortfolioItem.vue";
 import ColoredTitle from "../../global/ColoredTitle";

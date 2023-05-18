@@ -3,37 +3,46 @@ import useUser from "~/composables/useUser";
 
 const authUser = ref({})
 const authInit = ref(false)
+const accessTokenKey = "accessToken"
+const refreshTokenKey = "refreshToken"
+
 
 export default () => ({
 
-    set: function(user, token){
+    // Giriş yapan kullanıcın bilgilerini authUser state'ine atar
+    set: function(user, tokens){
         if(process.client){
-            localStorage.setItem('auth_token', token)
+            localStorage.setItem(accessTokenKey, tokens.accessToken)
+            localStorage.setItem(refreshTokenKey, tokens.refreshToken)
         }
-        authUser.value = {...user, token}
+        authUser.value = {...user, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken}
     },
 
+    // Giriş yapan kullanıcın bilgilerini verir.
     get: function (key=false, defaultValue = null){
         return !key? {...authUser.value} : ( authUser.value[key] || defaultValue )
     },
 
+    // Kullanıcı çıkış yaptıktan sonra locaslStorage'dan tokenları siler
     logout: function (){
       if(process.client){
-          localStorage.removeItem('auth_token')
+          localStorage.removeItem(accessTokenKey)
+          localStorage.removeItem(refreshTokenKey)
       }
       return true
     },
 
+    // Level numarası verilen kullanıcının giriş yapmış olup olmadığını kontrol eder
     isLoggedIn: async function(level=1){
         return new Promise(async (resolve, reject) => {
             if(!authInit.value){
-                let token = null
+                let accessToken = null
                 if(process.client){
-                    token = localStorage.getItem('auth_token') || null
+                    accessToken = localStorage.getItem(accessTokenKey) || null
                 }
-                let response = await useUser().checkToken(token)
+                let response = await useUser().checkToken(accessToken)
                 if(response.status && response.user){
-                    authUser.value = {...response.user, token}
+                    authUser.value = {...response.user, accessToken}
                 }else{
                    resolve(false)
                 }
@@ -47,7 +56,7 @@ export default () => ({
 
     getHeaderToken: function(){
         if(process.client){
-            let token = localStorage.getItem('auth_token') || false
+            let token = localStorage.getItem(accessTokenKey) || false
             if(!token){ return {} }
             return {authentication: token}
         }else{

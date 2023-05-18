@@ -24,7 +24,7 @@ export default () => ({
     }),
 
     login:      (user) => $fetch('/api/user/login', { method:'POST', body: { user: user }, headers: { ...useAuth().getHeaderToken() } }),
-    checkToken:      async (token) => await $fetch('/api/user/check-token', { method:'POST', body: { token } }),
+    checkToken:      async (accessToken) => await $fetch('/api/user/check-token', { method:'POST', body: { accessToken } }),
     logout:     async () => {
        return await $fetch('/api/user/logout')
     }

@@ -15,8 +15,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <template v-if="storeType().getTypes">
-                    <tr v-for="(item, index) in storeType().getTypes" :key="index">
+                <template v-if="getTypes">
+                    <tr v-for="(item, index) in getTypes" :key="index">
                         <td class="fw-bold">{{ item.postTypeTitle }} <code>{{ item.postTypeSlug }}</code></td>
                         <td>{{ item.postTypeTaxonomies }}</td>
                         <td>
@@ -37,7 +37,6 @@
         </div><!-- col-12 col-md-7" -->
 
         <div class="col">
-            <PanelTitleBox title="İçerik Tipi Oluştur"/>
             <PanelFormPostType :type="type" :update="update" @created="onCreate($event)" @updated="onUpdate($event)" @cancelled="onCancel()"></PanelFormPostType>
         </div><!-- col -->
 
@@ -46,11 +45,17 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
+
 import {storeType} from "../../../stores/type";
+import usePostType from "../../../composables/usePostType";
+import {computed, ref} from "vue";
+
 
 definePageMeta({ layout: 'admin' })
 useHead({ title: 'İçerik Tipleri' })
+
+const types = ref([])
+const getTypes = computed(() => { return types.value })
 
 const {$showToast, $showAlert} = useNuxtApp()
 const initType = {
@@ -78,7 +83,6 @@ function onCreate(type){
     onCancel()
 }
 
-
 function onUpdate(type){
     storeType().updateType(type)
     onCancel()
@@ -87,6 +91,14 @@ function onUpdate(type){
 function onCancel(){
     type.value = {...initType}
     update.value = false
+}
+
+
+
+
+let resp =  await usePostType().getAll()
+if(resp.status && resp.types){
+    types.value = resp.types
 }
 
 function sendToDelete(item, index){

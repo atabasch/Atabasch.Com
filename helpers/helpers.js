@@ -30,8 +30,19 @@ export const checkPassword = async (password, hash) => {
 
 // JWT OLUŞTURMAK
 export const createJwt = async (data, seconds) => {
-    let token = await jwt.sign({...data}, process.env.APP_SECRET_KEY, { expiresIn: seconds });
-    return token
+    return new Promise(async (resolve, reject) => {
+       return jwt.sign(
+            {...data},
+            process.env.APP_SECRET_KEY,
+            { expiresIn: seconds },
+            (err, token) => {
+                if(err){
+                    reject(false)
+                }else{
+                    resolve(token)
+                }
+            })
+    })
 }
 
 // JWT DOĞRULAMAK

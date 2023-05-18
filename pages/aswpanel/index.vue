@@ -1,7 +1,7 @@
 <template>
-<div>
-    Dashboard
-</div>
+    <div>
+        Admin Dashboard
+    </div>
 </template>
 
 <script setup>

@@ -1,11 +1,11 @@
-import {readBody} from "h3";
+import {defineEventHandler, readBody} from "h3";
 import {checkJwt} from "@/helpers/helpers"
 import {User} from "~/server/db/models";
 import {Op} from "sequelize";
 
 export default defineEventHandler(async (event) => {
-    let {token} = await readBody(event)
-    let data = await checkJwt(token)
+    let {accessToken} = await readBody(event)
+    let data = await checkJwt(accessToken)
     if(!data){
         return {status:false}
     }
@@ -25,5 +25,5 @@ export default defineEventHandler(async (event) => {
     let userData = user.get()
     delete userData.userPassword
 
-    return {status:true, user:userData, token}
+    return {status:true, user:userData, accessToken}
 })

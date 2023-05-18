@@ -1,4 +1,6 @@
-import {PostType} from "~/server/db/models";
+import {PostType, CustomField} from "~/server/db/models";
+import {defineEventHandler, readBody} from "h3";
+
 export default defineEventHandler( async (event) => {
     const {type: postData} = await readBody(event)
 
@@ -9,6 +11,14 @@ export default defineEventHandler( async (event) => {
         if(!postType){
             return {status: false, message: 'İçerik türü bulunamadı'}
         }else{
+
+            let deleteFields = await CustomField.destroy({
+                where: {
+                    postTypeId: postType.postTypeId
+                }
+            })
+
+
             let deletedPostType = await postType.destroy()
             if(!deletedPostType){
                 return {status: false, message: 'İçerik türü silinemedi'}

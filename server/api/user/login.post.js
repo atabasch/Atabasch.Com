@@ -1,7 +1,8 @@
 import {Op, fn} from "sequelize"
 import {User} from "~/server/db/models";
-import {defineEventHandler, readBody, setCookie} from "h3";
 import {createJwt, checkPassword} from "@/helpers/helpers"
+import {defineEventHandler, readBody} from "h3";
+import {createAccessToken, createRefreshToken} from "~/server/lib/tokens";
 
 export default defineEventHandler(async (event) => {
     const {user: postData} = await readBody(event)
@@ -27,36 +28,13 @@ export default defineEventHandler(async (event) => {
     }
 
     let userData = await user.get()
-    let tokenData = {
-        id:             userData.userId,
-        username:       userData.userUsername,
-        email:          userData.userEmail,
-        level:          userData.userLevel,
-        cover:          userData.userCover,
-        displayName:    userData.userDisplayName
-    }
-
-    let tokenLimit = 60 * (process.env.APP_LOGIN_TIMEOUT || 30)
-    if(postData.remember){
-        tokenLimit = 60 * parseInt(process.env.APP_LOGIN_TIMEOUT_REMEMBER || 60 * 24 * 7) // 7 gün
-    }
-    let token = await createJwt(tokenData,  tokenLimit) // 1 saat
-
-    // todo: cookie set et
-    // setCookie(event, 'access_token', token, {
-    //     maxAge: 60,
-    // })
-    // setCookie(event, 'refresh_token', token, {
-    //     maxAge: 60,
-    // })
+    let accessToken = await createAccessToken(userData)
+    let refreshToken = await createRefreshToken(userData)
 
     delete userData.userPassword
-
     // Kullanıcı Son giriş tarihini güncelle
-    await user.update({
-        userLoggedAt:  fn('NOW')
-    })
+    await user.update({ userLoggedAt:  fn('NOW') })
 
-    return { status:true, token, user:userData }
+    return { status:true, accessToken:accessToken, refreshToken:refreshToken, user:userData }
 
 })

@@ -18,7 +18,10 @@ import {storeTaxonomy} from "@/stores/taxonomy"
 import {storeType} from "@/stores/type"
 import "sweetalert2/src/sweetalert2.scss"
 import Sidebar from "@/components/panel/Sidebar";
-
+import {useHead} from "@unhead/vue";
+import {useAsyncData} from "nuxt/app";
+import useTaxonomy from "../composables/useTaxonomy";
+import usePostType from "../composables/usePostType";
 
 useHead({
     htmlAttrs: {
@@ -30,6 +33,7 @@ useHead({
         style: 'background-color: #F6F7F9;'
     }
 })
+
 const useType = storeType()
 useAsyncData(function(){
     useTaxonomy().getAll().then( async (response) => {

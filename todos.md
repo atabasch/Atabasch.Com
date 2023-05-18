@@ -1,7 +1,7 @@
 # Yapılacaklar
-- Sayfalar arası geçişe bir geçiş animasyonu ekle
+- access_token ve refresh_token için cookie kullanılacak. (useCookie ve setCookie-getCookie) kullan.
+- 
 - !!!! Login işleminde beni hatırlaya tıklanırsa 7 günlük bir json web token oluştur.
-- Refresh token sayfası yaparak her istekte token süresini uzat.
 - Term içerik listesi sayfasını oluştur.
 - admin sayfasında login olmadan yönlendirilirken layout görünüyor.
 

@@ -33,7 +33,9 @@
 <script setup>
 // IMPORTS
 import {ref, toRaw} from "vue";
+import {useRouter} from "nuxt/app";
 import useAuth from "../../composables/useAuth";
+import useUser from "../../composables/useUser";
 
 
 // INITIALIZE
@@ -57,8 +59,8 @@ const alert = ref({
 const sendToLogin = () => {
     if(user.value.name.length > 2 && user.value.password.length > 5){
          useUser().login(toRaw(user.value)).then(result => {
-             if(result.status && result.token){
-                useAuth().set(result.user, result.token)
+             if(result.status && result.accessToken && result.refreshToken){
+                useAuth().set(result.user, {accessToken: result.accessToken, refreshToken: result.refreshToken})
                 useRouter().push(toPath || '/')
              }else{
                  alert.value.showed = true
